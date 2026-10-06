@@ -1,0 +1,119 @@
+{
+  "id": "az-3",
+  "name": "Arizona Class III",
+  "state": "AZ",
+  "class": 3,
+  "flag": "AZ",
+  "region": "west",
+  "admitted": "1912-02-14",
+  "rulers": [
+    {
+      "name": "Marcus Aurelius Smith",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "S000589",
+      "start": 1912,
+      "startMonth": 3,
+      "startDay": 27,
+      "end": 1915,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Marcus Aurelius Smith",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "S000589",
+      "start": 1915,
+      "startMonth": 12,
+      "startDay": 6,
+      "end": 1921,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Ralph Henry Cameron",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "C000066",
+      "start": 1921,
+      "startMonth": 4,
+      "startDay": 11,
+      "end": 1927,
+      "endMonth": 3,
+      "endDay": 4
+    },
+    {
+      "name": "Carl Trumbull Hayden",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "H000385",
+      "start": 1927,
+      "startMonth": 12,
+      "startDay": 5,
+      "end": 1969,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Barry Morris Goldwater",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "G000267",
+      "start": 1969,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1987,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "John McCain",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "M000303",
+      "start": 1987,
+      "startMonth": 1,
+      "startDay": 6,
+      "end": 2018,
+      "endMonth": 8,
+      "endDay": 25
+    },
+    {
+      "name": "Jon Kyl",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "K000352",
+      "start": 2018,
+      "startMonth": 9,
+      "startDay": 5,
+      "end": 2018,
+      "endMonth": 12,
+      "endDay": 31
+    },
+    {
+      "name": "Martha McSally",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "M001197",
+      "start": 2019,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2020,
+      "endMonth": 12,
+      "endDay": 2
+    },
+    {
+      "name": "Mark Kelly",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "K000377",
+      "start": 2020,
+      "startMonth": 12,
+      "startDay": 2,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+/* Shared layout & typography tokens */
+:root {
+  --accent: #c45c26;
+
+  --font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font);
+  --font-chart: var(--font);
+  --mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  --year-h: 24px;
+  --seat-w: 24px;
+  /* Year marks in each seat and on the year axis. A short centered dash. */
+  --year-tick: 8px;
+  --label-h: 156px;
+  --year-label-w: 64px;
+  /* Title bar stays at the earlier, shorter measure. The chart uses the wider cap. */
+  --title-max: 1320px;
+  --page-max: 2400px;
+  --state-gap: 4px;
+  --seat-gap: 2px;
+  --radius: 0;
+  --bar-radius: 4px;
+
+  --ruler-inset: 0;
+  --ruler-width: 100%;
+
+  /* Horizontal orientation tokens (used when data-orientation="horizontal") */
+  --year-w: 20px;
+  --seat-h: 24px;
+  --label-w: 164px;
+  --axis-h: 52px;
+  --ruler-top: 0;
+  --ruler-bar-h: 100%;
+
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+
+  /* Page chrome typography (title, subtitle, legend, footer).
+     Reading and control text stays at least 1rem. */
+  --type-title-size: 2.375rem;
+  --type-lead-size: 1rem;
+  --type-label-size: 1rem;
+  --type-title-tracking: -0.015em;
+  --type-body-tracking: 0.01em;
+  --type-label-tracking: 0.08em;
+}
+
+/* Dark - editorial chart panel (default) */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #121316;
+  --chart-bg: #181a1f;
+  --chart-bg-alt: #1e2128;
+  --surface: #1c1f24;
+  --surface-2: #252930;
+  --border: #353a44;
+  --border-light: #434956;
+  --text: #f4f2ec;
+  --text-secondary: #c8c4bb;
+  --text-muted: var(--text);
+
+  --year-line: rgba(244, 242, 236, 0.055);
+  --year-line-major: rgba(244, 242, 236, 0.2);
+  --year-line-decade: rgba(244, 242, 236, 0.32);
+  --year-line-minor: rgba(244, 242, 236, 0.09);
+
+  --party-democrat: #3d6fa8;
+  --party-republican: #b04a45;
+  --party-whig: #9a7428;
+  --party-federalist: #6a5a8a;
+  --party-democratic-republican: #4d8f7a;
+  --party-independent: #8f8f8a;
+  --party-other: #7a6e5c;
+
+  --row-alt: rgba(255, 255, 255, 0.022);
+  --congress-band: rgba(244, 242, 236, 0.07);
+  --label-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.55);
+  --year-axis-shadow: 8px 0 12px -8px rgba(0, 0, 0, 0.55);
+  --bar-border: rgba(0, 0, 0, 0.22);
+  --bar-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --tooltip-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+
+  --input-bg: #14161a;
+
+  --palette-stripe: rgba(0, 0, 0, 0.07);
+  /* Muted senator colors: kazakh-khanate default, dark. */
+  --palette-1: #dd7e73;
+  --palette-2: #ffcc00;
+  --palette-3: #ffffcc;
+  --palette-4: #66cc33;
+  --palette-5: #f0d1e2;
+  --palette-6: #789de5;
+  --palette-7: #c0c0c0;
+  --label-scrim-light-fg: #1c1c1a;
+  --label-scrim-light-bg: transparent;
+  --label-scrim-dark-fg: #f4f2ec;
+  --label-scrim-dark-bg: transparent;
+  --bar-label-fixed-fg: #f4f2ec;
+}
+
+/* Light - paper & ink */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f3f4f6;
+  --chart-bg: #ffffff;
+  --chart-bg-alt: #f3f4f6;
+  --surface: #ffffff;
+  --surface-2: #eceff1;
+  --border: #d5d8dc;
+  --border-light: #c5c9ce;
+  --text: #1a1c1f;
+  --text-secondary: #3c4046;
+  --text-muted: var(--text);
+
+  --year-line: rgba(28, 28, 26, 0.06);
+  --year-line-major: rgba(28, 28, 26, 0.2);
+  --year-line-decade: rgba(28, 28, 26, 0.32);
+  --year-line-minor: rgba(28, 28, 26, 0.1);
+
+  --party-democrat: #2f5f96;
+  --party-republican: #9a3a36;
+  --party-whig: #8a6820;
+  --party-federalist: #5a4a72;
+  --party-democratic-republican: #3a6f5e;
+  --party-independent: #6f6f6a;
+  --party-other: #6a5e4c;
+
+  --row-alt: rgba(28, 28, 26, 0.028);
+  --congress-band: rgba(28, 28, 26, 0.07);
+  --label-shadow: 0 8px 12px -8px rgba(28, 28, 26, 0.12);
+  --year-axis-shadow: 8px 0 12px -8px rgba(28, 28, 26, 0.12);
+  --bar-border: rgba(28, 28, 26, 0.14);
+  --bar-hover-shadow: 0 2px 8px rgba(28, 28, 26, 0.14);
+  --tooltip-shadow: 0 6px 24px rgba(28, 28, 26, 0.12);
+
+  --input-bg: #ffffff;
+
+  --palette-stripe: rgba(255, 255, 255, 0.22);
+  /* Muted senator colors: kazakh-khanate default, light. */
+  --palette-1: #dd7e73;
+  --palette-2: #b28e00;
+  --palette-3: #000080;
+  --palette-4: #66cc33;
+  --palette-5: #e1aac6;
+  --palette-6: #789de5;
+  --palette-7: #c0c0c0;
+  --label-scrim-light-fg: #1c1c1a;
+  --label-scrim-light-bg: transparent;
+  --label-scrim-dark-fg: #f4f2ec;
+  --label-scrim-dark-bg: transparent;
+  --bar-label-fixed-fg: #f4f2ec;
+}
+
+/* Chart color presets (parties + senator slots). Default above = muted. */
+:root[data-palette="vivid"],
+[data-theme="dark"][data-palette="vivid"] {
+  --party-democrat: #00aef3;
+  --party-republican: #e81b23;
+  --party-whig: #f5b800;
+  --party-federalist: #9b59ff;
+  --party-democratic-republican: #00c98a;
+  --party-independent: #b0b0a8;
+  --party-other: #d4a05a;
+
+  --palette-1: #ff6b4a;
+  --palette-2: #f5b800;
+  --palette-3: #e8d5a3;
+  --palette-4: #2ecc71;
+  --palette-5: #00aef3;
+  --palette-6: #a78bfa;
+  --palette-7: #ff8ec7;
+}
+
+[data-theme="light"][data-palette="vivid"] {
+  --party-democrat: #00aef3;
+  --party-republican: #e81b23;
+  --party-whig: #d99800;
+  --party-federalist: #8a4cf0;
+  --party-democratic-republican: #00b078;
+  --party-independent: #8a8a84;
+  --party-other: #c4893a;
+
+  --palette-1: #e85a3c;
+  --palette-2: #d99800;
+  --palette-3: #b89f6a;
+  --palette-4: #1fad5c;
+  --palette-5: #0099d6;
+  --palette-6: #8b6fe0;
+  --palette-7: #e05a9c;
+}
+
+:root[data-palette="soft"],
+[data-theme="dark"][data-palette="soft"] {
+  --party-democrat: #89b6ff;
+  --party-republican: #ec92a1;
+  --party-whig: #e8c87a;
+  --party-federalist: #b8a8e0;
+  --party-democratic-republican: #8fd4b5;
+  --party-independent: #c8c4bc;
+  --party-other: #d0bba0;
+
+  --palette-1: #e8a090;
+  --palette-2: #e0c070;
+  --palette-3: #d4c8b0;
+  --palette-4: #7ec9a0;
+  --palette-5: #89b6ff;
+  --palette-6: #c0b8d8;
+  --palette-7: #9ec4c0;
+}
+
+[data-theme="light"][data-palette="soft"] {
+  --party-democrat: #6a9ef0;
+  --party-republican: #e0788a;
+  --party-whig: #c9a040;
+  --party-federalist: #8f7ab8;
+  --party-democratic-republican: #5aad8a;
+  --party-independent: #9a9690;
+  --party-other: #a89070;
+
+  --palette-1: #d48878;
+  --palette-2: #c9a040;
+  --palette-3: #a89878;
+  --palette-4: #5aad8a;
+  --palette-5: #6a9ef0;
+  --palette-6: #9a8ec0;
+  --palette-7: #7a9e96;
+}

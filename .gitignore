@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local
+*.log
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]

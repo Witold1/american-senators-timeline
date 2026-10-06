@@ -1,0 +1,611 @@
+/* Chart chrome: a search line, then a filter row and a view-control row. */
+
+.chart-chrome {
+  background: transparent;
+}
+
+.chart-chrome-inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0.35rem 1rem 0.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem 1rem;
+}
+
+.chart-chrome-search {
+  order: 1;
+  flex: 0 1 auto;
+  width: min(100%, calc(4.75rem + 24rem));
+  max-width: 100%;
+  min-width: 0;
+}
+
+.chart-chrome-search input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.chart-chrome-actions {
+  order: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  flex: 1 1 100%;
+  margin-left: 0;
+}
+
+.chart-chrome-actions .settings-control {
+  margin-left: auto;
+}
+
+.chart-chrome-tools {
+  order: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem 0;
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.chart-chrome-tools > * + * {
+  margin-left: 0.35rem;
+  padding-left: 0.7rem;
+  border-left: 1px solid var(--border);
+}
+
+.chart-chrome .chip-switch,
+.chart-chrome .filter-label {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chart-chrome .chip-switch-label,
+.chart-chrome .filter-label > span {
+  margin: 0;
+  white-space: nowrap;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.filter-label input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.32rem 0 0.28rem;
+  border: none;
+  border-radius: 0;
+  appearance: none;
+  background-color: transparent;
+  background-image: linear-gradient(var(--text-secondary), var(--text-secondary));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 100% 4px;
+  /* Zigzag the bottom strip. The upper mask keeps the field and text intact. */
+  --search-zigzag: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='4' viewBox='0 0 12 4'%3E%3Cpath d='M0 .4L6 2.4 12 .4 12 1.4 6 3.4 0 1.4Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(#000 0 0), var(--search-zigzag);
+  mask-image: linear-gradient(#000 0 0), var(--search-zigzag);
+  -webkit-mask-position: left top, left bottom;
+  mask-position: left top, left bottom;
+  -webkit-mask-size: 100% calc(100% - 4px), 12px 4px;
+  mask-size: 100% calc(100% - 4px), 12px 4px;
+  -webkit-mask-repeat: no-repeat, repeat-x;
+  mask-repeat: no-repeat, repeat-x;
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.filter-label input::placeholder {
+  color: var(--text);
+  opacity: 1;
+}
+
+.filter-label input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  background-image: linear-gradient(var(--text), var(--text));
+}
+
+.chip-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.chip-switch.region-filter {
+  display: none;
+}
+
+html.regions-enabled .chip-switch.region-filter {
+  display: flex;
+}
+
+.chip-switch-label {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.chip-switch-group {
+  display: inline-flex;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  margin: 0;
+  padding: 0.32rem 0.4rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.sort-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.05rem;
+}
+
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0.32rem 0.4rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.sort-arrow {
+  width: 0.72em;
+  height: 0.72em;
+  flex-shrink: 0;
+  opacity: 0;
+  overflow: visible;
+  transition: opacity 0.15s ease, transform 0.18s ease;
+}
+
+.sort-arrow path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sort-btn.is-active .sort-arrow,
+.sort-btn-years .sort-arrow {
+  opacity: 0.9;
+}
+
+.sort-btn[data-dir="desc"] .sort-arrow {
+  transform: rotate(180deg);
+}
+
+.chip-btn:hover,
+.sort-btn:hover,
+.sort-btn:focus-visible {
+  color: var(--text);
+  background: transparent;
+}
+
+.sort-btn:focus-visible,
+.chip-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  position: relative;
+  z-index: 1;
+}
+
+.chart-chrome .chip-btn.is-active,
+.chart-chrome .sort-btn.is-active {
+  color: var(--text);
+  font-weight: 600;
+  background: transparent;
+  box-shadow: inset 0 -1px 0 currentColor;
+}
+
+.settings-panel .chip-switch-group {
+  background: var(--input-bg);
+  overflow: hidden;
+}
+
+.settings-panel .chip-btn.is-active {
+  color: var(--bg);
+  background: var(--text);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sort-arrow {
+    transition: none;
+  }
+}
+
+.chip-btn:hover {
+  color: var(--text);
+}
+
+.chip-btn.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.region-filter .chip-btn {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.export-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.export-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.export-icon svg {
+  display: block;
+  width: 0.95em;
+  height: 0.95em;
+}
+
+.export-lead,
+.export-sep {
+  font-weight: 400;
+}
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.32rem 0.05rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.export-btn:hover:not(:disabled) {
+  color: var(--text);
+  background: transparent;
+}
+
+.export-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.export-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+#export-surface {
+  width: 100%;
+}
+
+.export-capture-header {
+  display: none;
+}
+
+.export-capture-lede {
+  width: fit-content;
+  max-width: 100%;
+  padding: 1.5rem 1.75rem 1.35rem;
+  background: var(--surface);
+}
+
+.export-capture-title {
+  margin: 0;
+  font-family: var(--font-display);
+  /* Larger than the on-screen title: the exported chart is poster-sized. */
+  font-size: 4.25rem;
+  font-weight: 600;
+  letter-spacing: var(--type-title-tracking);
+  line-height: 1.08;
+  color: var(--text);
+}
+
+.export-capture-subtitle {
+  margin: 0.55rem 0 0;
+  font-family: var(--font);
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: var(--type-body-tracking);
+  color: var(--text-secondary);
+}
+
+body.is-exporting {
+  --export-margin-x: 1.5rem;
+  --export-margin-y: 1.25rem;
+}
+
+body.is-exporting .export-capture-header {
+  display: block;
+  margin: 0 0 1rem;
+}
+
+body.is-exporting #export-surface {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  padding: var(--export-margin-y) var(--export-margin-x);
+  background: var(--bg);
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+body.is-exporting #export-surface .legend {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+body.is-exporting #export-surface .chart-panel {
+  max-width: none;
+  margin: 0;
+  padding: 0 0 0;
+}
+
+body.is-exporting #export-surface .footer {
+  max-width: none;
+  margin: 0.65rem 0 0;
+  padding: 0.65rem 0 0;
+  border-top: 1px solid var(--border);
+}
+
+body.is-exporting .timeline-xscroll {
+  display: none !important;
+}
+
+body.is-exporting .timeline-scroll-clip {
+  overflow: visible;
+  margin-top: 0.5rem;
+}
+
+body.is-exporting #timeline-scroll {
+  overflow: visible !important;
+  max-width: none;
+  max-height: none !important;
+  height: auto !important;
+  margin-top: 0;
+  margin-bottom: 0 !important;
+  box-sizing: border-box;
+}
+
+body.is-exporting #timeline {
+  height: auto !important;
+  box-sizing: border-box;
+}
+
+/* Export: state column names must not ellipsize (screen UI may). */
+body.is-exporting .country-name,
+body.is-exporting .country-admitted {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+body.is-exporting .tooltip,
+body.is-exporting .tooltip-drawer {
+  display: none !important;
+}
+
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem;
+  padding: 0 1rem;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  border-bottom: none;
+  font-family: var(--font);
+  font-size: var(--type-lead-size);
+  letter-spacing: var(--type-body-tracking);
+}
+
+.legend-group {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+}
+
+html[data-color-mode="party"] .legend-group-party,
+html[data-color-mode="person"] .legend-group-person {
+  display: flex;
+}
+
+/* Historical parties collapsed into Other unless detail mode is on */
+html:not(.party-detail-enabled) .legend-party-detail {
+  display: none;
+}
+
+.legend-heading {
+  font-size: var(--type-label-size);
+  font-weight: 600;
+  letter-spacing: var(--type-body-tracking);
+  color: var(--text-muted);
+  margin-right: 0.15rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.swatch.party-democrat { background: var(--party-democrat); }
+.swatch.party-republican { background: var(--party-republican); }
+.swatch.party-whig { background: var(--party-whig); }
+.swatch.party-federalist { background: var(--party-federalist); }
+.swatch.party-democratic-republican { background: var(--party-democratic-republican); }
+.swatch.party-independent { background: var(--party-independent); }
+.swatch.party-other { background: var(--party-other); }
+
+.palette-demo {
+  display: inline-flex;
+  gap: 1px;
+  height: 12px;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.palette-demo span {
+  width: 9px;
+  display: block;
+}
+
+.palette-demo span:nth-child(1) { background: var(--palette-1); }
+.palette-demo span:nth-child(2) { background: var(--palette-2); }
+.palette-demo span:nth-child(3) { background: var(--palette-3); }
+.palette-demo span:nth-child(4) { background: var(--palette-4); }
+.palette-demo span:nth-child(5) { background: var(--palette-5); }
+.palette-demo span:nth-child(6) { background: var(--palette-6); }
+.palette-demo span:nth-child(7) { background: var(--palette-7); }
+
+@media (max-width: 640px) {
+  .chart-chrome-inner,
+  .legend {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .chart-chrome-inner {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .chart-chrome-search {
+    flex: 0 1 auto;
+    width: min(100%, calc(4.75rem + 24rem));
+    max-width: 100%;
+  }
+
+  .chart-chrome-tools {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    /* Keep the wide chip row from expanding the page scroll width. */
+    contain: paint;
+    scrollbar-width: none;
+    padding-bottom: 0.15rem;
+  }
+
+  .chart-chrome-tools::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chart-chrome-tools .chip-btn,
+  .chart-chrome-tools .sort-btn,
+  .chart-chrome-tools .chip-switch-label,
+  .chart-chrome-tools .chip-switch,
+  .chart-chrome-tools .sort-options {
+    flex-shrink: 0;
+  }
+
+  .export-btn,
+  .settings-btn {
+    position: relative;
+    padding: 0.35rem 0.05rem;
+  }
+
+  .settings-btn {
+    padding: 0.35rem;
+  }
+
+  .settings-btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

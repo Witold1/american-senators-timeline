@@ -1,0 +1,59 @@
+{
+  "id": "ak-3",
+  "name": "Alaska Class III",
+  "state": "AK",
+  "class": 3,
+  "flag": "AK",
+  "region": "west",
+  "admitted": "1959-01-03",
+  "rulers": [
+    {
+      "name": "Ernest Gruening",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "G000508",
+      "start": 1959,
+      "startMonth": 1,
+      "startDay": 7,
+      "end": 1969,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Maurice Robert Gravel",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "G000388",
+      "start": 1969,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1981,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Frank H. Murkowski",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "M001085",
+      "start": 1981,
+      "startMonth": 1,
+      "startDay": 5,
+      "end": 2002,
+      "endMonth": 12,
+      "endDay": 19
+    },
+    {
+      "name": "Lisa Murkowski",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "M001153",
+      "start": 2003,
+      "startMonth": 1,
+      "startDay": 7,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

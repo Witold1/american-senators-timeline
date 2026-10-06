@@ -1,0 +1,318 @@
+/* Overlays: tooltip and debug panel. */
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  z-index: 100;
+  max-width: 280px;
+  padding: 0.7rem 0.85rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  --tip-accent: var(--accent);
+  overflow: hidden;
+  font-size: 1rem;
+  pointer-events: none;
+  box-shadow: var(--tooltip-shadow);
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--tip-accent);
+}
+
+.tooltip strong,
+.tooltip-drawer-body strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.tooltip .role,
+.tooltip-drawer-body .role {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.tooltip p.role,
+.tooltip-drawer-body p.role {
+  margin: 0.35rem 0 0;
+}
+
+.tooltip .dates,
+.tooltip .served,
+.tooltip-drawer-body .dates,
+.tooltip-drawer-body .served {
+  font-family: var(--font-chart);
+  font-size: 1rem;
+  font-weight: 600;
+  font-feature-settings: "tnum" 1;
+  color: var(--text);
+}
+
+.tooltip .dates,
+.tooltip-drawer-body .dates {
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--border);
+}
+
+.tooltip .served,
+.tooltip-drawer-body .served {
+  margin-top: 0.2rem;
+}
+
+.tooltip .served-k,
+.tooltip-drawer-body .served-k {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.tooltip .served-k::after,
+.tooltip-drawer-body .served-k::after {
+  content: ": ";
+}
+
+.tooltip .tooltip-note,
+.tooltip-drawer-body .tooltip-note {
+  margin: 0.35rem 0 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.tooltip-drawer-body a.bioguide {
+  display: block;
+  margin-top: 0.35rem;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+/* Bottom sheet for senator details at every width. */
+.tooltip-drawer[hidden] {
+  display: none;
+}
+
+.tooltip-drawer-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  max-height: min(70%, 24rem);
+  box-sizing: border-box;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
+  --tip-accent: var(--accent);
+  overflow: hidden;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.tooltip-drawer-sheet::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--tip-accent);
+  pointer-events: none;
+}
+
+[data-theme="light"] .tooltip-drawer-sheet {
+  box-shadow: 0 -8px 28px rgba(28, 28, 26, 0.16);
+}
+
+.tooltip-drawer-toggle {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.45rem 1rem 0.4rem;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  font: inherit;
+}
+
+.tooltip-drawer-toggle:hover,
+.tooltip-drawer-toggle:focus-visible {
+  color: var(--text);
+}
+
+.tooltip-drawer-toggle:focus-visible {
+  outline: none;
+  box-shadow: inset var(--focus-ring);
+}
+
+.tooltip-drawer-label {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.tooltip-drawer-chevron {
+  display: block;
+  flex: 0 0 auto;
+  transform: rotate(180deg);
+}
+
+.tooltip-drawer-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1rem max(1rem, env(safe-area-inset-bottom));
+  background: var(--surface);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip-drawer-chevron {
+    transition: none;
+  }
+}
+
+/* Debug (bug reports) */
+.debug-section {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 0 2rem;
+}
+
+.debug-section-inner {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.debug-toggle {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.debug-toggle:hover {
+  color: var(--text-secondary);
+}
+
+.debug-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.debug-panel {
+  margin-top: 0.5rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  overflow-x: auto;
+}
+
+.debug-panel[hidden] {
+  display: none !important;
+}
+
+.debug-block + .debug-block {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border);
+}
+
+.debug-block-heading {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--type-label-tracking);
+  color: var(--text-muted);
+}
+
+.debug-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.debug-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+}
+
+.debug-key {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.debug-value {
+  word-break: break-all;
+  color: var(--text-secondary);
+}
+
+.debug-error-actions {
+  margin-top: 0.5rem;
+}
+
+.debug-link {
+  margin: 0.5rem 0.75rem 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.debug-link:hover {
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .debug-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.debug-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

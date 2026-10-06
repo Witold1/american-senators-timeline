@@ -1,0 +1,143 @@
+{
+  "id": "az-1",
+  "name": "Arizona Class I",
+  "state": "AZ",
+  "class": 1,
+  "flag": "AZ",
+  "region": "west",
+  "admitted": "1912-02-14",
+  "rulers": [
+    {
+      "name": "Henry Fountain Ashurst",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "A000319",
+      "start": 1912,
+      "startMonth": 3,
+      "startDay": 27,
+      "end": 1923,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Henry Fountain Ashurst",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "A000319",
+      "start": 1923,
+      "startMonth": 12,
+      "startDay": 3,
+      "end": 1929,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Henry Fountain Ashurst",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "A000319",
+      "start": 1929,
+      "startMonth": 4,
+      "startDay": 15,
+      "end": 1941,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Ernest William McFarland",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "M000438",
+      "start": 1941,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1953,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Barry Morris Goldwater",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "G000267",
+      "start": 1953,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1965,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Paul Jones Fannin",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "F000013",
+      "start": 1965,
+      "startMonth": 1,
+      "startDay": 4,
+      "end": 1977,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Dennis Webster DeConcini",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "D000185",
+      "start": 1977,
+      "startMonth": 1,
+      "startDay": 4,
+      "end": 1995,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Jon Kyl",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "K000352",
+      "start": 1995,
+      "startMonth": 1,
+      "startDay": 4,
+      "end": 2013,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Jeff Flake",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "F000444",
+      "start": 2013,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2019,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Kyrsten Sinema",
+      "role": "Independent",
+      "party": "Independent",
+      "bioguide": "S001191",
+      "start": 2019,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2025,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Ruben Gallego",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "G000574",
+      "start": 2025,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+/* Horizontal orientation overrides (years on X, states on Y). */
+
+/* Horizontal keeps a full-width inner viewport so long state lists scroll */
+html[data-orientation="horizontal"] .timeline-scroll {
+  width: auto;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Horizontal orientation (years on X, states on Y) */
+html[data-orientation="horizontal"] {
+  --label-shadow: 8px 0 12px -8px rgba(0, 0, 0, 0.55);
+  --year-axis-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.55);
+}
+
+html[data-orientation="horizontal"][data-theme="light"] {
+  --label-shadow: 8px 0 12px -8px rgba(28, 28, 26, 0.12);
+  --year-axis-shadow: 0 8px 12px -8px rgba(28, 28, 26, 0.12);
+}
+
+html[data-orientation="horizontal"] .timeline-main {
+  flex-direction: column;
+  gap: var(--state-gap);
+}
+
+html[data-orientation="horizontal"] .axis-row {
+  display: flex;
+  align-items: stretch;
+  position: sticky;
+  top: 0;
+  z-index: 14;
+  background: var(--chart-bg);
+  box-shadow: var(--year-axis-shadow);
+}
+
+html[data-orientation="horizontal"] .axis-corner {
+  width: var(--label-w);
+  height: var(--axis-h);
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 16;
+  border-bottom: none;
+  border-right: 1px solid var(--border);
+}
+
+html[data-orientation="horizontal"] .axis-corner-year {
+  top: 0.35rem;
+  right: 0.45rem;
+  bottom: auto;
+  left: auto;
+}
+
+html[data-orientation="horizontal"] .axis-corner-country {
+  bottom: 0.35rem;
+  left: 0.45rem;
+  top: auto;
+  right: auto;
+}
+
+html[data-orientation="horizontal"] .year-axis {
+  width: auto;
+  height: var(--axis-h);
+  border-right: none;
+  border-bottom: none;
+  background:
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-decade) 0,
+      var(--year-line-decade) 1.5px,
+      transparent 1.5px,
+      transparent calc(10 * var(--year-w))
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-major) 0,
+      var(--year-line-major) 1px,
+      transparent 1px,
+      transparent calc(5 * var(--year-w))
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-minor) 0,
+      var(--year-line-minor) 1px,
+      transparent 1px,
+      transparent var(--year-w)
+    ),
+    var(--chart-bg);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 100% var(--year-tick), 100% var(--year-tick), 100% var(--year-tick), auto;
+  background-position-x:
+    var(--grid-decade-offset, 0),
+    var(--grid-major-offset, 0),
+    0,
+    0;
+  background-position-y: center, center, center, center;
+}
+
+html[data-orientation="horizontal"] .axis-row,
+html[data-orientation="horizontal"] .year-axis {
+  overflow: visible;
+}
+
+html[data-orientation="horizontal"] .axis-year-label {
+  top: 50%;
+  bottom: auto;
+  left: 0;
+  right: auto;
+  height: auto;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+  white-space: nowrap;
+  /* Top to bottom along the year axis. Present-first flips this below. */
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center center;
+}
+
+html[data-orientation="horizontal"][data-year-order="descending"] .axis-year-label {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+html[data-orientation="horizontal"] .timeline-body {
+  flex-direction: column;
+}
+
+html[data-orientation="horizontal"] .state-group {
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+html[data-orientation="horizontal"] .state-group:last-child {
+  box-shadow: none;
+}
+
+html[data-orientation="horizontal"] .state-seats {
+  flex-direction: column;
+}
+
+html[data-orientation="horizontal"] .congress-band {
+  top: 0;
+  bottom: 0;
+  left: auto;
+  right: auto;
+}
+
+html[data-orientation="horizontal"] .congress-mark {
+  top: auto;
+  bottom: 0;
+  left: auto;
+  right: auto;
+  width: auto;
+  height: var(--congress-rail, 16px);
+}
+
+/* Horizontal: a short row under the rotated year labels, not a full-height cover. */
+html.congresses-enabled[data-orientation="horizontal"] {
+  --congress-rail: 16px;
+  --year-label-w: 64px;
+  --axis-h: 68px;
+}
+
+@media (max-width: 640px) {
+  html.congresses-enabled[data-orientation="horizontal"] {
+    --axis-h: 60px;
+  }
+}
+
+html.congresses-enabled[data-orientation="horizontal"] .axis-year-label {
+  right: auto;
+  top: calc((var(--axis-h) - var(--congress-rail)) / 2);
+}
+
+html.congresses-enabled[data-orientation="horizontal"] .year-axis {
+  background-position-x:
+    var(--grid-decade-offset, 0),
+    var(--grid-major-offset, 0),
+    0,
+    0;
+  background-position-y:
+    calc((var(--axis-h) - var(--congress-rail) - var(--year-tick)) / 2),
+    calc((var(--axis-h) - var(--congress-rail) - var(--year-tick)) / 2),
+    calc((var(--axis-h) - var(--congress-rail) - var(--year-tick)) / 2),
+    center;
+}
+
+html[data-orientation="horizontal"] .country-row {
+  width: auto;
+  flex-direction: row;
+}
+
+html[data-orientation="horizontal"] .country-label {
+  width: var(--label-w);
+  height: auto;
+  min-height: calc(var(--seat-h) * 2);
+  align-self: stretch;
+  position: sticky;
+  left: 0;
+  top: auto;
+  border-bottom: none;
+  border-right: 1px solid var(--border);
+  padding: 0.35rem 0.55rem;
+  justify-content: flex-start;
+}
+
+html[data-orientation="horizontal"] .country-name {
+  position: static;
+  left: auto;
+  top: auto;
+  width: auto;
+  transform: none;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+html[data-orientation="horizontal"] .country-label:has(.country-admitted) .country-name {
+  left: auto;
+  top: auto;
+}
+
+html[data-orientation="horizontal"] .country-admitted {
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+  margin-top: 0.1rem;
+  text-align: left;
+}
+
+/* Name alone - center it in the two-seat-tall label cell. */
+html[data-orientation="horizontal"].admission-year-hidden .country-label {
+  justify-content: center;
+}
+
+html[data-orientation="horizontal"] .country-track {
+  width: auto;
+  min-height: var(--seat-h);
+  border-right: none;
+  border-bottom: none;
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-decade) 0,
+      var(--year-line-decade) 1.5px,
+      transparent 1.5px,
+      transparent calc(10 * var(--year-w))
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-major) 0,
+      var(--year-line-major) 1px,
+      transparent 1px,
+      transparent calc(5 * var(--year-w))
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--year-line-minor) 0,
+      var(--year-line-minor) 1px,
+      transparent 1px,
+      transparent var(--year-w)
+    );
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 100% var(--year-tick), 100% var(--year-tick), 100% var(--year-tick);
+  background-position-x:
+    var(--grid-decade-offset, 0),
+    var(--grid-major-offset, 0),
+    0;
+  background-position-y: center, center, center;
+}
+
+html[data-orientation="horizontal"] .state-group .country-row:last-child .country-track {
+  border-bottom: none;
+}
+
+html[data-orientation="horizontal"] .bar {
+  min-height: 0;
+  min-width: 2px;
+}
+
+html[data-orientation="horizontal"] .bar.ruler {
+  left: auto;
+  width: auto;
+  top: var(--ruler-top);
+  height: var(--ruler-bar-h);
+}
+
+html[data-orientation="horizontal"] .bar-label {
+  top: 50%;
+  left: 5px;
+  right: auto;
+  bottom: auto;
+  transform: translateY(-50%);
+  max-height: none;
+  max-width: calc(100% - 10px);
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  line-height: 0;
+}
+
+/* Descending: present at left → pin label to the past (right) end of the bar */
+html[data-orientation="horizontal"][data-year-order="descending"] .bar-label {
+  left: auto;
+  right: 5px;
+}
+
+html[data-orientation="horizontal"] .bar-label-text {
+  max-width: 100%;
+  max-height: none;
+  padding: 1px 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+html[data-orientation="horizontal"][data-year-order="descending"] .bar-label-text {
+  direction: rtl;
+  text-align: left;
+  unicode-bidi: plaintext;
+}
+
+/* Narrow screens: state names scroll with the years instead of pinning on the left. */
+@media (max-width: 640px) {
+  html[data-orientation="horizontal"] .country-label,
+  html[data-orientation="horizontal"] .axis-corner {
+    position: static;
+    left: auto;
+    box-shadow: none;
+  }
+}

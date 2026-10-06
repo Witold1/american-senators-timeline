@@ -1,0 +1,47 @@
+{
+  "id": "hi-3",
+  "name": "Hawaii Class III",
+  "state": "HI",
+  "class": 3,
+  "flag": "HI",
+  "region": "west",
+  "admitted": "1959-08-21",
+  "rulers": [
+    {
+      "name": "Oren Ethelbirt Long",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "L000425",
+      "start": 1959,
+      "startMonth": 1,
+      "startDay": 7,
+      "end": 1963,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Daniel K. Inouye",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "I000025",
+      "start": 1963,
+      "startMonth": 1,
+      "startDay": 9,
+      "end": 2012,
+      "endMonth": 12,
+      "endDay": 17
+    },
+    {
+      "name": "Brian Schatz",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "S001194",
+      "start": 2012,
+      "startMonth": 12,
+      "startDay": 27,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

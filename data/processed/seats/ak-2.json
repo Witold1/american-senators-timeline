@@ -1,0 +1,59 @@
+{
+  "id": "ak-2",
+  "name": "Alaska Class II",
+  "state": "AK",
+  "class": 2,
+  "flag": "AK",
+  "region": "west",
+  "admitted": "1959-01-03",
+  "rulers": [
+    {
+      "name": "Edward Lewis Bartlett",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "B000201",
+      "start": 1959,
+      "startMonth": 1,
+      "startDay": 7,
+      "end": 1968,
+      "endMonth": 12,
+      "endDay": 11
+    },
+    {
+      "name": "Ted F. Stevens",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "S000888",
+      "start": 1968,
+      "startMonth": 12,
+      "startDay": 24,
+      "end": 2009,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Mark Begich",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "B001265",
+      "start": 2009,
+      "startMonth": 1,
+      "startDay": 6,
+      "end": 2015,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Dan Sullivan",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "S001198",
+      "start": 2015,
+      "startMonth": 1,
+      "startDay": 6,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>American Senators Timeline</title>
+  <script>
+    (function () {
+      try {
+        var drop = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var key = localStorage.key(i);
+          if (key && key.indexOf("timeline-") === 0) drop.push(key);
+        }
+        for (var j = 0; j < drop.length; j++) localStorage.removeItem(drop[j]);
+      } catch (e) {
+        /* ignore */
+      }
+      try {
+        var stored = localStorage.getItem("timeline-theme");
+        var pref =
+          stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+        var theme =
+          pref === "system"
+            ? window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark"
+            : pref;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.themePref = pref;
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {
+        var fallback =
+          window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.dataset.theme = fallback;
+        document.documentElement.dataset.themePref = "system";
+        document.documentElement.style.colorScheme = fallback;
+      }
+      try {
+        var orient = localStorage.getItem("timeline-orientation");
+        document.documentElement.dataset.orientation =
+          orient === "horizontal" ? "horizontal" : "vertical";
+      } catch (e) {
+        document.documentElement.dataset.orientation = "vertical";
+      }
+      try {
+        var yearOrder = localStorage.getItem("timeline-year-order");
+        document.documentElement.dataset.yearOrder =
+          yearOrder === "ascending" ? "ascending" : "descending";
+      } catch (e) {
+        document.documentElement.dataset.yearOrder = "descending";
+      }
+      try {
+        var colorMode = localStorage.getItem("timeline-color-mode");
+        document.documentElement.dataset.colorMode =
+          colorMode === "person" ? "person" : "party";
+      } catch (e) {
+        document.documentElement.dataset.colorMode = "party";
+      }
+      try {
+        var palette =
+          localStorage.getItem("timeline-palette") ||
+          localStorage.getItem("timeline-party-palette");
+        document.documentElement.dataset.palette =
+          palette === "vivid" || palette === "soft" ? palette : "muted";
+      } catch (e) {
+        document.documentElement.dataset.palette = "muted";
+      }
+    })();
+  </script>
+  <script
+    src="https://witold1.github.io/witold1-blog-telemetry/v1/telemetry.min.js"
+    defer
+  ></script>
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/chrome.css" />
+  <link rel="stylesheet" href="css/chart.css" />
+  <link rel="stylesheet" href="css/chart-horizontal.css" />
+  <link rel="stylesheet" href="css/overlay.css" />
+</head>
+<body>
+  <div class="theme-bar">
+    <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Color theme">
+      <button type="button" class="theme-btn" data-theme-pref="system" aria-pressed="false">System</button>
+      <button type="button" class="theme-btn" data-theme-pref="dark" aria-pressed="false">Dark</button>
+      <button type="button" class="theme-btn" data-theme-pref="light" aria-pressed="false">Light</button>
+    </div>
+  </div>
+  <header class="header">
+    <div class="header-inner">
+      <div class="title-block">
+        <h1>American Senators</h1>
+        <p class="subtitle">Every person who has held a seat in the United States Senate since 1789.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="chart-chrome" aria-label="Chart controls">
+    <div class="chart-chrome-inner">
+      <label class="filter-label chart-chrome-search">
+        <span>Search</span>
+        <input type="search" id="search" placeholder="state, senator, seat, party, or region" autocomplete="off" />
+      </label>
+      <div class="chart-chrome-tools">
+        <div class="chip-switch" id="time-range-filter">
+          <span class="chip-switch-label" id="time-range-label">Time</span>
+          <div class="chip-switch-group" role="group" aria-labelledby="time-range-label">
+            <button type="button" class="chip-btn is-active" data-time-range="all" aria-pressed="true">All</button>
+            <button type="button" class="chip-btn" data-time-range="1700" aria-pressed="false">1700s</button>
+            <button type="button" class="chip-btn" data-time-range="1800" aria-pressed="false">1800s</button>
+            <button type="button" class="chip-btn" data-time-range="1900" aria-pressed="false">1900s</button>
+            <button type="button" class="chip-btn" data-time-range="2000" aria-pressed="false">2000s</button>
+          </div>
+        </div>
+        <div class="chip-switch region-filter" id="region-filter">
+          <span class="chip-switch-label" id="region-label">Region</span>
+          <div class="chip-switch-group" role="group" aria-labelledby="region-label">
+            <button type="button" class="chip-btn is-active" data-region="all" aria-pressed="true">All</button>
+            <button type="button" class="chip-btn" data-region="northeast" aria-pressed="false">Northeast</button>
+            <button type="button" class="chip-btn" data-region="midwest" aria-pressed="false">Midwest</button>
+            <button type="button" class="chip-btn" data-region="south" aria-pressed="false">South</button>
+            <button type="button" class="chip-btn" data-region="west" aria-pressed="false">West</button>
+          </div>
+        </div>
+        <div class="chip-switch" id="color-mode-filter">
+          <span class="visually-hidden" id="color-mode-label">Color by</span>
+          <div class="chip-switch-group" role="group" aria-labelledby="color-mode-label">
+            <button
+              type="button"
+              class="chip-btn is-active"
+              data-color-mode="party"
+              aria-pressed="true"
+              title="Color bars by political party"
+            >Political party</button>
+            <button
+              type="button"
+              class="chip-btn"
+              data-color-mode="person"
+              aria-pressed="false"
+              title="Color each senator distinctly within a seat"
+            >Individual senator</button>
+          </div>
+        </div>
+        <div class="chip-switch" id="layout-control">
+          <span class="visually-hidden" id="layout-label">Chart orientation</span>
+          <div
+            class="chip-switch-group"
+            id="orientation-switch"
+            role="group"
+            aria-labelledby="layout-label"
+          >
+            <button type="button" class="chip-btn is-active" data-orient="vertical" aria-pressed="true">Vertical</button>
+            <button type="button" class="chip-btn" data-orient="horizontal" aria-pressed="false">Horizontal</button>
+          </div>
+        </div>
+        <div class="sort-options" id="state-sort" role="group" aria-label="Sort states">
+          <button type="button" class="sort-btn is-active" data-sort="name" data-dir="asc" aria-pressed="true">
+            <span class="sort-btn-label">State name</span>
+            <svg class="sort-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 9.25V2.75M3.4 5.35 6 2.75l2.6 2.6"/></svg>
+          </button>
+          <button type="button" class="sort-btn" data-sort="admitted" data-dir="asc" aria-pressed="false">
+            <span class="sort-btn-label">Admission date</span>
+            <svg class="sort-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 9.25V2.75M3.4 5.35 6 2.75l2.6 2.6"/></svg>
+          </button>
+        </div>
+        <div class="sort-options" id="year-sort-group" role="group" aria-label="Year axis">
+          <button type="button" class="sort-btn sort-btn-years is-active" id="year-sort" data-dir="desc" aria-pressed="true" title="Present first">
+            <span class="sort-btn-label">Years</span>
+            <svg class="sort-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 9.25V2.75M3.4 5.35 6 2.75l2.6 2.6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="chart-chrome-actions">
+        <div class="export-group" role="group" aria-label="Save image">
+          <span class="export-icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 2v8.2M5.2 7.5 8 10.3l2.8-2.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 12.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="export-lead">Save image:</span>
+          <button type="button" id="save-png" class="export-btn" title="Download chart as PNG">
+            <span class="export-btn-label">PNG</span>
+          </button>
+          <span class="export-sep" aria-hidden="true">/</span>
+          <button type="button" id="save-svg" class="export-btn" title="Download chart as SVG">
+            <span class="export-btn-label">SVG</span>
+          </button>
+        </div>
+        <div class="settings-control">
+          <button
+            type="button"
+            id="settings-btn"
+            class="settings-btn"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="settings-panel"
+            title="Display settings"
+          >
+            <svg class="settings-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="settings-btn-label">Settings</span>
+          </button>
+          <div id="settings-panel" class="settings-panel" hidden>
+            <div class="settings-panel-inner">
+              <span class="settings-heading">Display</span>
+              <label class="toggle">
+                <input type="checkbox" id="show-ruler-bars" checked />
+                <span title="Draw the colored bar for each senator's time in the seat; names stay visible without it">Show term bars</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="show-bar-labels" checked />
+                <span title="Print each senator's name along their bar">Show senator names</span>
+              </label>
+              <div class="settings-nest" role="group" aria-label="Senator name options">
+                <label class="toggle">
+                  <input type="checkbox" id="short-bar-labels" checked />
+                  <span title="Print surnames alone instead of initials plus surname, so more names fit">Last names only</span>
+                </label>
+                <label class="toggle">
+                  <input type="checkbox" id="dynamic-bar-label-colors" checked />
+                  <span title="Take each name's color from the bar underneath it instead of using one fixed color">Name colors match bars</span>
+                </label>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="show-admission-year" />
+                <span title="Show the year each state was admitted to the Union next to its name">Show admission year</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="show-regions" checked />
+                <span title="Add the census region filter (Northeast, Midwest, South, West) to the chart bar">Show region filter</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="show-congresses" checked />
+                <span title="Number and shade every other Congress across the time axis, from the 1st Congress (1789) to the present">Show Congress numbers</span>
+              </label>
+              <label class="toggle">
+                <input type="checkbox" id="show-party-detail" />
+                <span title="Give Whig, Federalist, Democratic-Republican, Independent, and others their own colors instead of grouping them as Other">Color historic parties</span>
+              </label>
+              <span class="settings-heading" id="palette-label">Palette</span>
+              <div
+                class="chip-switch-group settings-orient"
+                id="palette-switch"
+                role="group"
+                aria-labelledby="palette-label"
+              >
+                <button
+                  type="button"
+                  class="chip-btn is-active"
+                  data-palette="muted"
+                  aria-pressed="true"
+                  title="Muted editorial chart colors"
+                >Muted</button>
+                <button
+                  type="button"
+                  class="chip-btn"
+                  data-palette="soft"
+                  aria-pressed="false"
+                  title="Pastel-leaning parties and senator colors"
+                >Soft</button>
+                <button
+                  type="button"
+                  class="chip-btn"
+                  data-palette="vivid"
+                  aria-pressed="false"
+                  title="Bright parties and senator colors"
+                >Vivid</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="export-surface">
+  <section class="legend" aria-label="Legend">
+    <div class="legend-group legend-group-party">
+      <span class="legend-heading">Political party</span>
+      <div class="legend-item"><span class="swatch party-democrat"></span> Democrat</div>
+      <div class="legend-item"><span class="swatch party-republican"></span> Republican</div>
+      <div class="legend-item legend-party-detail"><span class="swatch party-whig"></span> Whig</div>
+      <div class="legend-item legend-party-detail"><span class="swatch party-federalist"></span> Federalist</div>
+      <div class="legend-item legend-party-detail"><span class="swatch party-democratic-republican"></span> Democratic-Republican</div>
+      <div class="legend-item legend-party-detail"><span class="swatch party-independent"></span> Independent</div>
+      <div class="legend-item"><span class="swatch party-other"></span> Other</div>
+    </div>
+    <div class="legend-group legend-group-person">
+      <span class="legend-heading">Senators</span>
+      <div class="legend-item">
+        <span class="palette-demo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+        Distinct colors per individual senators
+      </div>
+    </div>
+  </section>
+
+  <main class="chart-panel">
+    <div class="timeline-xscroll" id="timeline-xscroll" hidden role="scrollbar" aria-controls="timeline-scroll" aria-orientation="horizontal" aria-valuemin="0" tabindex="0">
+      <button type="button" class="timeline-xscroll-step" data-scroll-dir="-1" aria-label="Scroll left"><span aria-hidden="true">&lt;&lt;&lt;</span></button>
+      <div class="timeline-xscroll-thumb"></div>
+      <button type="button" class="timeline-xscroll-step" data-scroll-dir="1" aria-label="Scroll right"><span aria-hidden="true">&gt;&gt;&gt;</span></button>
+    </div>
+    <div class="timeline-scroll-clip">
+      <div class="timeline-scroll" id="timeline-scroll">
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Author: witold's data consulting at <a href="https://witold1.github.io/">witold1.github.io</a></p>
+    <p>Sources: <a href="https://github.com/unitedstates/congress-legislators">unitedstates/congress-legislators</a>, <a href="https://www.govinfo.gov/app/collection/SMAN/">Senate Manuals</a>, <a href="https://bioguide.congress.gov/">Biographical Directory of the U.S. Congress</a>. Requested: September 2026. AI assistant helped compile and verify the data.</p>
+  </footer>
+  </div>
+
+  <div id="debug-section" class="debug-section">
+    <div class="debug-section-inner">
+      <button
+        type="button"
+        class="debug-toggle"
+        data-debug-toggle
+        aria-expanded="false"
+        aria-controls="debug-panel"
+      >
+        Show environment info (for bug reports)
+      </button>
+      <div id="debug-panel" class="debug-panel" data-debug-panel hidden>
+        <div class="debug-block">
+          <span class="debug-block-heading">Environment</span>
+          <div class="debug-lines" data-debug-lines-tech></div>
+        </div>
+        <div class="debug-block">
+          <span class="debug-block-heading">Timeline</span>
+          <div class="debug-lines" data-debug-lines-app></div>
+        </div>
+        <div class="debug-error-actions" data-debug-error-actions hidden>
+          <button type="button" class="debug-link" data-debug-clear-error>
+            Clear last error
+          </button>
+        </div>
+        <button type="button" class="debug-link debug-copy" data-debug-copy>
+          Copy to clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="tooltip" id="tooltip" hidden></aside>
+  <div class="tooltip-drawer" id="tooltip-drawer" hidden>
+    <div
+      class="tooltip-drawer-sheet"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="tooltip-drawer-label"
+    >
+      <button
+        type="button"
+        class="tooltip-drawer-toggle"
+        id="tooltip-drawer-toggle"
+        aria-expanded="false"
+        aria-controls="tooltip-drawer-body"
+        aria-label="Hide details"
+      >
+        <span class="tooltip-drawer-label" id="tooltip-drawer-label">Details</span>
+        <svg class="tooltip-drawer-chevron" viewBox="0 0 24 12" width="28" height="14" aria-hidden="true" focusable="false">
+          <path d="M4 9.5 12 2.5l8 7" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div id="tooltip-drawer-body" class="tooltip-drawer-body"></div>
+    </div>
+  </div>
+
+  <script src="js/load.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/palette.js"></script>
+  <script src="js/geometry.js"></script>
+  <script src="js/labels.js"></script>
+  <script src="js/interaction.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/filter-controls.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/debug.js"></script>
+</body>
+</html>

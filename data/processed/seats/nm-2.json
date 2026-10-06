@@ -1,0 +1,131 @@
+{
+  "id": "nm-2",
+  "name": "New Mexico Class II",
+  "state": "NM",
+  "class": 2,
+  "flag": "NM",
+  "region": "west",
+  "admitted": "1912-01-06",
+  "rulers": [
+    {
+      "name": "Albert Bacon Fall",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "F000011",
+      "start": 1912,
+      "startMonth": 3,
+      "startDay": 27,
+      "end": 1919,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Albert Bacon Fall",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "F000011",
+      "start": 1919,
+      "startMonth": 5,
+      "startDay": 19,
+      "end": 1921,
+      "endMonth": 3,
+      "endDay": 4
+    },
+    {
+      "name": "Holm Olaf Bursum",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "B001144",
+      "start": 1921,
+      "startMonth": 4,
+      "startDay": 11,
+      "end": 1925,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Sam Gilbert Bratton",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "B000774",
+      "start": 1925,
+      "startMonth": 12,
+      "startDay": 7,
+      "end": 1931,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Sam Gilbert Bratton",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "B000774",
+      "start": 1931,
+      "startMonth": 12,
+      "startDay": 7,
+      "end": 1933,
+      "endMonth": 6,
+      "endDay": 24
+    },
+    {
+      "name": "Carl Atwood Hatch",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "H000334",
+      "start": 1933,
+      "startMonth": 10,
+      "startDay": 10,
+      "end": 1949,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Clinton Presba Anderson",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "A000186",
+      "start": 1949,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1973,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Pete V. Domenici",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "D000407",
+      "start": 1973,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2009,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Tom Udall",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "U000039",
+      "start": 2009,
+      "startMonth": 1,
+      "startDay": 6,
+      "end": 2021,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Ben Ray Luján",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "L000570",
+      "start": 2021,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

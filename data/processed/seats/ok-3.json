@@ -1,0 +1,119 @@
+{
+  "id": "ok-3",
+  "name": "Oklahoma Class III",
+  "state": "OK",
+  "class": 3,
+  "flag": "OK",
+  "region": "south",
+  "admitted": "1907-11-16",
+  "rulers": [
+    {
+      "name": "Thomas Pryor Gore",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "G000323",
+      "start": 1907,
+      "startMonth": 12,
+      "startDay": 2,
+      "end": 1915,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "Thomas Pryor Gore",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "G000323",
+      "start": 1915,
+      "startMonth": 12,
+      "startDay": 6,
+      "end": 1921,
+      "endMonth": 3,
+      "endDay": 3
+    },
+    {
+      "name": "John William Harreld",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "H000227",
+      "start": 1921,
+      "startMonth": 4,
+      "startDay": 11,
+      "end": 1927,
+      "endMonth": 3,
+      "endDay": 4
+    },
+    {
+      "name": "John William Elmer Thomas",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "T000177",
+      "start": 1927,
+      "startMonth": 12,
+      "startDay": 5,
+      "end": 1951,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Almer Stillwell Mike Monroney",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "M000859",
+      "start": 1951,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1969,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Henry Louis Bellmon",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "B000351",
+      "start": 1969,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 1981,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Don Nickles",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "N000102",
+      "start": 1981,
+      "startMonth": 1,
+      "startDay": 5,
+      "end": 2005,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Tom Coburn",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "C000560",
+      "start": 2005,
+      "startMonth": 1,
+      "startDay": 4,
+      "end": 2015,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "James Lankford",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "L000575",
+      "start": 2015,
+      "startMonth": 1,
+      "startDay": 6,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

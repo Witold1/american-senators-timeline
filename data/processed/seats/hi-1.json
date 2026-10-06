@@ -1,0 +1,59 @@
+{
+  "id": "hi-1",
+  "name": "Hawaii Class I",
+  "state": "HI",
+  "class": 1,
+  "flag": "HI",
+  "region": "west",
+  "admitted": "1959-08-21",
+  "rulers": [
+    {
+      "name": "Hiram Leong Fong",
+      "role": "Republican",
+      "party": "Republican",
+      "bioguide": "F000245",
+      "start": 1959,
+      "startMonth": 1,
+      "startDay": 7,
+      "end": 1977,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Spark Masayuki Matsunaga",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "M000250",
+      "start": 1977,
+      "startMonth": 1,
+      "startDay": 4,
+      "end": 1990,
+      "endMonth": 4,
+      "endDay": 15
+    },
+    {
+      "name": "Daniel K. Akaka",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "A000069",
+      "start": 1990,
+      "startMonth": 5,
+      "startDay": 16,
+      "end": 2013,
+      "endMonth": 1,
+      "endDay": 3
+    },
+    {
+      "name": "Mazie K. Hirono",
+      "role": "Democrat",
+      "party": "Democrat",
+      "bioguide": "H001042",
+      "start": 2013,
+      "startMonth": 1,
+      "startDay": 3,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ]
+}

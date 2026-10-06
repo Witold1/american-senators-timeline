@@ -1,0 +1,709 @@
+/* Chart panel: axis, state groups, senator bars (vertical default). */
+
+/* Chart panel */
+.data-load-error {
+  margin: 1.25rem 1rem;
+  padding: 1rem 1.15rem;
+  max-width: 36rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.data-load-error strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.data-load-error p {
+  margin: 0;
+}
+
+.data-load-error code {
+  font-family: var(--mono);
+  font-size: 1em;
+}
+
+.chart-panel {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Drawn horizontal scroller. Native chart bars stay hidden so this rail is the control. */
+.timeline-xscroll {
+  --xscroll-h: 20px;
+  position: sticky;
+  top: var(--header-h, 0px);
+  z-index: 19;
+  box-sizing: content-box;
+  height: var(--xscroll-h);
+  max-width: 100%;
+  margin: 1rem 0 0;
+  border-bottom: 8px solid var(--bg);
+  background: var(--border);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.timeline-xscroll[hidden] {
+  display: none;
+}
+
+.timeline-xscroll:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.timeline-xscroll-step {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  height: var(--xscroll-h);
+  margin: 0;
+  padding: 0 0.4rem;
+  border: 0;
+  background: var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: var(--xscroll-h);
+  letter-spacing: -0.06em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timeline-xscroll-step[data-scroll-dir="-1"] {
+  left: 0;
+}
+
+.timeline-xscroll-step[data-scroll-dir="1"] {
+  right: 0;
+}
+
+.timeline-xscroll-step:hover,
+.timeline-xscroll-step:focus-visible {
+  outline: none;
+  background: var(--border-light);
+  color: var(--text);
+}
+
+.timeline-xscroll-step.is-disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.timeline-xscroll-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: var(--xscroll-h);
+  background: var(--accent);
+  border-radius: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.timeline-xscroll-thumb.is-dragging {
+  cursor: grabbing;
+}
+
+.timeline-xscroll-thumb:hover,
+.timeline-xscroll-thumb.is-dragging {
+  background: color-mix(in srgb, var(--accent) 82%, var(--text));
+}
+
+.timeline-scroll-clip {
+  overflow: hidden;
+  max-width: 100%;
+  margin-top: 1rem;
+  border-radius: 8px;
+  /* Sticky axis and labels otherwise paint over the rounded corners. */
+  clip-path: inset(0 round 8px);
+}
+
+.timeline-xscroll:not([hidden]) + .timeline-scroll-clip {
+  margin-top: 0;
+}
+
+.timeline-scroll {
+  /* Vertical: hug filtered content and center in the panel.
+     The chart still scrolls; its own bar stays hidden. */
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 auto;
+  border: none;
+  background: var(--chart-bg);
+  scrollbar-width: none;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+
+
+.timeline {
+  min-width: max-content;
+  min-height: max-content;
+  position: relative;
+}
+
+.timeline-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--state-gap);
+}
+
+.chart-note {
+  margin: 0.65rem 0 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Year axis (Y) + seat columns (X) */
+.year-axis-col {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  left: 0;
+  z-index: 14;
+  background: var(--chart-bg);
+  box-shadow: var(--year-axis-shadow);
+}
+
+.axis-corner {
+  display: block;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 16;
+  width: var(--year-label-w);
+  height: var(--label-h);
+  padding: 0;
+  overflow: hidden;
+  background: var(--chart-bg);
+  border-bottom: 1px solid var(--border-light);
+  box-sizing: border-box;
+}
+
+/* Real SVG line — pseudo-element gradients with calc() are unreliable in export. */
+.axis-corner-diag {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.axis-corner-diag line {
+  stroke: var(--border-light);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.axis-corner-label {
+  position: absolute;
+  font-family: var(--font-chart);
+  font-size: 1rem;
+  font-weight: 600;
+  font-feature-settings: "tnum" 1, "kern" 1;
+  letter-spacing: var(--type-body-tracking);
+  color: var(--text);
+  line-height: 1;
+  user-select: none;
+}
+
+.axis-corner-year {
+  bottom: 0.4rem;
+  left: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+/* Arrow points toward newer years (default glyph faces down). */
+.axis-corner-year-arrow {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  color: inherit;
+  transform-origin: center;
+}
+
+html[data-year-order="descending"] .axis-corner-year-arrow {
+  transform: rotate(180deg);
+}
+
+html[data-orientation="horizontal"] .axis-corner-year-arrow {
+  transform: rotate(-90deg);
+}
+
+html[data-orientation="horizontal"][data-year-order="descending"] .axis-corner-year-arrow {
+  transform: rotate(90deg);
+}
+
+.axis-corner-country {
+  top: 0.35rem;
+  right: 0.35rem;
+}
+
+.year-axis {
+  display: block;
+  flex-shrink: 0;
+  position: relative;
+  width: var(--year-label-w);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-decade) 0,
+      var(--year-line-decade) 1.5px,
+      transparent 1.5px,
+      transparent calc(10 * var(--year-h))
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-major) 0,
+      var(--year-line-major) 1px,
+      transparent 1px,
+      transparent calc(5 * var(--year-h))
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-minor) 0,
+      var(--year-line-minor) 1px,
+      transparent 1px,
+      transparent var(--year-h)
+    ),
+    var(--chart-bg);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: var(--year-tick) 100%, var(--year-tick) 100%, var(--year-tick) 100%, auto;
+  background-position-x: center, center, center, center;
+  background-position-y:
+    var(--grid-decade-offset, 0),
+    var(--grid-major-offset, 0),
+    0,
+    0;
+}
+
+.congress-mark {
+  display: none;
+  position: absolute;
+  left: auto;
+  right: 0;
+  width: var(--congress-rail);
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-family: var(--font-chart);
+  font-size: 0.62rem;
+  font-weight: 600;
+  font-feature-settings: "tnum" 1;
+  line-height: 1;
+  color: var(--text-muted);
+  pointer-events: auto;
+  user-select: none;
+  background: transparent;
+}
+
+/* Numbers sit in a rail beside the years so they do not cover year labels or ticks. */
+html.congresses-enabled {
+  --congress-rail: 28px;
+  --year-label-w: 92px;
+}
+
+html.congresses-enabled .axis-year-label {
+  right: var(--congress-rail);
+}
+
+html.congresses-enabled .year-axis {
+  background-position-x:
+    calc((var(--year-label-w) - var(--congress-rail) - var(--year-tick)) / 2),
+    calc((var(--year-label-w) - var(--congress-rail) - var(--year-tick)) / 2),
+    calc((var(--year-label-w) - var(--congress-rail) - var(--year-tick)) / 2),
+    center;
+}
+
+html.congresses-enabled .congress-mark {
+  display: flex;
+}
+
+.axis-year-label {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-chart);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  user-select: none;
+  font-feature-settings: "tnum" 1, "kern" 1;
+  letter-spacing: var(--type-body-tracking);
+  color: var(--text);
+  pointer-events: none;
+}
+
+/* State groups (one label, two seat tracks) */
+.state-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+  background: var(--chart-bg);
+}
+
+.state-group:last-child {
+  box-shadow: none;
+}
+
+.state-group.alt {
+  background: var(--row-alt);
+}
+
+.state-group.hidden {
+  display: none;
+}
+
+.state-seats {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--seat-gap);
+  position: relative;
+}
+
+.congress-layer {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+html.congresses-enabled .congress-layer {
+  display: block;
+}
+
+.congress-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--congress-band);
+}
+
+.country-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+  width: var(--seat-w);
+}
+
+.country-label {
+  width: 100%;
+  height: var(--label-h);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.35rem 0.15rem;
+  font-size: 1rem;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 12;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--label-shadow);
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.state-group.alt .country-label {
+  background: var(--chart-bg-alt);
+}
+
+.state-group:not(.alt) .country-label {
+  background: var(--chart-bg);
+}
+
+/* Transform-only vertical text - writing-mode is unreliable in export. */
+.country-name {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--label-h) - 8px);
+  font-family: var(--font-chart);
+  color: var(--text);
+  letter-spacing: normal;
+  line-height: 1;
+  font-size: 1rem;
+  font-weight: 600;
+  font-feature-settings: normal;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: visible;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
+}
+
+.country-label:has(.country-admitted) .country-name {
+  left: 34%;
+  top: 50%;
+}
+
+.country-admitted {
+  position: absolute;
+  left: 72%;
+  top: 50%;
+  font-family: var(--font-chart);
+  font-size: 1rem;
+  font-weight: 600;
+  font-feature-settings: "tnum" 1, "kern" 1;
+  letter-spacing: var(--type-body-tracking);
+  line-height: 1;
+  text-align: center;
+  color: var(--text);
+  white-space: nowrap;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center center;
+}
+
+html.admission-year-hidden .country-admitted {
+  display: none;
+}
+
+/* Year gone - re-center the state name in the label strip. */
+html.admission-year-hidden .country-label:has(.country-admitted) .country-name {
+  left: 50%;
+}
+
+.country-track {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--seat-w);
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-decade) 0,
+      var(--year-line-decade) 1.5px,
+      transparent 1.5px,
+      transparent calc(10 * var(--year-h))
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-major) 0,
+      var(--year-line-major) 1px,
+      transparent 1px,
+      transparent calc(5 * var(--year-h))
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--year-line-minor) 0,
+      var(--year-line-minor) 1px,
+      transparent 1px,
+      transparent var(--year-h)
+    );
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: var(--year-tick) 100%, var(--year-tick) 100%, var(--year-tick) 100%;
+  background-position-x: center, center, center;
+  background-position-y:
+    var(--grid-decade-offset, 0),
+    var(--grid-major-offset, 0),
+    0;
+}
+
+.state-group .country-row:last-child .country-track {
+  border-right: none;
+}
+
+.year-grid,
+.year-cell {
+  display: none;
+}
+
+/* Bars */
+.bar {
+  position: absolute;
+  border-radius: var(--bar-radius);
+  cursor: default;
+  min-height: 2px;
+}
+
+.bar.dimmed {
+  opacity: 0.28;
+}
+
+.bar.focused {
+  opacity: 1;
+  outline: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.bar.selected {
+  opacity: 1;
+  outline: none;
+}
+
+/* Quiet dashed edge and a few thin hatch strokes. */
+.bar.selected::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 1;
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 8px,
+    rgba(255, 255, 255, 0.38) 8px 9px
+  );
+}
+
+.bar.ruler {
+  left: var(--ruler-inset);
+  width: var(--ruler-width);
+  border: none;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.bar.ruler.focused {
+  z-index: 6;
+}
+
+.bar.ruler.selected {
+  z-index: 8;
+}
+
+/* Lift the seat track / state so a search outline paints over neighbors */
+.country-track:has(.bar.focused) {
+  z-index: 4;
+}
+
+.country-track:has(.bar.selected) {
+  z-index: 5;
+}
+
+.state-group:has(.bar.focused) {
+  position: relative;
+  z-index: 2;
+}
+
+.state-group:has(.bar.selected) {
+  position: relative;
+  z-index: 3;
+}
+
+.bar-label {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  /* Bottom to top, same as the state names. Pin to the past/start end of the bar. */
+  transform: translateX(-50%) rotate(180deg);
+  max-height: calc(100% - 8px);
+  max-width: calc(100% - 2px);
+  overflow: hidden;
+  pointer-events: none;
+  line-height: 0;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  /* Default descending: present at top → start of term at bottom */
+  top: auto;
+  bottom: 4px;
+}
+
+/* Ascending: past at top → start of term at top */
+html[data-year-order="ascending"] .bar-label {
+  top: 4px;
+  bottom: auto;
+}
+
+html.bar-labels-hidden .bar-label {
+  display: none !important;
+}
+
+html.bar-labels-hidden .settings-nest:has(#short-bar-labels) {
+  display: none;
+}
+
+html[data-color-mode="person"] label:has(#show-party-detail) {
+  display: none;
+}
+
+html.ruler-bars-hidden .bar.ruler {
+  background: transparent !important;
+}
+
+html.ruler-bars-hidden .bar.ruler.selected {
+  background: transparent !important;
+}
+
+html.ruler-bars-hidden.bar-labels-hidden .legend-group-party,
+html.ruler-bars-hidden.bar-labels-hidden .legend-group-person {
+  display: none;
+}
+
+.bar-label-text {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 4px 1px;
+  border-radius: 0;
+  font-family: var(--font-chart);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  color: var(--bar-label-fixed-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.timeline-body {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--state-gap);
+}
+
+/* Narrow screens: the year column scrolls with the chart instead of covering it. */
+@media (max-width: 640px) {
+  .year-axis-col {
+    position: static;
+    left: auto;
+    box-shadow: none;
+  }
+}
