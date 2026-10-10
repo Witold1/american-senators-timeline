@@ -229,6 +229,10 @@
   window.addEventListener("timeline-data-ready", initTimelineApp);
   if (window.TIMELINE_DATA?.seats?.length) initTimelineApp();
 
+  window.addEventListener("timeline-dataset-change", () => {
+    resetScrollForOrientation();
+  });
+
   window.addEventListener("timeline-theme-change", () => {
     window.TimelineGeometry?.invalidateCaches?.();
     rerender();

@@ -1,0 +1,87 @@
+{
+  "id": "moldova",
+  "name": "Moldova",
+  "region": "moldova",
+  "flag": "🇲🇩",
+  "sovereignty": {
+    "year": 1990, "month": 6, "day": 23,
+    "act": {
+      "title": "Declaration of Sovereignty of the Moldavian SSR"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 8, "day": 27,
+    "act": {
+      "title": "Declaration of Independence of the Republic of Moldova"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Ivan Bodiul", "role": "First Secretary",
+      "start": 1961, "startMonth": 5, "startDay": 29,
+      "end": 1980, "endMonth": 12, "endDay": 30
+    },
+    {
+      "name": "Semion Grossu", "role": "First Secretary",
+      "start": 1980, "startMonth": 12, "startDay": 30,
+      "end": 1989, "endMonth": 11, "endDay": 16
+    },
+    {
+      "name": "Petru Lucinschi", "role": "First Secretary",
+      "start": 1989, "startMonth": 11, "startDay": 16,
+      "end": 1991, "endMonth": 2, "endDay": 5
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Mircea Snegur",
+      "start": 1990, "startMonth": 9, "startDay": 3,
+      "end": 1997, "endMonth": 1, "endDay": 15
+    },
+    {
+      "name": "Petru Lucinschi",
+      "start": 1997, "startMonth": 1, "startDay": 15,
+      "end": 2001, "endMonth": 4, "endDay": 7
+    },
+    {
+      "name": "Vladimir Voronin",
+      "start": 2001, "startMonth": 4, "startDay": 7,
+      "end": 2009, "endMonth": 9, "endDay": 11
+    },
+    {
+      "name": "Mihai Ghimpu", "role": "Acting President",
+      "start": 2009, "startMonth": 9, "startDay": 11,
+      "end": 2010, "endMonth": 12, "endDay": 28
+    },
+    {
+      "name": "Marian Lupu", "role": "Acting President",
+      "start": 2010, "startMonth": 12, "startDay": 30,
+      "end": 2012, "endMonth": 3, "endDay": 23
+    },
+    {
+      "name": "Nicolae Timofti",
+      "start": 2012, "startMonth": 3, "startDay": 23,
+      "end": 2016, "endMonth": 12, "endDay": 23
+    },
+    {
+      "name": "Igor Dodon",
+      "start": 2016, "startMonth": 12, "startDay": 23,
+      "end": 2020, "endMonth": 12, "endDay": 24
+    },
+    {
+      "name": "Maia Sandu",
+      "start": 2020, "startMonth": 12, "startDay": 24,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Transnistria War",
+      "start": 1992, "end": 1992, "type": "war"
+    },
+    {
+      "name": "Gagauzia unrest",
+      "start": 1990, "end": 1994, "type": "regional"
+    }
+  ]
+}

@@ -413,6 +413,88 @@ html.congresses-enabled .congress-layer {
   background: var(--congress-band);
 }
 
+.event-markers {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+html.ussr-marker-enabled .event-markers {
+  display: block;
+}
+
+.event-marker {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* USSR dissolution: a solid repeating zigzag cut. Hard mask stops keep a single stroke. */
+.event-marker-ussr {
+  --a: 68deg;
+  --s: 12px;
+  --b: 5px;
+  z-index: 2;
+  background: var(--dissolution);
+  opacity: var(--dissolution-opacity);
+  overflow: visible;
+}
+
+html[data-orientation="horizontal"] .event-marker-ussr {
+  top: 0;
+  bottom: 0;
+  width: calc(var(--b) + var(--s) / (2 * tan(var(--a) / 2)));
+  min-width: 7px;
+  transform: translateX(-50%);
+  --_g: 100% var(--s) repeat-y conic-gradient(
+    from calc(90deg - var(--a) / 2) at left,
+    #0000 0deg,
+    #000 0.2deg calc(var(--a) - 0.2deg),
+    #0000 var(--a)
+  );
+  -webkit-mask: var(--b) 50% / var(--_g) exclude, 0 50% / var(--_g);
+  mask: var(--b) 50% / var(--_g) exclude, 0 50% / var(--_g);
+}
+
+html[data-orientation="vertical"] .event-marker-ussr {
+  left: 0;
+  right: 0;
+  height: calc(var(--b) + var(--s) / (2 * tan(var(--a) / 2)));
+  min-height: 7px;
+  transform: translateY(-50%);
+  --_g: var(--s) 100% repeat-x conic-gradient(
+    from calc(var(--a) / -2) at top,
+    #0000 0deg,
+    #000 0.2deg calc(var(--a) - 0.2deg),
+    #0000 var(--a)
+  );
+  -webkit-mask: 50% var(--b) / var(--_g) exclude, 50% 0 / var(--_g);
+  mask: 50% var(--b) / var(--_g) exclude, 50% 0 / var(--_g);
+}
+
+.event-marker-label {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  padding: 0.05rem 0.28rem;
+  border-radius: 3px;
+}
+
+html[data-orientation="horizontal"] .event-marker-label {
+  top: 0.35rem;
+  left: calc(100% + 0.35rem);
+}
+
+html[data-orientation="vertical"] .event-marker-label {
+  top: calc(100% + 0.15rem);
+  left: 0.45rem;
+}
+
 .country-row {
   position: relative;
   z-index: 1;
@@ -581,11 +663,11 @@ html.admission-year-hidden .country-label:has(.country-admitted) .country-name {
   box-sizing: border-box;
   pointer-events: none;
   z-index: 1;
-  border: 1px dashed rgba(255, 255, 255, 0.7);
+  border: 1px dashed var(--bar-select-stroke, rgba(255, 255, 255, 0.7));
   background: repeating-linear-gradient(
     -45deg,
     transparent 0 8px,
-    rgba(255, 255, 255, 0.38) 8px 9px
+    var(--bar-select-hatch, rgba(255, 255, 255, 0.38)) 8px 9px
   );
 }
 
@@ -595,6 +677,39 @@ html.admission-year-hidden .country-label:has(.country-admitted) .country-name {
   border: none;
   z-index: 3;
   cursor: pointer;
+}
+
+.bar.ruler.split-lane {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chart-bg) 55%, transparent);
+}
+
+/* Continuous stepped reign: full track when alone, narrow only while contested. */
+.bar.ruler.stepped {
+  border-radius: 0;
+  overflow: visible;
+  pointer-events: none;
+  /* Override fixed seat inset/width from .bar.ruler — bbox comes from the path. */
+  left: 0;
+  width: auto;
+}
+
+.bar.ruler.stepped .bar-step-svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: auto;
+  overflow: visible;
+}
+
+.bar.ruler.stepped.selected::after {
+  border-radius: 0;
+  /* Hatch follows the step, while the name is allowed to cross slices. */
+  inset: 0;
+  clip-path: var(--step-clip);
+}
+
+.bar-label.dimmed {
+  opacity: 0.28;
 }
 
 .bar.ruler.focused {

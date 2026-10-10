@@ -1,0 +1,92 @@
+{
+  "id": "lithuania",
+  "name": "Lithuania",
+  "region": "baltic",
+  "flag": "🇱🇹",
+  "sovereignty": {
+    "year": 1989, "month": 5, "day": 18,
+    "act": {
+      "title": "Declaration on the Sovereignty of the Lithuanian SSR"
+    }
+  },
+  "independence": {
+    "year": 1990, "month": 3, "day": 11,
+    "act": {
+      "title": "Act of the Re-Establishment of the State of Lithuania *"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Petras Griškevičius", "role": "First Secretary",
+      "start": 1974, "startMonth": 2, "startDay": 18,
+      "end": 1987, "endMonth": 11, "endDay": 14
+    },
+    {
+      "name": "Ringaudas Songaila", "role": "First Secretary",
+      "start": 1987, "startMonth": 12, "startDay": 1,
+      "end": 1988, "endMonth": 10, "endDay": 19
+    },
+    {
+      "name": "Algirdas Brazauskas", "role": "First Secretary",
+      "start": 1988, "startMonth": 10, "startDay": 20,
+      "end": 1990, "endMonth": 3, "endDay": 11
+    },
+    {
+      "name": "Vytautas Landsbergis", "role": "Chairman, Supreme Council",
+      "start": 1990, "startMonth": 3, "startDay": 11,
+      "end": 1990, "endMonth": 3, "endDay": 11
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Vytautas Landsbergis",
+      "start": 1990, "startMonth": 3, "startDay": 11,
+      "end": 1992, "endMonth": 11, "endDay": 25
+    },
+    {
+      "name": "Algirdas Brazauskas",
+      "start": 1992, "startMonth": 11, "startDay": 25,
+      "end": 1998, "endMonth": 2, "endDay": 26
+    },
+    {
+      "name": "Valdas Adamkus",
+      "start": 1998, "startMonth": 2, "startDay": 26,
+      "end": 2003, "endMonth": 2, "endDay": 26
+    },
+    {
+      "name": "Rolandas Paksas",
+      "start": 2003, "startMonth": 2, "startDay": 26,
+      "end": 2004, "endMonth": 4, "endDay": 6
+    },
+    {
+      "name": "Artūras Paulauskas", "role": "Acting President",
+      "start": 2004, "startMonth": 4, "startDay": 6,
+      "end": 2004, "endMonth": 7, "endDay": 12
+    },
+    {
+      "name": "Valdas Adamkus",
+      "start": 2004, "startMonth": 7, "startDay": 12,
+      "end": 2009, "endMonth": 7, "endDay": 12
+    },
+    {
+      "name": "Dalia Grybauskaitė",
+      "start": 2009, "startMonth": 7, "startDay": 12,
+      "end": 2019, "endMonth": 7, "endDay": 12
+    },
+    {
+      "name": "Gitanas Nausėda",
+      "start": 2019, "startMonth": 7, "startDay": 12,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Singing Revolution",
+      "start": 1987, "end": 1990, "type": "revolution"
+    },
+    {
+      "name": "January Events (Soviet crackdown)",
+      "start": 1991, "end": 1991, "type": "crisis"
+    }
+  ]
+}

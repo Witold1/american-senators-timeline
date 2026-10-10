@@ -1,0 +1,90 @@
+{
+  "id": "ukraine",
+  "name": "Ukraine",
+  "region": "slavic",
+  "flag": "🇺🇦",
+  "sovereignty": {
+    "year": 1990, "month": 7, "day": 16,
+    "act": {
+      "title": "Declaration of State Sovereignty of Ukraine"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 8, "day": 24,
+    "act": {
+      "title": "Act of Declaration of Independence of Ukraine †"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Volodymyr Shcherbytsky", "role": "First Secretary",
+      "start": 1972, "startMonth": 5, "startDay": 25,
+      "end": 1989, "endMonth": 9, "endDay": 28
+    },
+    {
+      "name": "Vladimir Ivashko", "role": "First Secretary",
+      "start": 1989, "startMonth": 9, "startDay": 28,
+      "end": 1990, "endMonth": 6, "endDay": 23
+    },
+    {
+      "name": "Leonid Kravchuk", "role": "Chairman, Supreme Soviet",
+      "start": 1990, "startMonth": 7, "startDay": 23,
+      "end": 1991, "endMonth": 8, "endDay": 24
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Leonid Kravchuk", "role": "Acting President / President",
+      "start": 1991, "startMonth": 8, "startDay": 24,
+      "end": 1994, "endMonth": 7, "endDay": 19
+    },
+    {
+      "name": "Leonid Kuchma",
+      "start": 1994, "startMonth": 7, "startDay": 19,
+      "end": 2005, "endMonth": 1, "endDay": 23
+    },
+    {
+      "name": "Viktor Yushchenko",
+      "start": 2005, "startMonth": 1, "startDay": 23,
+      "end": 2010, "endMonth": 2, "endDay": 25
+    },
+    {
+      "name": "Viktor Yanukovych",
+      "start": 2010, "startMonth": 2, "startDay": 25,
+      "end": 2014, "endMonth": 2, "endDay": 22
+    },
+    {
+      "name": "Oleksandr Turchynov", "role": "Acting President",
+      "start": 2014, "startMonth": 2, "startDay": 23,
+      "end": 2014, "endMonth": 6, "endDay": 7
+    },
+    {
+      "name": "Petro Poroshenko",
+      "start": 2014, "startMonth": 6, "startDay": 7,
+      "end": 2019, "endMonth": 5, "endDay": 20
+    },
+    {
+      "name": "Volodymyr Zelenskyy",
+      "start": 2019, "startMonth": 5, "startDay": 20,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Orange Revolution",
+      "start": 2004, "end": 2005, "type": "revolution"
+    },
+    {
+      "name": "Euromaidan / Revolution of Dignity",
+      "start": 2013, "end": 2014, "type": "revolution"
+    },
+    {
+      "name": "War in Donbas",
+      "start": 2014, "end": 2022, "type": "war"
+    },
+    {
+      "name": "Full-scale invasion",
+      "start": 2022, "end": 2026, "type": "war"
+    }
+  ]
+}

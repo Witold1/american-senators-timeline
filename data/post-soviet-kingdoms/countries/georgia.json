@@ -1,0 +1,95 @@
+{
+  "id": "georgia",
+  "name": "Georgia",
+  "region": "transcaucasus",
+  "flag": "🇬🇪",
+  "sovereignty": {
+    "year": 1990, "month": 5, "day": 26,
+    "act": {
+      "title": "Act on State Sovereignty of Georgia"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 4, "day": 9,
+    "act": {
+      "title": "Act of Restoration of State Independence of Georgia"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Eduard Shevardnadze", "role": "First Secretary",
+      "start": 1972, "startMonth": 9, "startDay": 29,
+      "end": 1985, "endMonth": 7, "endDay": 6
+    },
+    {
+      "name": "Jumber Patiashvili", "role": "First Secretary",
+      "start": 1985, "startMonth": 7, "startDay": 6,
+      "end": 1989, "endMonth": 4, "endDay": 14
+    },
+    {
+      "name": "Givi Gumbaridze", "role": "First Secretary",
+      "start": 1989, "startMonth": 4, "startDay": 14,
+      "end": 1990, "endMonth": 11, "endDay": 14
+    },
+    {
+      "name": "Zviad Gamsakhurdia", "role": "Chairman, Supreme Soviet",
+      "start": 1990, "startMonth": 11, "startDay": 14,
+      "end": 1991, "endMonth": 4, "endDay": 9
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Zviad Gamsakhurdia",
+      "start": 1991, "startMonth": 4, "startDay": 9,
+      "end": 1992, "endMonth": 1, "endDay": 6
+    },
+    {
+      "name": "Military Council", "role": "Kitovani / Ioseliani junta",
+      "start": 1992, "startMonth": 1, "startDay": 6,
+      "end": 1992, "endMonth": 3, "endDay": 10
+    },
+    {
+      "name": "Eduard Shevardnadze", "role": "State Council / President",
+      "start": 1992, "startMonth": 3, "startDay": 10,
+      "end": 2003, "endMonth": 11, "endDay": 23
+    },
+    {
+      "name": "Nino Burjanadze", "role": "Acting President",
+      "start": 2003, "startMonth": 11, "startDay": 23,
+      "end": 2004, "endMonth": 1, "endDay": 25
+    },
+    {
+      "name": "Mikheil Saakashvili",
+      "start": 2004, "startMonth": 1, "startDay": 25,
+      "end": 2013, "endMonth": 11, "endDay": 17
+    },
+    {
+      "name": "Giorgi Margvelashvili",
+      "start": 2013, "startMonth": 11, "startDay": 17,
+      "end": 2018, "endMonth": 12, "endDay": 16
+    },
+    {
+      "name": "Salome Zurabishvili",
+      "start": 2018, "startMonth": 12, "startDay": 16,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Georgian Civil War",
+      "start": 1991, "end": 1993, "type": "war"
+    },
+    {
+      "name": "Abkhazia War",
+      "start": 1992, "end": 1993, "type": "war"
+    },
+    {
+      "name": "Rose Revolution",
+      "start": 2003, "end": 2003, "type": "revolution"
+    },
+    {
+      "name": "Russo-Georgian War",
+      "start": 2008, "end": 2008, "type": "war"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 /**
  * Chip-button UI for view/filter state. Calls TimelineFilters (and palette dataset).
- * Region visibility toggle lives in controls.js and calls onRegionsVisibilityChange.
+ * Region chips are shown when the dataset view includes a region filter.
  */
 (function () {
   const ORDER_STORAGE_KEY = "timeline-order-mode";
@@ -12,9 +12,7 @@
   const COLOR_MODE_STORAGE_KEY = "timeline-color-mode";
   const PALETTE_STORAGE_KEY = "timeline-palette";
   const PALETTE_STORAGE_KEY_LEGACY = "timeline-party-palette";
-  const PALETTES = new Set(["muted", "soft", "vivid"]);
-
-  let regionPreference = "all";
+  const PALETTES = new Set(["muted", "vivid"]);
 
   function filters() {
     return window.TimelineFilters || {};
@@ -27,6 +25,85 @@
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", active ? "true" : "false");
     });
+  }
+
+  /** Hash defaults match data/catalog.json until that file has loaded. */
+  const DATASET_VIEW = {
+    "soviet-states": {
+      orientation: "horizontal",
+      yearOrder: "ascending",
+    },
+    "american-senators": { orientation: "vertical", yearOrder: "descending" },
+  };
+
+  function activeDatasetHash() {
+    const fromData = window.TIMELINE_DATA?.datasetHash;
+    if (fromData) return String(fromData).replace(/^#/, "");
+    return location.hash.replace(/^#/, "") || "american-senators";
+  }
+
+  function resolveDatasetView(entry) {
+    const hash = String(entry?.hash || activeDatasetHash()).replace(/^#/, "") || "american-senators";
+    const known = DATASET_VIEW[hash] || {
+      orientation: "vertical",
+      yearOrder: "descending",
+    };
+    const orientation =
+      entry?.orientation === "horizontal" || entry?.orientation === "vertical"
+        ? entry.orientation
+        : known.orientation;
+    const yearOrder =
+      entry?.yearOrder === "ascending" || entry?.yearOrder === "descending"
+        ? entry.yearOrder
+        : known.yearOrder;
+    const lockOrientation =
+      entry?.lockOrientation === true || known.lockOrientation === true;
+    return {
+      hash,
+      lockOrientation,
+      orientation: lockOrientation
+        ? orientation
+        : readStored(
+            `timeline-orientation:${hash}`,
+            (raw) => (raw === "horizontal" || raw === "vertical" ? raw : null),
+            orientation
+          ),
+      yearOrder: readStored(
+        `timeline-year-order:${hash}`,
+        (raw) => (raw === "ascending" || raw === "descending" ? raw : null),
+        yearOrder
+      ),
+    };
+  }
+
+  function syncOrientationLock(locked) {
+    const layout = document.getElementById("layout-control");
+    if (layout) {
+      layout.hidden = !!locked;
+      layout.setAttribute("aria-hidden", locked ? "true" : "false");
+    }
+    document.documentElement.dataset.orientationLocked = locked ? "true" : "false";
+    if (locked) {
+      try {
+        localStorage.removeItem(`timeline-orientation:${activeDatasetHash()}`);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  function applyDatasetView(entry) {
+    const view = resolveDatasetView(entry);
+    filters().setOrientation?.(view.orientation, { announce: false });
+    filters().setYearOrder?.(view.yearOrder, { announce: false });
+    syncChipGroup(
+      document.getElementById("orientation-switch"),
+      "data-orient",
+      view.orientation
+    );
+    syncYearSort(document.getElementById("year-sort"), view.yearOrder);
+    syncOrientationLock(view.lockOrientation);
+    window.TimelineViewChrome?.apply?.();
   }
 
   function readStored(key, normalize, fallback) {
@@ -92,49 +169,49 @@
 
   function applyRegionFilter() {
     const regionsVisible = document.documentElement.classList.contains("regions-enabled");
-    filters().setRegionFilter?.(regionsVisible ? regionPreference : "all");
+    if (!regionsVisible) {
+      filters().setRegionFilter?.("all");
+    }
+    window.TimelineViewChrome?.syncRegionChips?.();
     window.dispatchEvent(new Event("timeline-debug-refresh"));
   }
 
   function onRegionsVisibilityChange() {
-    syncChipGroup(document.getElementById("region-filter"), "data-region", regionPreference);
     applyRegionFilter();
+    if (document.documentElement.classList.contains("regions-enabled")) {
+      window.TimelineViewChrome?.syncRegionChips?.();
+    }
   }
 
   function initRegionFilter() {
     const root = document.getElementById("region-filter");
-    regionPreference = readStored(
+    const stored = readStored(
       REGION_STORAGE_KEY,
-      (v) =>
-        v === "all" ||
-        v === "northeast" ||
-        v === "midwest" ||
-        v === "south" ||
-        v === "west"
-          ? v
-          : null,
+      (v) => {
+        if (!v || v === "all") return "all";
+        // Legacy single id or comma-separated multi.
+        return String(v);
+      },
       "all"
     );
-
-    syncChipGroup(root, "data-region", regionPreference);
+    if (stored === "all") filters().setRegionFilter?.("all");
+    else filters().setRegionFilter?.(stored.split(",").map((s) => s.trim()).filter(Boolean));
+    window.TimelineViewChrome?.syncRegionChips?.();
     applyRegionFilter();
 
-    if (!root) return;
+    if (!root || root.dataset.bound === "1") return;
+    root.dataset.bound = "1";
 
     root.addEventListener("click", (e) => {
       const btn = e.target.closest?.("[data-region]");
       if (!btn || !root.contains(btn)) return;
       const next = btn.getAttribute("data-region") || "all";
-      regionPreference =
-        next === "northeast" ||
-        next === "midwest" ||
-        next === "south" ||
-        next === "west" ||
-        next === "all"
-          ? next
-          : "all";
-      writeStored(REGION_STORAGE_KEY, regionPreference);
-      syncChipGroup(root, "data-region", regionPreference);
+      const multi = root.dataset.multi !== "0";
+      if (next === "all") filters().setRegionFilter?.("all");
+      else filters().setRegionFilter?.(next, { toggle: multi });
+      const value = filters().getRegionFilter?.() || "all";
+      writeStored(REGION_STORAGE_KEY, value);
+      window.TimelineViewChrome?.syncRegionChips?.();
       applyRegionFilter();
     });
   }
@@ -147,14 +224,17 @@
       btn.setAttribute("aria-pressed", active ? "true" : "false");
       btn.dataset.dir = active ? dir : "asc";
       const label = btn.querySelector(".sort-btn-label")?.textContent || btn.dataset.sort;
-      const dirLabel =
-        btn.dataset.sort === "admitted"
-          ? dir === "desc"
-            ? "latest first"
-            : "earliest first"
-          : dir === "desc"
-            ? "Z to A"
-            : "A to Z";
+      const dateSort =
+        btn.dataset.sort === "admitted" ||
+        btn.dataset.sort === "sovereignty" ||
+        btn.dataset.sort === "independence";
+      const dirLabel = dateSort
+        ? dir === "desc"
+          ? "latest first"
+          : "earliest first"
+        : dir === "desc"
+          ? "Z to A"
+          : "A to Z";
       btn.setAttribute(
         "aria-label",
         active ? `${label}, ${dirLabel}. Click to reverse` : `Sort by ${label}`
@@ -174,12 +254,20 @@
     btn.setAttribute("aria-label", `Years, ${sense}. Click to reverse`);
   }
 
+  function allowedSortIds() {
+    const sorts = window.TIMELINE_DATA?.view?.sorts;
+    if (Array.isArray(sorts) && sorts.length) {
+      return new Set(sorts.map((s) => s.id).filter(Boolean));
+    }
+    return null;
+  }
+
   function initSortControls() {
     const stateRoot = document.getElementById("state-sort");
     const yearBtn = document.getElementById("year-sort");
     const mode = readStored(
       ORDER_STORAGE_KEY,
-      (raw) => (raw === "admitted" || raw === "name" ? raw : null),
+      (raw) => (raw ? String(raw) : null),
       "name"
     );
     const dir = readStored(
@@ -187,35 +275,36 @@
       (raw) => (raw === "asc" || raw === "desc" ? raw : null),
       "asc"
     );
-    const yearOrder = readStored(
-      YEAR_ORDER_STORAGE_KEY,
-      (raw) => (raw === "ascending" || raw === "descending" ? raw : null),
-      "descending"
-    );
+    const yearOrder = resolveDatasetView().yearOrder;
 
     filters().setOrder?.(mode, dir);
     filters().setYearOrder?.(yearOrder, { announce: false });
     syncStateSort(stateRoot, mode, dir);
     syncYearSort(yearBtn, yearOrder);
 
-    stateRoot?.addEventListener("click", (e) => {
-      const btn = e.target.closest?.("[data-sort]");
-      if (!btn || !stateRoot.contains(btn)) return;
-      const key = btn.getAttribute("data-sort");
-      if (key !== "name" && key !== "admitted") return;
-      const current = filters().getOrderMode?.() || "name";
-      const currentDir = filters().getOrderDir?.() || "asc";
-      const nextDir = key === current ? (currentDir === "asc" ? "desc" : "asc") : "asc";
-      writeStored(ORDER_STORAGE_KEY, key);
-      writeStored(ORDER_DIR_STORAGE_KEY, nextDir);
-      filters().setOrder?.(key, nextDir);
-      syncStateSort(stateRoot, key, nextDir);
-    });
+    if (stateRoot && stateRoot.dataset.bound !== "1") {
+      stateRoot.dataset.bound = "1";
+      stateRoot.addEventListener("click", (e) => {
+        const btn = e.target.closest?.("[data-sort]");
+        if (!btn || !stateRoot.contains(btn)) return;
+        const key = btn.getAttribute("data-sort");
+        if (!key) return;
+        const allowed = allowedSortIds();
+        if (allowed && !allowed.has(key)) return;
+        const current = filters().getOrderMode?.() || "name";
+        const currentDir = filters().getOrderDir?.() || "asc";
+        const nextDir = key === current ? (currentDir === "asc" ? "desc" : "asc") : "asc";
+        writeStored(ORDER_STORAGE_KEY, key);
+        writeStored(ORDER_DIR_STORAGE_KEY, nextDir);
+        filters().setOrder?.(key, nextDir);
+        syncStateSort(stateRoot, key, nextDir);
+      });
+    }
 
     yearBtn?.addEventListener("click", () => {
       const current = filters().getYearOrder?.() || "descending";
       const next = current === "ascending" ? "descending" : "ascending";
-      writeStored(YEAR_ORDER_STORAGE_KEY, next);
+      writeStored(`timeline-year-order:${activeDatasetHash()}`, next);
       filters().setYearOrder?.(next, { announce: true });
       syncYearSort(yearBtn, next);
     });
@@ -229,6 +318,7 @@
           localStorage.getItem(PALETTE_STORAGE_KEY) ||
           localStorage.getItem(PALETTE_STORAGE_KEY_LEGACY);
         if (PALETTES.has(stored)) return stored;
+        if (stored) writeStored(PALETTE_STORAGE_KEY, "muted");
       } catch {
         /* ignore */
       }
@@ -262,7 +352,7 @@
   function initTimeRangeFilter() {
     const root = document.getElementById("time-range-filter");
     const geo = () => window.TimelineGeometry || {};
-    const order = () => geo().TIME_RANGE_ORDER || [1700, 1800, 1900, 2000];
+    const order = () => geo().getTimeRangeOrder?.() || geo().TIME_RANGE_ORDER || [1700, 1800, 1900, 2000];
 
     function spanOf(value) {
       return geo().timeRangeSpan?.(value) ?? null;
@@ -333,11 +423,13 @@
       },
       "all"
     );
+    geo().refreshTimeRanges?.();
     const starting = geo().normalizeTimeRangeFilter?.(initial) || "all";
     filters().setTimeRangeFilter?.(starting);
     sync(starting);
 
-    if (!root) return;
+    if (!root || root.dataset.bound === "1") return;
+    root.dataset.bound = "1";
 
     let dragAnchor = null;
     let dragged = false;
@@ -377,19 +469,27 @@
       const clicked = btn.getAttribute("data-time-range") || "all";
       commit(nextSelection(geo().getTimeRangeFilter?.() || "all", clicked));
     });
+
+    window.TimelineFilterControls.syncTimeRangeChips = sync;
   }
 
   function init() {
     initChipSwitch({
       rootId: "orientation-switch",
       attr: "data-orient",
-      storageKey: ORIENT_STORAGE_KEY,
-      fallback: "vertical",
+      storageKey: null,
+      fallback: resolveDatasetView().orientation,
       normalize: (raw) =>
         raw === "horizontal" || raw === "vertical" ? raw : null,
       apply: (orient, { announce }) => {
+        const view = resolveDatasetView();
+        if (view.lockOrientation) orient = view.orientation;
         filters().setOrientation?.(orient, { announce });
         syncChipGroup(document.getElementById("orientation-switch"), "data-orient", orient);
+      },
+      onPersist: (orient) => {
+        if (resolveDatasetView().lockOrientation) return;
+        writeStored(`timeline-orientation:${activeDatasetHash()}`, orient);
       },
     });
 
@@ -400,7 +500,7 @@
       attr: "data-color-mode",
       storageKey: COLOR_MODE_STORAGE_KEY,
       fallback: "party",
-      normalize: (raw) => (raw === "party" || raw === "person" ? raw : null),
+      normalize: (raw) => (raw ? String(raw) : null),
       apply: (mode) => {
         document.documentElement.dataset.colorMode = mode;
         filters().setColorMode?.(mode);
@@ -415,5 +515,10 @@
   window.TimelineFilterControls = {
     init,
     onRegionsVisibilityChange,
+    applyDatasetView,
+    resolveDatasetView,
+    syncStateSort,
+    syncTimeRangeChips: () => {},
+    applyRegionFilter,
   };
 })();

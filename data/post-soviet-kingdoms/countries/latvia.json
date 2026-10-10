@@ -1,0 +1,88 @@
+{
+  "id": "latvia",
+  "name": "Latvia",
+  "region": "baltic",
+  "flag": "🇱🇻",
+  "sovereignty": {
+    "year": 1989, "month": 7, "day": 28,
+    "act": {
+      "title": "Declaration on the Sovereignty of the Latvian SSR *"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 8, "day": 21,
+    "act": {
+      "title": "Constitutional Law on the Statehood of the Republic of Latvia *"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Augusts Voss", "role": "First Secretary",
+      "start": 1966, "startMonth": 4, "startDay": 15,
+      "end": 1984, "endMonth": 4, "endDay": 14
+    },
+    {
+      "name": "Boris Pugo", "role": "First Secretary",
+      "start": 1984, "startMonth": 4, "startDay": 15,
+      "end": 1988, "endMonth": 10, "endDay": 4
+    },
+    {
+      "name": "Jānis Vagris", "role": "First Secretary",
+      "start": 1988, "startMonth": 10, "startDay": 4,
+      "end": 1990, "endMonth": 4, "endDay": 7
+    },
+    {
+      "name": "Alfrēds Rubiks", "role": "First Secretary",
+      "start": 1990, "startMonth": 4, "startDay": 7,
+      "end": 1991, "endMonth": 8, "endDay": 24
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Anatolijs Gorbunovs",
+      "start": 1990, "startMonth": 5, "startDay": 3,
+      "end": 1993, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Guntis Ulmanis",
+      "start": 1993, "startMonth": 7, "startDay": 8,
+      "end": 1999, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Vaira Vīķe-Freiberga",
+      "start": 1999, "startMonth": 7, "startDay": 8,
+      "end": 2007, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Valdis Zatlers",
+      "start": 2007, "startMonth": 7, "startDay": 8,
+      "end": 2011, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Andris Bērziņš",
+      "start": 2011, "startMonth": 7, "startDay": 8,
+      "end": 2015, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Raimonds Vējonis",
+      "start": 2015, "startMonth": 7, "startDay": 8,
+      "end": 2019, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Egils Levits",
+      "start": 2019, "startMonth": 7, "startDay": 8,
+      "end": 2023, "endMonth": 7, "endDay": 8
+    },
+    {
+      "name": "Edgars Rinkēvičs",
+      "start": 2023, "startMonth": 7, "startDay": 8,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Singing Revolution / Barricades",
+      "start": 1987, "end": 1991, "type": "revolution"
+    }
+  ]
+}

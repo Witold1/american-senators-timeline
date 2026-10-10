@@ -1,6 +1,6 @@
 /* Shared layout & typography tokens */
 :root {
-  --accent: #c45c26;
+  --accent: #f4f6f8;
 
   --font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-display: var(--font);
@@ -13,8 +13,8 @@
   --year-tick: 8px;
   --label-h: 156px;
   --year-label-w: 64px;
-  /* Title bar stays at the earlier, shorter measure. The chart uses the wider cap. */
-  --title-max: 1320px;
+  /* Title bar and chart share one page measure. */
+  --title-max: 2400px;
   --page-max: 2400px;
   --state-gap: 4px;
   --seat-gap: 2px;
@@ -44,186 +44,159 @@
   --type-label-tracking: 0.08em;
 }
 
-/* Dark - editorial chart panel (default) */
+/* Dark — ink field, luminous bars, ink type on the bars. */
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #121316;
-  --chart-bg: #181a1f;
-  --chart-bg-alt: #1e2128;
-  --surface: #1c1f24;
-  --surface-2: #252930;
-  --border: #353a44;
-  --border-light: #434956;
-  --text: #f4f2ec;
-  --text-secondary: #c8c4bb;
+  --accent: #f4f6f8;
+
+  --bg: #07080c;
+  --chart-bg: #171d2b;
+  --chart-bg-alt: #1e2636;
+  --surface: #171d2b;
+  --surface-2: #283246;
+  --border: #5e6b82;
+  --border-light: #74829a;
+  --text: #f4f6f8;
+  --text-secondary: #c5cad3;
   --text-muted: var(--text);
 
-  --year-line: rgba(244, 242, 236, 0.055);
-  --year-line-major: rgba(244, 242, 236, 0.2);
-  --year-line-decade: rgba(244, 242, 236, 0.32);
-  --year-line-minor: rgba(244, 242, 236, 0.09);
+  --year-line: rgba(244, 246, 248, 0.1);
+  --year-line-major: rgba(244, 246, 248, 0.36);
+  --year-line-decade: rgba(244, 246, 248, 0.58);
+  --year-line-minor: rgba(244, 246, 248, 0.16);
 
-  --party-democrat: #3d6fa8;
-  --party-republican: #b04a45;
-  --party-whig: #9a7428;
-  --party-federalist: #6a5a8a;
-  --party-democratic-republican: #4d8f7a;
-  --party-independent: #8f8f8a;
-  --party-other: #7a6e5c;
+  --party-democrat: #5b94f0;
+  --party-republican: #ef5d54;
+  --party-whig: #e6b325;
+  --party-federalist: #b794f6;
+  --party-democratic-republican: #3dcf8e;
+  --party-independent: #c5ced8;
+  --party-other: #3ecfbf;
 
-  --row-alt: rgba(255, 255, 255, 0.022);
-  --congress-band: rgba(244, 242, 236, 0.07);
-  --label-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.55);
-  --year-axis-shadow: 8px 0 12px -8px rgba(0, 0, 0, 0.55);
-  --bar-border: rgba(0, 0, 0, 0.22);
-  --bar-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --tooltip-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  --row-alt: rgba(244, 246, 248, 0.045);
+  --congress-band: rgba(244, 246, 248, 0.1);
+  --label-shadow: 0 8px 14px -8px rgba(0, 0, 0, 0.7);
+  --year-axis-shadow: 8px 0 14px -8px rgba(0, 0, 0, 0.7);
+  --bar-border: rgba(7, 8, 12, 0.28);
+  --bar-hover-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  --bar-select-stroke: rgba(7, 8, 12, 0.72);
+  --bar-select-hatch: rgba(7, 8, 12, 0.38);
+  --tooltip-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --dissolution: #ff4d42;
+  --dissolution-opacity: 1;
 
-  --input-bg: #14161a;
+  --input-bg: #10141c;
 
-  --palette-stripe: rgba(0, 0, 0, 0.07);
-  /* Muted senator colors: kazakh-khanate default, dark. */
-  --palette-1: #dd7e73;
-  --palette-2: #ffcc00;
-  --palette-3: #ffffcc;
-  --palette-4: #66cc33;
-  --palette-5: #f0d1e2;
-  --palette-6: #789de5;
-  --palette-7: #c0c0c0;
-  --label-scrim-light-fg: #1c1c1a;
+  --palette-stripe: rgba(7, 8, 12, 0.14);
+  --palette-1: #ef5d54;
+  --palette-2: #e6b325;
+  --palette-3: #3ecfbf;
+  --palette-4: #5b94f0;
+  --palette-5: #3dcf8e;
+  --palette-6: #e07ab0;
+  --palette-7: #b794f6;
+  --label-scrim-light-fg: #12141a;
   --label-scrim-light-bg: transparent;
-  --label-scrim-dark-fg: #f4f2ec;
+  --label-scrim-dark-fg: #f4f6f8;
   --label-scrim-dark-bg: transparent;
-  --bar-label-fixed-fg: #f4f2ec;
+  --bar-label-fixed-fg: #12141a;
 }
 
-/* Light - paper & ink */
+/* Light — cool white sheet on a gray page, deep bars. */
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg: #f3f4f6;
+  --accent: #12141a;
+
+  --bg: #e4e6eb;
   --chart-bg: #ffffff;
-  --chart-bg-alt: #f3f4f6;
+  --chart-bg-alt: #f2f3f6;
   --surface: #ffffff;
-  --surface-2: #eceff1;
-  --border: #d5d8dc;
-  --border-light: #c5c9ce;
-  --text: #1a1c1f;
-  --text-secondary: #3c4046;
+  --surface-2: #e8eaef;
+  --border: #8d94a1;
+  --border-light: #7e8694;
+  --text: #12141a;
+  --text-secondary: #3e4450;
   --text-muted: var(--text);
 
-  --year-line: rgba(28, 28, 26, 0.06);
-  --year-line-major: rgba(28, 28, 26, 0.2);
-  --year-line-decade: rgba(28, 28, 26, 0.32);
-  --year-line-minor: rgba(28, 28, 26, 0.1);
+  --year-line: rgba(18, 20, 26, 0.1);
+  --year-line-major: rgba(18, 20, 26, 0.34);
+  --year-line-decade: rgba(18, 20, 26, 0.55);
+  --year-line-minor: rgba(18, 20, 26, 0.16);
 
-  --party-democrat: #2f5f96;
-  --party-republican: #9a3a36;
-  --party-whig: #8a6820;
-  --party-federalist: #5a4a72;
-  --party-democratic-republican: #3a6f5e;
-  --party-independent: #6f6f6a;
-  --party-other: #6a5e4c;
+  --party-democrat: #1a4f91;
+  --party-republican: #b42318;
+  --party-whig: #7d5200;
+  --party-federalist: #5b3d86;
+  --party-democratic-republican: #1c6b4a;
+  --party-independent: #4c5966;
+  --party-other: #0f5f5a;
 
-  --row-alt: rgba(28, 28, 26, 0.028);
-  --congress-band: rgba(28, 28, 26, 0.07);
-  --label-shadow: 0 8px 12px -8px rgba(28, 28, 26, 0.12);
-  --year-axis-shadow: 8px 0 12px -8px rgba(28, 28, 26, 0.12);
-  --bar-border: rgba(28, 28, 26, 0.14);
-  --bar-hover-shadow: 0 2px 8px rgba(28, 28, 26, 0.14);
-  --tooltip-shadow: 0 6px 24px rgba(28, 28, 26, 0.12);
+  --row-alt: rgba(18, 20, 26, 0.05);
+  --congress-band: rgba(18, 20, 26, 0.09);
+  --label-shadow: 0 8px 14px -8px rgba(18, 20, 26, 0.22);
+  --year-axis-shadow: 8px 0 14px -8px rgba(18, 20, 26, 0.2);
+  --bar-border: rgba(255, 255, 255, 0.28);
+  --bar-hover-shadow: 0 2px 10px rgba(18, 20, 26, 0.18);
+  --bar-select-stroke: rgba(255, 255, 255, 0.88);
+  --bar-select-hatch: rgba(255, 255, 255, 0.42);
+  --tooltip-shadow: 0 8px 28px rgba(18, 20, 26, 0.16);
+  --dissolution: #c81e1e;
+  --dissolution-opacity: 1;
 
   --input-bg: #ffffff;
 
   --palette-stripe: rgba(255, 255, 255, 0.22);
-  /* Muted senator colors: kazakh-khanate default, light. */
-  --palette-1: #dd7e73;
-  --palette-2: #b28e00;
-  --palette-3: #000080;
-  --palette-4: #66cc33;
-  --palette-5: #e1aac6;
-  --palette-6: #789de5;
-  --palette-7: #c0c0c0;
-  --label-scrim-light-fg: #1c1c1a;
+  --palette-1: #a8322a;
+  --palette-2: #8a5600;
+  --palette-3: #1a6e68;
+  --palette-4: #1d4e89;
+  --palette-5: #1f7a46;
+  --palette-6: #a33b72;
+  --palette-7: #5b3d86;
+  --label-scrim-light-fg: #12141a;
   --label-scrim-light-bg: transparent;
-  --label-scrim-dark-fg: #f4f2ec;
+  --label-scrim-dark-fg: #f7f8fa;
   --label-scrim-dark-bg: transparent;
-  --bar-label-fixed-fg: #f4f2ec;
+  --bar-label-fixed-fg: #f7f8fa;
 }
 
 /* Chart color presets (parties + senator slots). Default above = muted. */
 :root[data-palette="vivid"],
 [data-theme="dark"][data-palette="vivid"] {
-  --party-democrat: #00aef3;
-  --party-republican: #e81b23;
-  --party-whig: #f5b800;
-  --party-federalist: #9b59ff;
-  --party-democratic-republican: #00c98a;
-  --party-independent: #b0b0a8;
-  --party-other: #d4a05a;
+  --party-democrat: #4d9bff;
+  --party-republican: #ff5548;
+  --party-whig: #ffc233;
+  --party-federalist: #c49bff;
+  --party-democratic-republican: #3ee6a2;
+  --party-independent: #d7dee8;
+  --party-other: #ff9a3c;
 
-  --palette-1: #ff6b4a;
-  --palette-2: #f5b800;
-  --palette-3: #e8d5a3;
-  --palette-4: #2ecc71;
-  --palette-5: #00aef3;
-  --palette-6: #a78bfa;
-  --palette-7: #ff8ec7;
+  --palette-1: #ff5548;
+  --palette-2: #ffc233;
+  --palette-3: #2ee0cf;
+  --palette-4: #4d9bff;
+  --palette-5: #3ee6a2;
+  --palette-6: #ff7eb3;
+  --palette-7: #c49bff;
 }
 
 [data-theme="light"][data-palette="vivid"] {
-  --party-democrat: #00aef3;
-  --party-republican: #e81b23;
-  --party-whig: #d99800;
-  --party-federalist: #8a4cf0;
-  --party-democratic-republican: #00b078;
-  --party-independent: #8a8a84;
-  --party-other: #c4893a;
+  --party-democrat: #0d5ec4;
+  --party-republican: #d01212;
+  --party-whig: #8f5d00;
+  --party-federalist: #6d28d9;
+  --party-democratic-republican: #0f7a48;
+  --party-independent: #3d4d5c;
+  --party-other: #b33a0a;
 
-  --palette-1: #e85a3c;
-  --palette-2: #d99800;
-  --palette-3: #b89f6a;
-  --palette-4: #1fad5c;
-  --palette-5: #0099d6;
-  --palette-6: #8b6fe0;
-  --palette-7: #e05a9c;
-}
-
-:root[data-palette="soft"],
-[data-theme="dark"][data-palette="soft"] {
-  --party-democrat: #89b6ff;
-  --party-republican: #ec92a1;
-  --party-whig: #e8c87a;
-  --party-federalist: #b8a8e0;
-  --party-democratic-republican: #8fd4b5;
-  --party-independent: #c8c4bc;
-  --party-other: #d0bba0;
-
-  --palette-1: #e8a090;
-  --palette-2: #e0c070;
-  --palette-3: #d4c8b0;
-  --palette-4: #7ec9a0;
-  --palette-5: #89b6ff;
-  --palette-6: #c0b8d8;
-  --palette-7: #9ec4c0;
-}
-
-[data-theme="light"][data-palette="soft"] {
-  --party-democrat: #6a9ef0;
-  --party-republican: #e0788a;
-  --party-whig: #c9a040;
-  --party-federalist: #8f7ab8;
-  --party-democratic-republican: #5aad8a;
-  --party-independent: #9a9690;
-  --party-other: #a89070;
-
-  --palette-1: #d48878;
-  --palette-2: #c9a040;
-  --palette-3: #a89878;
-  --palette-4: #5aad8a;
-  --palette-5: #6a9ef0;
-  --palette-6: #9a8ec0;
-  --palette-7: #7a9e96;
+  --palette-1: #c4231b;
+  --palette-2: #8f5d00;
+  --palette-3: #0e7a72;
+  --palette-4: #0d5ec4;
+  --palette-5: #0f7a48;
+  --palette-6: #b4236a;
+  --palette-7: #6d28d9;
 }

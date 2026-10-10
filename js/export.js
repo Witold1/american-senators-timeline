@@ -68,14 +68,23 @@
   function timelineContentWidth() {
     if (typeof window.getTimelineMetrics === "function") {
       const metrics = window.getTimelineMetrics();
-      const seats = Math.max(visibleSeatCount(), 1);
       const gaps = visibleLayoutGapTotal();
 
       if (metrics.orientation === "horizontal") {
         return metrics.labelWidth + metrics.trackWidth;
       }
 
-      return metrics.yearLabelWidth + seats * metrics.seatWidth + gaps;
+      const tracks = document.querySelectorAll(
+        ".state-group:not(.hidden) .country-track"
+      );
+      let trackTotal = 0;
+      for (const track of tracks) {
+        trackTotal += track.offsetWidth || metrics.seatWidth;
+      }
+      if (!trackTotal) {
+        trackTotal = Math.max(visibleSeatCount(), 1) * metrics.seatWidth;
+      }
+      return metrics.yearLabelWidth + trackTotal + gaps;
     }
     const timelineEl = document.getElementById("timeline");
     return timelineEl?.scrollWidth || 0;
@@ -191,14 +200,21 @@
   }
 
   function insertCaptureHeader(surface) {
+    const data = window.TIMELINE_DATA || {};
+    const title = data.title || data.datasetTitle || "Timeline";
+    const subtitle = data.subtitle || "";
     const header = document.createElement("div");
     header.className = "export-capture-header";
     header.innerHTML = `
       <div class="export-capture-lede">
-        <h2 class="export-capture-title">American Senators</h2>
-        <p class="export-capture-subtitle">Every person who has held a seat in the United States Senate since 1789.</p>
+        <h2 class="export-capture-title"></h2>
+        <p class="export-capture-subtitle"></p>
       </div>
     `;
+    header.querySelector(".export-capture-title").textContent = title;
+    const sub = header.querySelector(".export-capture-subtitle");
+    if (subtitle) sub.textContent = subtitle;
+    else sub.remove();
     surface.insertBefore(header, surface.firstChild);
     return header;
   }

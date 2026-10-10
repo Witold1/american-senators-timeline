@@ -1,0 +1,58 @@
+{
+  "id": "uzbekistan",
+  "name": "Uzbekistan",
+  "region": "central-asia",
+  "flag": "🇺🇿",
+  "sovereignty": {
+    "year": 1990, "month": 6, "day": 20,
+    "act": {
+      "title": "Declaration of Sovereignty of the Uzbek SSR"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 8, "day": 31,
+    "act": {
+      "title": "Law on the Foundations of State Independence of the Republic of Uzbekistan"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Sharof Rashidov", "role": "First Secretary",
+      "start": 1959, "startMonth": 3, "startDay": 15,
+      "end": 1983, "endMonth": 10, "endDay": 31
+    },
+    {
+      "name": "Inamjon Usmonkhojayev", "role": "First Secretary",
+      "start": 1983, "startMonth": 11, "startDay": 3,
+      "end": 1988, "endMonth": 1, "endDay": 12
+    },
+    {
+      "name": "Rafiq Nishanov", "role": "First Secretary",
+      "start": 1988, "startMonth": 1, "startDay": 12,
+      "end": 1989, "endMonth": 6, "endDay": 23
+    },
+    {
+      "name": "Islam Karimov", "role": "First Secretary / President",
+      "start": 1989, "startMonth": 6, "startDay": 23,
+      "end": 1991, "endMonth": 8, "endDay": 31
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Islam Karimov",
+      "start": 1991, "startMonth": 8, "startDay": 31,
+      "end": 2016, "endMonth": 9, "endDay": 2
+    },
+    {
+      "name": "Shavkat Mirziyoyev",
+      "start": 2016, "startMonth": 9, "startDay": 8,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Andijan massacre",
+      "start": 2005, "end": 2005, "type": "regional"
+    }
+  ]
+}

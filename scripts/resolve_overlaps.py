@@ -22,7 +22,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data"
+DATA = ROOT / "data" / "american-senators"
 PROCESSED = DATA / "processed"
 MANUAL_JSON = DATA / "auxiliary" / "senate-manual-service.json"
 MANUAL_TEXT = DATA / "raw" / "senate-manual-104.txt"

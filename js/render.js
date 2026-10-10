@@ -32,6 +32,11 @@
     const unit =
       metrics.orientation === "horizontal" ? metrics.yearWidth : metrics.yearHeight;
     const root = document.documentElement;
+    if (metrics.orientation === "horizontal") {
+      root.style.setProperty("--year-slot", `${unit}px`);
+    } else {
+      root.style.removeProperty("--year-slot");
+    }
     if (ascending) {
       root.style.setProperty(
         "--grid-decade-offset",
@@ -147,19 +152,21 @@
       }
     }
     const horizontalAxis = metrics.orientation === "horizontal";
-    for (const span of congressSpans(metrics)) {
-      const mark = document.createElement("span");
-      mark.className = "congress-mark";
-      mark.title = congressTitle(span.term);
-      mark.textContent = String(span.term.number);
-      if (horizontalAxis) {
-        mark.style.left = `${span.start}px`;
-        mark.style.width = `${span.size}px`;
-      } else {
-        mark.style.top = `${span.start}px`;
-        mark.style.height = `${span.size}px`;
+    if (timelineData().showCongress) {
+      for (const span of congressSpans(metrics)) {
+        const mark = document.createElement("span");
+        mark.className = "congress-mark";
+        mark.title = congressTitle(span.term);
+        mark.textContent = String(span.term.number);
+        if (horizontalAxis) {
+          mark.style.left = `${span.start}px`;
+          mark.style.width = `${span.size}px`;
+        } else {
+          mark.style.top = `${span.start}px`;
+          mark.style.height = `${span.size}px`;
+        }
+        frag.appendChild(mark);
       }
-      frag.appendChild(mark);
     }
     axis.appendChild(frag);
     return axis;
@@ -189,7 +196,7 @@
         <path d="M4 1.25v5.5M2.1 4.6 4 6.75 5.9 4.6" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </span>
-    <span class="axis-corner-label axis-corner-country">State</span>
+    <span class="axis-corner-label axis-corner-country">${labels().escapeHtml(timelineData().entityLabel || "State")}</span>
   `;
     return corner;
   }
@@ -227,7 +234,7 @@
       className,
       palette: barPalette,
       roleLabel,
-      labelMinSpan = 36,
+      showLabel = false,
     } = options;
 
     const leaderKey = normalizeLeaderName(leader.name);
@@ -241,7 +248,7 @@
     bar.dataset.party = leader.party || "";
     bar.dataset.color = barPalette.color;
 
-    if (span > labelMinSpan) {
+    if (showLabel) {
       const lbl = document.createElement("span");
       lbl.className = "bar-label";
       const text = document.createElement("span");
@@ -280,6 +287,9 @@
     );
   }
 
+  /** Inset on each outer end of a reign. Neighbors end up this far apart, twice. */
+  const TERM_EDGE = 2;
+
   /** Map a leader span to pixel start/end along the year axis; returns null if too small. */
   function leaderAxisSpan(leader, metrics, yearToPos) {
     const { start: TIMELINE_START, end: TIMELINE_END } = displayBounds();
@@ -302,43 +312,504 @@
     const start = Math.max(Math.min(a0, a1), lo);
     const end = Math.min(Math.max(a0, a1), hi);
     const span = end - start;
-    if (span < 2) return null;
+    // Allow sub-2px spans; callers inflate with minSpan / stepped stubs.
+    if (span < 0.25) return null;
     return { start, span };
   }
 
-  function renderLeaderBar(track, leader, options) {
+  function trackCrossSize(metrics) {
+    const horizontal = metrics.orientation === "horizontal";
+    const base = horizontal
+      ? metrics.seatHeight || 24
+      : metrics.seatWidth || 24;
+    if (metrics.trackCross != null) return metrics.trackCross;
+    const laneCount = Math.max(1, Number(metrics.laneCount) || 1);
+    return base * laneCount;
+  }
+
+  function crossLayout(leader, metrics, laneGap = 1) {
+    const lane = Math.max(0, Number(leader.lane) || 0);
+    const localLanes = Math.max(1, Number(leader.localLanes) || 1);
+    const trackCross = trackCrossSize(metrics);
+    // Keep outer edges flush with the track so a full-width alone segment and a
+    // half-width contest segment share a continuous outer edge (the sketch).
+    // The gap lives between lanes, not as an inset on both sides.
+    if (localLanes <= 1) {
+      return { cross0: 0, cross1: trackCross, localLanes, trackCross };
+    }
+    const slot = trackCross / localLanes;
+    const gap = Math.max(0, laneGap);
+    const cross0 = lane === 0 ? 0 : lane * slot + gap / 2;
+    const cross1 =
+      lane >= localLanes - 1 ? trackCross : (lane + 1) * slot - gap / 2;
+    return {
+      cross0,
+      cross1: Math.max(cross0 + 2, cross1),
+      localLanes,
+      trackCross,
+    };
+  }
+
+  /** Rounded path for an axis-aligned polygon (outer silhouette of a stepped bar). */
+  function roundedPolygonPath(points, radius) {
+    // Drop zero-length edges first so Q corners stay stable.
+    const cleaned = [];
+    for (const point of points) {
+      const prev = cleaned[cleaned.length - 1];
+      if (
+        prev &&
+        Math.abs(prev.x - point.x) < 0.05 &&
+        Math.abs(prev.y - point.y) < 0.05
+      ) {
+        continue;
+      }
+      cleaned.push(point);
+    }
+    if (
+      cleaned.length > 2 &&
+      Math.abs(cleaned[0].x - cleaned[cleaned.length - 1].x) < 0.05 &&
+      Math.abs(cleaned[0].y - cleaned[cleaned.length - 1].y) < 0.05
+    ) {
+      cleaned.pop();
+    }
+    const n = cleaned.length;
+    if (n < 3) return "";
+    const rMax = Math.max(0, radius);
+    let d = "";
+    for (let i = 0; i < n; i++) {
+      const prev = cleaned[(i - 1 + n) % n];
+      const cur = cleaned[i];
+      const next = cleaned[(i + 1) % n];
+      const inX = cur.x - prev.x;
+      const inY = cur.y - prev.y;
+      const outX = next.x - cur.x;
+      const outY = next.y - cur.y;
+      const inLen = Math.hypot(inX, inY);
+      const outLen = Math.hypot(outX, outY);
+      if (inLen < 1e-6 || outLen < 1e-6) continue;
+      const rr = Math.min(rMax, inLen / 2, outLen / 2);
+      const x1 = cur.x - (inX / inLen) * rr;
+      const y1 = cur.y - (inY / inLen) * rr;
+      const x2 = cur.x + (outX / outLen) * rr;
+      const y2 = cur.y + (outY / outLen) * rr;
+      if (!d) d += `M${x1.toFixed(2)} ${y1.toFixed(2)}`;
+      else d += `L${x1.toFixed(2)} ${y1.toFixed(2)}`;
+      if (rr > 0.05) {
+        d += `Q${cur.x.toFixed(2)} ${cur.y.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`;
+      } else {
+        d += `L${x2.toFixed(2)} ${y2.toFixed(2)}`;
+      }
+    }
+    return d ? `${d}Z` : "";
+  }
+
+  function leaderSegmentBox(leader, metrics, options = {}) {
     const { yearToY, yearToX } = geo();
     const {
-      metrics,
       minSpan = 6,
-      labelMinSpan = 36,
+      laneGap = 1,
+      trimStart = 0,
+      trimEnd = 0,
     } = options;
-
     const horizontal = metrics.orientation === "horizontal";
     const mapped = leaderAxisSpan(
       leader,
       metrics,
       horizontal ? yearToX : yearToY
     );
-    if (!mapped) return;
+    if (!mapped) return null;
+
+    const painted = Math.max(mapped.span, minSpan);
+    let trim0 = trimStart;
+    let trim1 = trimEnd;
+    const maxTrim = Math.max(0, painted - 2);
+    if (trim0 + trim1 > maxTrim && trim0 + trim1 > 0) {
+      const scale = maxTrim / (trim0 + trim1);
+      trim0 *= scale;
+      trim1 *= scale;
+    }
+    const axis0 = mapped.start + trim0;
+    const axis1 = mapped.start + painted - trim1;
+
+    const { cross0, cross1, localLanes } = crossLayout(leader, metrics, laneGap);
+    return { axis0, axis1, cross0, cross1, localLanes, span: axis1 - axis0 };
+  }
+
+  function simplifyAxisAligned(points) {
+    if (points.length < 3) return points;
+    const out = [points[0]];
+    for (let i = 1; i < points.length - 1; i++) {
+      const prev = out[out.length - 1];
+      const cur = points[i];
+      const next = points[i + 1];
+      const colinear =
+        (prev.x === cur.x && cur.x === next.x) ||
+        (prev.y === cur.y && cur.y === next.y);
+      if (!colinear) out.push(cur);
+    }
+    out.push(points[points.length - 1]);
+    return out;
+  }
+
+  /** Snap joints and grow short stubs so stepped boxes form a clean silhouette. */
+  function normalizeSteppedBoxes(boxes) {
+    const ordered = boxes
+      .slice()
+      .sort((a, b) => a.axis0 - b.axis0 || a.axis1 - b.axis1)
+      .map((box) => ({ ...box }));
+    // Resolve gaps and overlaps at every joint.
+    for (let i = 1; i < ordered.length; i++) {
+      const mid = (ordered[i - 1].axis1 + ordered[i].axis0) / 2;
+      ordered[i - 1].axis1 = mid;
+      ordered[i].axis0 = mid;
+    }
+    // Grow short stubs inward so the gap against a neighboring reign stays open.
+    for (let i = 0; i < ordered.length; i++) {
+      const span = ordered[i].axis1 - ordered[i].axis0;
+      if (span >= 2) continue;
+      const need = 2 - span;
+      if (i === 0) ordered[i].axis1 += need;
+      else if (i === ordered.length - 1) ordered[i].axis0 -= need;
+      else {
+        ordered[i].axis0 -= need / 2;
+        ordered[i].axis1 += need / 2;
+      }
+      if (i > 0) ordered[i - 1].axis1 = ordered[i].axis0;
+      if (i < ordered.length - 1) ordered[i + 1].axis0 = ordered[i].axis1;
+      ordered[i].span = ordered[i].axis1 - ordered[i].axis0;
+    }
+    return ordered;
+  }
+
+  /** Build a stepped polygon from contiguous segment boxes (time = axis, lane = cross). */
+  function steppedPolygon(boxes, horizontal) {
+    const ordered = normalizeSteppedBoxes(boxes);
+    const low = [];
+    const high = [];
+    for (const box of ordered) {
+      if (horizontal) {
+        low.push({ x: box.axis0, y: box.cross0 }, { x: box.axis1, y: box.cross0 });
+        high.push({ x: box.axis0, y: box.cross1 }, { x: box.axis1, y: box.cross1 });
+      } else {
+        low.push({ x: box.cross0, y: box.axis0 }, { x: box.cross0, y: box.axis1 });
+        high.push({ x: box.cross1, y: box.axis0 }, { x: box.cross1, y: box.axis1 });
+      }
+    }
+    return simplifyAxisAligned([...low, ...high.slice().reverse()]);
+  }
+
+  function groupLeadersByReign(leaders) {
+    const identity = geo().termIdentity;
+    const groups = [];
+    const byId = new Map();
+    for (const leader of leaders) {
+      const id = identity
+        ? identity(leader)
+        : `${leader.name}|${leader.start}|${leader.end}`;
+      let group = byId.get(id);
+      if (!group) {
+        group = [];
+        byId.set(id, group);
+        groups.push(group);
+      }
+      group.push(leader);
+    }
+    for (const group of groups) {
+      group.sort(
+        (a, b) =>
+          Number(a.start) - Number(b.start) ||
+          (a.startMonth || 1) - (b.startMonth || 1) ||
+          (a.startDay || 1) - (b.startDay || 1)
+      );
+    }
+    return groups;
+  }
+
+  function renderLeaderBar(track, leader, options) {
+    const {
+      metrics,
+      minSpan = 6,
+      laneGap = 1,
+    } = options;
+
+    const horizontal = metrics.orientation === "horizontal";
+    const box = leaderSegmentBox(leader, metrics, {
+      minSpan,
+      laneGap,
+      trimStart: TERM_EDGE,
+      trimEnd: TERM_EDGE,
+    });
+    if (!box) return;
 
     const bar = document.createElement("div");
-    // Leave 1px of track at the chronological start so touching terms separate.
-    // Shrink the box itself, rather than clipping one cap, so a short bar stays a pill.
-    const gap = 1;
-    const ascending = metrics.yearOrder === "ascending";
-    const painted = Math.max(mapped.span, minSpan);
-    const length = Math.max(painted - gap, 2);
-    const inset = painted - length;
     if (horizontal) {
-      bar.style.left = `${mapped.start + (ascending ? inset : 0)}px`;
-      bar.style.width = `${length}px`;
+      bar.style.left = `${box.axis0}px`;
+      bar.style.width = `${box.axis1 - box.axis0}px`;
+      bar.style.top = `${box.cross0}px`;
+      bar.style.height = `${box.cross1 - box.cross0}px`;
     } else {
-      bar.style.top = `${mapped.start + (ascending ? inset : 0)}px`;
-      bar.style.height = `${length}px`;
+      bar.style.top = `${box.axis0}px`;
+      bar.style.height = `${box.axis1 - box.axis0}px`;
+      bar.style.left = `${box.cross0}px`;
+      bar.style.width = `${box.cross1 - box.cross0}px`;
     }
-    appendBarChrome(bar, leader, { ...options, labelMinSpan }, mapped.span);
+
+    appendBarChrome(
+      bar,
+      leader,
+      {
+        ...options,
+        showLabel: labelFits(
+          leader.name,
+          box.span,
+          box.cross1 - box.cross0,
+          horizontal,
+          false
+        ),
+      },
+      box.span
+    );
+    if (box.localLanes > 1) bar.classList.add("split-lane");
     track.appendChild(bar);
+  }
+
+  /**
+   * One continuous stepped shape for a reign that is full-width when alone
+   * and narrow only during the contested window (as in the sketch).
+   */
+  function renderSteppedLeaderBar(track, segments, options) {
+    try {
+      const {
+        metrics,
+        laneGap = 1,
+        palette: barPalette,
+      } = options;
+      const horizontal = metrics.orientation === "horizontal";
+      const ascending = metrics.yearOrder === "ascending";
+      const radius = 4;
+
+      const boxes = [];
+      for (let i = 0; i < segments.length; i++) {
+        const isFirst = i === 0;
+        const isLast = i === segments.length - 1;
+        // Inset only the outer ends of the whole reign, not the step joints.
+        let trimStart = 0;
+        let trimEnd = 0;
+        if (ascending) {
+          if (isFirst) trimStart = TERM_EDGE;
+          if (isLast) trimEnd = TERM_EDGE;
+        } else {
+          if (isFirst) trimEnd = TERM_EDGE;
+          if (isLast) trimStart = TERM_EDGE;
+        }
+        const box = leaderSegmentBox(segments[i], metrics, {
+          minSpan: 0,
+          laneGap,
+          trimStart,
+          trimEnd,
+        });
+        if (box) boxes.push(box);
+      }
+      if (!boxes.length) {
+        for (const segment of segments) renderLeaderBar(track, segment, options);
+        return;
+      }
+      if (boxes.length === 1) {
+        renderLeaderBar(track, segments[0], options);
+        return;
+      }
+
+      const points = steppedPolygon(boxes, horizontal);
+      if (points.length < 3) {
+        for (const segment of segments) renderLeaderBar(track, segment, options);
+        return;
+      }
+
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      for (const point of points) {
+        minX = Math.min(minX, point.x);
+        minY = Math.min(minY, point.y);
+        maxX = Math.max(maxX, point.x);
+        maxY = Math.max(maxY, point.y);
+      }
+      const width = Math.max(maxX - minX, 2);
+      const height = Math.max(maxY - minY, 2);
+      const local = points.map((point) => ({
+        x: point.x - minX,
+        y: point.y - minY,
+      }));
+      const pathD = roundedPolygonPath(local, radius);
+      if (!pathD) {
+        for (const segment of segments) renderLeaderBar(track, segment, options);
+        return;
+      }
+
+      const fill = barPalette?.color || "var(--accent)";
+      const bar = document.createElement("div");
+      bar.style.setProperty("--step-clip", `path('${pathD}')`);
+
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.setAttribute("width", String(width));
+      svg.setAttribute("height", String(height));
+      svg.setAttribute("aria-hidden", "true");
+      svg.classList.add("bar-step-svg");
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathD);
+      path.setAttribute("fill", fill);
+      path.classList.add("bar-step-path");
+      svg.appendChild(path);
+      bar.appendChild(svg);
+
+      const tipLeader = { ...segments[0] };
+      const reign = segments[0].reign;
+      if (reign) {
+        tipLeader.start = reign.start;
+        tipLeader.startMonth = reign.startMonth;
+        tipLeader.startDay = reign.startDay;
+        tipLeader.end = reign.end;
+        tipLeader.endMonth = reign.endMonth;
+        tipLeader.endDay = reign.endDay;
+      }
+
+      const labelBox = fittingLabelBox(boxes, tipLeader.name, horizontal, false);
+
+      appendBarChrome(
+        bar,
+        tipLeader,
+        {
+          ...options,
+          className: "bar ruler stepped",
+          showLabel: Boolean(labelBox),
+        },
+        labelBox?.span || 0
+      );
+      placeSteppedLabel(bar, labelBox, {
+        minX,
+        minY,
+        width,
+        height,
+        horizontal,
+        ascending,
+      });
+      bar.style.background = "transparent";
+      bar.style.setProperty("left", `${minX}px`, "important");
+      bar.style.setProperty("top", `${minY}px`, "important");
+      bar.style.setProperty("width", `${width}px`, "important");
+      bar.style.setProperty("height", `${height}px`, "important");
+      track.appendChild(bar);
+    } catch {
+      for (const segment of segments) renderLeaderBar(track, segment, options);
+    }
+  }
+
+  function sortValue(group, mode) {
+    if (mode === "admitted" || mode === "independence") {
+      return group.independenceDate || group.admitted || "";
+    }
+    if (mode === "sovereignty") {
+      return group.sovereigntyDate || "";
+    }
+    if (!mode || mode === "name") return group.name || "";
+    const raw = group.fields?.[mode];
+    return raw == null ? "" : raw;
+  }
+
+  function compareSortValues(a, b) {
+    const aNum = typeof a === "number" ? a : Number(a);
+    const bNum = typeof b === "number" ? b : Number(b);
+    const numeric =
+      a !== "" && b !== "" && Number.isFinite(aNum) && Number.isFinite(bNum);
+    if (numeric) return aNum - bNum;
+    return String(a).localeCompare(String(b));
+  }
+
+  function measureLabel(text, horizontal, compact) {
+    if (!measureLabel.probe) {
+      const probe = document.createElement("span");
+      probe.setAttribute("aria-hidden", "true");
+      probe.style.position = "absolute";
+      probe.style.left = "-9999px";
+      probe.style.top = "0";
+      probe.style.visibility = "hidden";
+      probe.style.whiteSpace = "nowrap";
+      probe.style.fontFamily = "var(--font-chart)";
+      document.body.appendChild(probe);
+      measureLabel.probe = probe;
+    }
+    const probe = measureLabel.probe;
+    probe.style.fontWeight = "600";
+    if (horizontal) {
+      probe.style.writingMode = "horizontal-tb";
+      probe.style.fontSize = compact ? "0.8rem" : "1rem";
+      probe.style.lineHeight = compact ? "1" : "1.15";
+      probe.style.padding = compact ? "0 4px" : "1px 4px";
+      probe.textContent = text;
+      return { along: probe.offsetWidth, cross: probe.offsetHeight };
+    }
+    probe.style.writingMode = "vertical-rl";
+    probe.style.fontSize = "1rem";
+    probe.style.lineHeight = "1.2";
+    probe.style.padding = "4px 1px";
+    probe.textContent = text;
+    return { along: probe.offsetHeight, cross: probe.offsetWidth };
+  }
+
+  /** A name is drawn only when the whole word fits inside the bar. */
+  function labelFits(name, span, cross, horizontal, compact) {
+    const text = labels().formatLeaderLabel(name);
+    if (!text || span <= 0 || cross <= 0) return false;
+    const size = measureLabel(text, horizontal, compact);
+    return size.along <= span - 10 && size.cross <= cross;
+  }
+
+  function fittingLabelBox(boxes, name, horizontal, compact) {
+    const ranked = boxes.slice().sort((a, b) => b.span - a.span);
+    return (
+      ranked.find((box) =>
+        labelFits(name, box.span, box.cross1 - box.cross0, horizontal, compact)
+      ) || null
+    );
+  }
+
+  /** Keep a stepped-bar name inside the one slice that can hold it. */
+  function placeSteppedLabel(bar, labelBox, frame) {
+    const label = bar.querySelector(".bar-label");
+    if (!label || !labelBox) return;
+    const { minX, minY, width, height, horizontal, ascending } = frame;
+    if (horizontal) {
+      const localLeft = labelBox.axis0 - minX;
+      const localRight = labelBox.axis1 - minX;
+      label.style.top = `${(labelBox.cross0 + labelBox.cross1) / 2 - minY}px`;
+      label.style.maxWidth = `${Math.max(0, localRight - localLeft - 8)}px`;
+      label.style.bottom = "auto";
+      label.style.transform = "translateY(-50%)";
+      if (ascending) {
+        label.style.left = `${localLeft + 4}px`;
+        label.style.right = "auto";
+      } else {
+        label.style.left = "auto";
+        label.style.right = `${Math.max(0, width - localRight + 4)}px`;
+      }
+      return;
+    }
+    const localTop = labelBox.axis0 - minY;
+    const localBottom = labelBox.axis1 - minY;
+    label.style.left = `${(labelBox.cross0 + labelBox.cross1) / 2 - minX}px`;
+    label.style.maxHeight = `${Math.max(0, localBottom - localTop - 8)}px`;
+    label.style.right = "auto";
+    label.style.transform = "translateX(-50%)";
+    if (ascending) {
+      label.style.top = `${localTop + 4}px`;
+      label.style.bottom = "auto";
+    } else {
+      label.style.top = "auto";
+      label.style.bottom = `${Math.max(0, height - localBottom + 4)}px`;
+    }
   }
 
   function seatOverlapsDisplay(seat) {
@@ -353,10 +824,7 @@
     const dir = filters().getOrderDir?.() === "desc" ? -1 : 1;
     const sorted = groups.slice();
     sorted.sort((a, b) => {
-      const primary =
-        orderMode === "admitted"
-          ? (a.admitted || "").localeCompare(b.admitted || "")
-          : a.name.localeCompare(b.name);
+      const primary = compareSortValues(sortValue(a, orderMode), sortValue(b, orderMode));
       if (primary) return primary * dir;
       return a.name.localeCompare(b.name);
     });
@@ -380,6 +848,11 @@
           name: seatStateName(seat),
           region: seat.region,
           admitted: seat.admitted || "",
+          sovereigntyDate: seat.sovereigntyDate || "",
+          independenceDate: seat.independenceDate || seat.admitted || "",
+          sovereignty: seat.sovereignty || null,
+          independence: seat.independence || null,
+          fields: seat.fields || null,
           seats: [],
         };
         byKey.set(key, group);
@@ -387,6 +860,12 @@
       }
       group.seats.push(seat);
       if (!group.admitted && seat.admitted) group.admitted = seat.admitted;
+      if (!group.sovereigntyDate && seat.sovereigntyDate) {
+        group.sovereigntyDate = seat.sovereigntyDate;
+      }
+      if (!group.independenceDate && (seat.independenceDate || seat.admitted)) {
+        group.independenceDate = seat.independenceDate || seat.admitted;
+      }
     }
     return sortStateGroups(groups);
   }
@@ -394,39 +873,67 @@
   function renderSeatTrack(seat, metrics) {
     const { normalizeLeaderName, buildLeaderPaletteMap } = palette();
     const colorMode = filters().getColorMode?.() || "party";
+    const roleLabel = timelineData().roleLabel || "Ruler";
+
+    const laneCount = Math.max(1, Number(seat.laneCount) || 1);
+    // Keep every row/column the same cross size; concurrent rulers still
+    // split inside that shared track via localLanes.
+    const trackLanes = Math.max(
+      1,
+      Number(metrics.trackLaneCount) || laneCount
+    );
+    const horizontal = metrics.orientation === "horizontal";
+    const baseCross = horizontal
+      ? metrics.seatHeight || 24
+      : metrics.seatWidth || 24;
+    const trackCross = baseCross * trackLanes;
+    const seatMetrics = { ...metrics, laneCount, trackCross };
 
     const col = document.createElement("div");
     col.className = "country-row";
     col.dataset.seatId = seat.id;
+    col.dataset.laneCount = String(laneCount);
+    col.dataset.trackLanes = String(trackLanes);
 
     const track = document.createElement("div");
     track.className = "country-track";
-    if (metrics.orientation === "horizontal") {
+    if (horizontal) {
       track.style.width = `${metrics.trackWidth}px`;
-      track.style.height = `${metrics.seatHeight}px`;
+      track.style.height = `${trackCross}px`;
     } else {
+      // Column must match the lane-expanded track, or bars spill into neighbors.
+      col.style.width = `${trackCross}px`;
       track.style.height = `${metrics.trackHeight}px`;
-      track.style.width = `${metrics.seatWidth}px`;
+      track.style.width = `${trackCross}px`;
     }
 
     const leaders = seat.rulers || [];
-    const leaderPalettes = buildLeaderPaletteMap(leaders, colorMode);
+    const leaderPalettes = buildLeaderPaletteMap(leaders, colorMode, seat);
 
-    for (const leader of leaders) {
-      const barPalette = leaderPalettes.get(normalizeLeaderName(leader.name));
-      renderLeaderBar(track, leader, {
-        metrics,
+    for (const group of groupLeadersByReign(leaders)) {
+      const barPalette = leaderPalettes.get(normalizeLeaderName(group[0].name));
+      const barOptions = {
+        metrics: seatMetrics,
         seatName: seat.name,
         className: "bar ruler",
         palette: barPalette,
-        roleLabel: "Senator",
+        roleLabel,
         minSpan: 4,
-        labelMinSpan: metrics.orientation === "horizontal" ? 52 : 64,
-      });
+        laneCount,
+      };
+      if (group.length === 1) {
+        renderLeaderBar(track, group[0], barOptions);
+      } else {
+        renderSteppedLeaderBar(track, group, barOptions);
+      }
     }
 
     col.appendChild(track);
     return col;
+  }
+
+  function dateVerb() {
+    return timelineData().view?.settings?.dateVerb || "Admitted";
   }
 
   function renderStateGroup(group, metrics, groupIndex) {
@@ -437,27 +944,37 @@
     if (groupIndex % 2 === 1) wrap.classList.add("alt");
     wrap.dataset.state = group.key;
     wrap.dataset.region = group.region || "";
+    for (const [key, value] of Object.entries(group.fields || {})) {
+      if (value == null || value === "") continue;
+      wrap.dataset[`fv${key}`] = String(value);
+    }
     if (group.admitted) wrap.dataset.admitted = group.admitted;
 
     const label = document.createElement("div");
     label.className = "country-label";
     const seatNames = group.seats.map((s) => s.name).join(", ");
-    const admittedTitle = group.admitted
-      ? `Admitted ${admissionDateLabel(group.admitted)}`
-      : "";
-    label.title = [seatNames, admittedTitle].filter(Boolean).join(". ");
+    const dateIso = group.independenceDate || group.admitted;
+    const sovereigntyIso = group.sovereigntyDate || "";
+    const tipParts = [seatNames];
+    if (sovereigntyIso) {
+      tipParts.push(`Sovereignty ${admissionDateLabel(sovereigntyIso)}`);
+    }
+    if (dateIso) {
+      tipParts.push(`${dateVerb()} ${admissionDateLabel(dateIso)}`);
+    }
+    label.title = tipParts.filter(Boolean).join(". ");
 
     const name = document.createElement("span");
     name.className = "country-name";
     name.textContent = group.name;
     label.appendChild(name);
 
-    const year = admissionYear(group.admitted);
+    const year = admissionYear(dateIso);
     if (year) {
       const admitted = document.createElement("span");
       admitted.className = "country-admitted";
       admitted.textContent = year;
-      admitted.title = `Admitted ${admissionDateLabel(group.admitted)}`;
+      admitted.title = `${dateVerb()} ${admissionDateLabel(dateIso)}`;
       label.appendChild(admitted);
     }
 
@@ -465,12 +982,47 @@
 
     const seatsRow = document.createElement("div");
     seatsRow.className = "state-seats";
-    seatsRow.appendChild(renderCongressLayer(metrics));
+    if (timelineData().showCongress) {
+      seatsRow.appendChild(renderCongressLayer(metrics));
+    }
     for (const seat of group.seats) {
       seatsRow.appendChild(renderSeatTrack(seat, metrics));
     }
     wrap.appendChild(seatsRow);
     return wrap;
+  }
+
+  function renderEventMarkers(metrics) {
+    const layer = document.createElement("div");
+    layer.className = "event-markers";
+    layer.setAttribute("aria-hidden", "true");
+    const ussr = timelineData().USSR_DISSOLVED;
+    const showUssr =
+      ussr?.year &&
+      document.documentElement.classList.contains("ussr-marker-enabled");
+    if (!showUssr) return layer;
+
+    const horizontal = metrics.orientation === "horizontal";
+    const mark = document.createElement("div");
+    mark.className = "event-marker event-marker-ussr";
+    const label = "USSR dissolved · 26 Dec 1991";
+    mark.title = label;
+    const y = Number(ussr.year);
+    const m = Number(ussr.month) || 12;
+    const d = Number(ussr.day) || 26;
+    if (horizontal) {
+      const x = geo().yearToX(y, m, d, metrics);
+      mark.style.left = `${x}px`;
+    } else {
+      const top = geo().yearToY(y, m, d, metrics);
+      mark.style.top = `${top}px`;
+    }
+    const caption = document.createElement("span");
+    caption.className = "event-marker-label";
+    caption.textContent = "USSR ends";
+    mark.appendChild(caption);
+    layer.appendChild(mark);
+    return layer;
   }
 
   function metricsKey(metrics) {
@@ -490,6 +1042,44 @@
     ].join("|");
   }
 
+  /** Horizontal name column matches the longest country name, not a fixed wide gutter. */
+  function fitCountryColumn(orientation) {
+    const root = document.documentElement;
+    if (orientation !== "horizontal") {
+      root.style.removeProperty("--label-w");
+      return;
+    }
+    let max = 0;
+    timelineEl.querySelectorAll(".country-name").forEach((name) => {
+      max = Math.max(max, name.scrollWidth);
+    });
+    const width = Math.max(72, Math.ceil(max + 16));
+    root.style.setProperty("--label-w", `${width}px`);
+  }
+
+  function naturalTrackWidth() {
+    const { start, end } = displayBounds();
+    if (start == null || end == null) return 0;
+    const years = end - start + 1;
+    const base =
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--year-w")) || 20;
+    return years > 0 ? years * base : 0;
+  }
+
+  /** Stretch the year axis to the panel when the natural timeline is narrower. */
+  function horizontalTrackTarget() {
+    if (geo().getOrientation?.() !== "horizontal") return null;
+    const clip = document.querySelector(".timeline-scroll-clip");
+    if (!clip || clip.clientWidth < 80) return null;
+    const natural = naturalTrackWidth();
+    if (!natural) return null;
+    const labelW =
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--label-w")) || 0;
+    const available = clip.clientWidth - labelW;
+    if (available <= natural + 1) return null;
+    return available;
+  }
+
   function render() {
     const list = seats();
     if (!list.length) return;
@@ -498,7 +1088,12 @@
 
     const t0 = performance.now();
     filters().resetSeatIndexes?.();
+    geo().setFilledTrackWidth?.(horizontalTrackTarget());
     const metrics = getMetrics();
+    metrics.trackLaneCount = Math.max(
+      1,
+      ...list.map((seat) => Math.max(1, Number(seat.laneCount) || 1))
+    );
     applyYearGridOffsets(metrics);
     window.__timelineMetricsKey = metricsKey(metrics);
     const groups = groupSeatsByState(list);
@@ -508,12 +1103,14 @@
 
     const body = document.createElement("div");
     body.className = "timeline-body";
+    body.style.position = "relative";
 
     const frag = document.createDocumentFragment();
     for (const [index, group] of groups.entries()) {
       frag.appendChild(renderStateGroup(group, metrics, index));
     }
     body.appendChild(frag);
+    body.appendChild(renderEventMarkers(metrics));
 
     if (metrics.orientation === "horizontal") {
       main.appendChild(renderAxisRow(metrics));
@@ -525,6 +1122,19 @@
 
     timelineEl.replaceChildren(main);
     timelineEl.style.position = "relative";
+    fitCountryColumn(metrics.orientation);
+
+    if (!render.fitting && metrics.orientation === "horizontal") {
+      const next = horizontalTrackTarget();
+      const desired = next || naturalTrackWidth();
+      if (Math.abs(desired - metrics.trackWidth) > 1) {
+        render.fitting = true;
+        geo().setFilledTrackWidth?.(next);
+        render();
+        render.fitting = false;
+        return;
+      }
+    }
 
     filters().applyFilters?.();
     window.__lastTimelineRenderMs = performance.now() - t0;

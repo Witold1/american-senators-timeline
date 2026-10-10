@@ -1,0 +1,79 @@
+{
+  "id": "russia",
+  "name": "Russia",
+  "region": "slavic",
+  "flag": "🇷🇺",
+  "sovereignty": {
+    "year": 1990, "month": 6, "day": 12,
+    "act": {
+      "title": "Declaration on State Sovereignty of the RSFSR"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 12, "day": 12,
+    "act": {
+      "title": "Belovezha Accords 08.12.1991 and the Alma-Ata Declaration (21 Dec 1991) †"
+    },
+    "notes": [
+      "No independence act."
+    ]
+  },
+  "sovietLeaders": [
+    {
+      "name": "Mikhail Yasnov", "role": "Chairman, RSFSR Supreme Soviet",
+      "start": 1966, "startMonth": 12, "startDay": 23,
+      "end": 1985, "endMonth": 3, "endDay": 26
+    },
+    {
+      "name": "Vladimir Orlov", "role": "Chairman, RSFSR Supreme Soviet",
+      "start": 1985, "startMonth": 3, "startDay": 26,
+      "end": 1988, "endMonth": 10, "endDay": 2
+    },
+    {
+      "name": "Vitaly Vorotnikov", "role": "Chairman, RSFSR Supreme Soviet",
+      "start": 1988, "startMonth": 10, "startDay": 3,
+      "end": 1990, "endMonth": 5, "endDay": 28
+    },
+    {
+      "name": "Boris Yeltsin", "role": "Chairman / RSFSR President",
+      "start": 1990, "startMonth": 5, "startDay": 29,
+      "end": 1991, "endMonth": 12, "endDay": 25
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Boris Yeltsin",
+      "start": 1991, "startMonth": 7, "startDay": 10,
+      "end": 1999, "endMonth": 12, "endDay": 31
+    },
+    {
+      "name": "Vladimir Putin",
+      "start": 1999, "startMonth": 12, "startDay": 31,
+      "end": 2008, "endMonth": 5, "endDay": 6
+    },
+    {
+      "name": "Dmitry Medvedev",
+      "start": 2008, "startMonth": 5, "startDay": 7,
+      "end": 2012, "endMonth": 5, "endDay": 6
+    },
+    {
+      "name": "Vladimir Putin",
+      "start": 2012, "startMonth": 5, "startDay": 7,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "1993 Constitutional Crisis",
+      "start": 1993, "end": 1993, "type": "crisis"
+    },
+    {
+      "name": "First Chechen War",
+      "start": 1994, "end": 1996, "type": "war"
+    },
+    {
+      "name": "Second Chechen War",
+      "start": 1999, "end": 2009, "type": "war"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "turkmenistan",
+  "name": "Turkmenistan",
+  "region": "central-asia",
+  "flag": "🇹🇲",
+  "sovereignty": {
+    "year": 1990, "month": 8, "day": 22,
+    "act": {
+      "title": "Declaration of Sovereignty of the Turkmen SSR"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 10, "day": 27,
+    "act": {
+      "title": "Constitutional Law on Independence and Foundations of the State System of Turkmenistan"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Muhammetnazar Gapurow", "role": "First Secretary",
+      "start": 1969, "startMonth": 12, "startDay": 24,
+      "end": 1985, "endMonth": 12, "endDay": 21
+    },
+    {
+      "name": "Saparmurat Niyazov", "role": "First Secretary / President",
+      "start": 1985, "startMonth": 12, "startDay": 21,
+      "end": 1991, "endMonth": 10, "endDay": 27
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Saparmurat Niyazov",
+      "start": 1991, "startMonth": 10, "startDay": 27,
+      "end": 2006, "endMonth": 12, "endDay": 21
+    },
+    {
+      "name": "Gurbanguly Berdimuhamedow", "role": "Acting President / President",
+      "start": 2006, "startMonth": 12, "startDay": 21,
+      "end": 2022, "endMonth": 3, "endDay": 19
+    },
+    {
+      "name": "Serdar Berdimuhamedow",
+      "start": 2022, "startMonth": 3, "startDay": 19,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": []
+}

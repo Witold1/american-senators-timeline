@@ -1,0 +1,86 @@
+{
+  "id": "kyrgyzstan",
+  "name": "Kyrgyzstan",
+  "region": "central-asia",
+  "flag": "🇰🇬",
+  "sovereignty": {
+    "year": 1990, "month": 12, "day": 15,
+    "act": {
+      "title": "Declaration on State Sovereignty of the Kyrgyz Republic"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 8, "day": 31,
+    "act": {
+      "title": "Declaration of Independence of the Republic of Kyrgyzstan"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Turdakun Usubaliyev", "role": "First Secretary",
+      "start": 1961, "startMonth": 5, "startDay": 9,
+      "end": 1985, "endMonth": 11, "endDay": 2
+    },
+    {
+      "name": "Absamat Masaliyev", "role": "First Secretary",
+      "start": 1985, "startMonth": 11, "startDay": 2,
+      "end": 1990, "endMonth": 10, "endDay": 27
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Askar Akayev", "role": "President",
+      "start": 1990, "startMonth": 10, "startDay": 27,
+      "end": 2005, "endMonth": 3, "endDay": 24
+    },
+    {
+      "name": "Kurmanbek Bakiyev",
+      "start": 2005, "startMonth": 3, "startDay": 25,
+      "end": 2010, "endMonth": 4, "endDay": 7
+    },
+    {
+      "name": "Roza Otunbayeva", "role": "Acting President",
+      "start": 2010, "startMonth": 4, "startDay": 7,
+      "end": 2011, "endMonth": 12, "endDay": 1
+    },
+    {
+      "name": "Almazbek Atambayev",
+      "start": 2011, "startMonth": 12, "startDay": 1,
+      "end": 2017, "endMonth": 11, "endDay": 24
+    },
+    {
+      "name": "Sooronbay Jeenbekov",
+      "start": 2017, "startMonth": 11, "startDay": 24,
+      "end": 2020, "endMonth": 10, "endDay": 15
+    },
+    {
+      "name": "Sadyr Japarov", "role": "Acting President",
+      "start": 2020, "startMonth": 10, "startDay": 15,
+      "end": 2020, "endMonth": 11, "endDay": 14
+    },
+    {
+      "name": "Talant Mamytov", "role": "Acting President",
+      "start": 2020, "startMonth": 11, "startDay": 14,
+      "end": 2021, "endMonth": 1, "endDay": 28
+    },
+    {
+      "name": "Sadyr Japarov",
+      "start": 2021, "startMonth": 1, "startDay": 28,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Tulip Revolution",
+      "start": 2005, "end": 2005, "type": "revolution"
+    },
+    {
+      "name": "2010 Revolution / ethnic violence",
+      "start": 2010, "end": 2010, "type": "revolution"
+    },
+    {
+      "name": "2020 post-election unrest",
+      "start": 2020, "end": 2020, "type": "protest"
+    }
+  ]
+}

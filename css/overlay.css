@@ -137,7 +137,7 @@
 }
 
 [data-theme="light"] .tooltip-drawer-sheet {
-  box-shadow: 0 -8px 28px rgba(28, 28, 26, 0.16);
+  box-shadow: 0 -8px 28px rgba(18, 20, 26, 0.18);
 }
 
 .tooltip-drawer-toggle {
@@ -199,7 +199,7 @@
 .debug-section {
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: 0 0 2rem;
+  padding: 0 1rem 2rem;
 }
 
 .debug-section-inner {

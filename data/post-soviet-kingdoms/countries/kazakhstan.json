@@ -1,0 +1,57 @@
+{
+  "id": "kazakhstan",
+  "name": "Kazakhstan",
+  "region": "central-asia",
+  "flag": "🇰🇿",
+  "sovereignty": {
+    "year": 1990, "month": 10, "day": 25,
+    "act": {
+      "title": "Declaration on State Sovereignty of the Kazakh SSR"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 12, "day": 16,
+    "act": {
+      "title": "Constitutional Law on State Independence of the Republic of Kazakhstan"
+    }
+  },
+  "sovietLeaders": [
+    {
+      "name": "Dinmukhamed Kunaev", "role": "First Secretary",
+      "start": 1964, "startMonth": 12, "startDay": 7,
+      "end": 1986, "endMonth": 12, "endDay": 16
+    },
+    {
+      "name": "Gennady Kolbin", "role": "First Secretary",
+      "start": 1986, "startMonth": 12, "startDay": 16,
+      "end": 1989, "endMonth": 6, "endDay": 22
+    },
+    {
+      "name": "Nursultan Nazarbayev", "role": "First Secretary / President",
+      "start": 1989, "startMonth": 6, "startDay": 22,
+      "end": 1991, "endMonth": 12, "endDay": 16
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Nursultan Nazarbayev",
+      "start": 1991, "startMonth": 12, "startDay": 16,
+      "end": 2019, "endMonth": 3, "endDay": 19
+    },
+    {
+      "name": "Kassym-Jomart Tokayev",
+      "start": 2019, "startMonth": 3, "startDay": 20,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Zhanaozen massacre",
+      "start": 2011, "end": 2011, "type": "regional"
+    },
+    {
+      "name": "Bloody January",
+      "start": 2022, "end": 2022, "type": "protest"
+    }
+  ]
+}

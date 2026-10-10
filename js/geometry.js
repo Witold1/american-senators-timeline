@@ -8,19 +8,69 @@
   const DEFAULT_END_DAY = 15;
 
   let themeVarsCache = null;
+  /** Horizontal track width when the chart is stretched to the panel. */
+  let filledTrackWidth = null;
   /** "all", one range ("1800"), or an inclusive span ("1800-2000"). */
   let timeRangeFilter = "all";
   /** "descending" = present first along the axis; "ascending" = past first. */
   let yearOrder = "descending";
 
-  const TIME_RANGE_ORDER = Object.freeze([1700, 1800, 1900, 2000]);
-
-  const TIME_RANGE_BOUNDS = {
+  let TIME_RANGE_ORDER = [1700, 1800, 1900, 2000];
+  let TIME_RANGE_BOUNDS = {
     1700: { start: 1700, end: 1799 },
     1800: { start: 1800, end: 1899 },
     1900: { start: 1900, end: 1999 },
     2000: { start: 2000, end: 2099 },
   };
+
+  function dataBounds() {
+    const data = window.TIMELINE_DATA || {};
+    return {
+      start: data.TIMELINE_START,
+      end: data.TIMELINE_END,
+    };
+  }
+
+  /** Centuries for long spans, decades when the chart covers ≤80 years. */
+  function computeTimeRanges(start, end) {
+    const s = Number(start);
+    const e = Number(end);
+    if (!Number.isFinite(s) || !Number.isFinite(e) || e < s) {
+      return {
+        order: [1700, 1800, 1900, 2000],
+        bounds: {
+          1700: { start: 1700, end: 1799 },
+          1800: { start: 1800, end: 1899 },
+          1900: { start: 1900, end: 1999 },
+          2000: { start: 2000, end: 2099 },
+        },
+      };
+    }
+    const step = e - s <= 80 ? 10 : 100;
+    const lo = Math.floor(s / step) * step;
+    const hi = Math.floor(e / step) * step;
+    const order = [];
+    const bounds = {};
+    for (let y = lo; y <= hi; y += step) {
+      order.push(y);
+      bounds[y] = { start: y, end: y + step - 1 };
+    }
+    return { order, bounds };
+  }
+
+  function refreshTimeRanges() {
+    const { start, end } = dataBounds();
+    const next = computeTimeRanges(start, end);
+    TIME_RANGE_ORDER = next.order;
+    TIME_RANGE_BOUNDS = next.bounds;
+    const normalized = normalizeTimeRangeFilter(timeRangeFilter);
+    if (normalized !== timeRangeFilter) timeRangeFilter = normalized;
+    return TIME_RANGE_ORDER;
+  }
+
+  function getTimeRangeOrder() {
+    return TIME_RANGE_ORDER;
+  }
 
   function formatTimeRangeFilter(lo, hi) {
     const a = Math.min(Number(lo), Number(hi));
@@ -52,14 +102,6 @@
     return { lo, hi: b == null ? lo : Number(b) };
   }
 
-  function dataBounds() {
-    const data = window.TIMELINE_DATA || {};
-    return {
-      start: data.TIMELINE_START,
-      end: data.TIMELINE_END,
-    };
-  }
-
   function getTimeRangeFilter() {
     return timeRangeFilter;
   }
@@ -75,9 +117,12 @@
     const full = dataBounds();
     const span = timeRangeSpan();
     if (!span || full.start == null || full.end == null) return full;
+    const loBound = TIME_RANGE_BOUNDS[span.lo];
+    const hiBound = TIME_RANGE_BOUNDS[span.hi];
+    if (!loBound || !hiBound) return full;
     return {
-      start: Math.max(full.start, TIME_RANGE_BOUNDS[span.lo].start),
-      end: Math.min(full.end, TIME_RANGE_BOUNDS[span.hi].end),
+      start: Math.max(full.start, loBound.start),
+      end: Math.min(full.end, hiBound.end),
     };
   }
 
@@ -135,14 +180,17 @@
     const orientation = getOrientation();
 
     if (orientation === "horizontal") {
+      const natural = years * vars.yearWidth;
+      const trackWidth =
+        filledTrackWidth && filledTrackWidth > natural ? filledTrackWidth : natural;
       return {
         orientation,
         yearOrder,
-        yearWidth: vars.yearWidth,
+        yearWidth: trackWidth / years,
         seatHeight: vars.seatHeight,
         labelWidth: vars.labelWidth,
         axisHeight: vars.axisHeight,
-        trackWidth: years * vars.yearWidth,
+        trackWidth,
       };
     }
 
@@ -207,30 +255,32 @@
   }
 
   function leaderDateLabel(leader) {
+    const span = leader.reign || leader;
     return dateLabel(
-      leader.start,
-      leader.end,
-      { month: leader.startMonth, day: leader.startDay },
-      { month: leader.endMonth, day: leader.endDay }
+      span.start,
+      span.end,
+      { month: span.startMonth, day: span.startDay },
+      { month: span.endMonth, day: span.endDay }
     );
   }
 
   function leaderServiceSpan(leader) {
     const { end: timelineEnd } = dataBounds();
+    const span = leader.reign || leader;
     const start = new Date(
-      leader.start,
-      (leader.startMonth || 1) - 1,
-      leader.startDay || 1
+      span.start,
+      (span.startMonth || 1) - 1,
+      span.startDay || 1
     );
 
     let end;
-    if (leader.end >= timelineEnd) {
+    if (span.end >= timelineEnd) {
       end = new Date();
     } else {
       end = new Date(
-        leader.end,
-        (leader.endMonth || 12) - 1,
-        leader.endDay || DEFAULT_END_DAY
+        span.end,
+        (span.endMonth || 12) - 1,
+        span.endDay || DEFAULT_END_DAY
       );
     }
 
@@ -279,6 +329,19 @@
     return `name:${String(leader.name || "").trim().toLowerCase()}`;
   }
 
+  function termIdentity(leader) {
+    const span = leader.reign || leader;
+    return [
+      personKey(leader),
+      span.start,
+      span.startMonth || 1,
+      span.startDay || 1,
+      span.end,
+      span.endMonth || 12,
+      span.endDay || DEFAULT_END_DAY,
+    ].join("|");
+  }
+
   function termsForLeader(leader) {
     if (!termIndex) {
       termIndex = new Map();
@@ -286,9 +349,12 @@
       for (const seat of seats) {
         for (const ruler of seat.rulers || []) {
           const key = personKey(ruler);
-          const list = termIndex.get(key);
-          if (list) list.push(ruler);
-          else termIndex.set(key, [ruler]);
+          const id = termIdentity(ruler);
+          const list = termIndex.get(key) || [];
+          if (!list.some((term) => termIdentity(term) === id)) {
+            list.push(ruler);
+          }
+          termIndex.set(key, list);
         }
       }
     }
@@ -297,7 +363,8 @@
 
   function isCurrentTerm(leader) {
     const { end } = dataBounds();
-    return end != null && leader.end >= end;
+    const span = leader.reign || leader;
+    return end != null && span.end >= end;
   }
 
   function sumServiceSpans(leaders) {
@@ -372,8 +439,14 @@
     }
   }
 
+  function setFilledTrackWidth(px) {
+    const next = Number(px);
+    filledTrackWidth = Number.isFinite(next) && next > 0 ? next : null;
+  }
+
   function invalidateLayoutCache() {
     themeVarsCache = null;
+    filledTrackWidth = null;
   }
 
   /** Clears layout + color caches (theme changes). */
@@ -386,6 +459,7 @@
     DEFAULT_END_DAY,
     getOrientation,
     getMetrics,
+    setFilledTrackWidth,
     timelineBounds,
     dataBounds,
     getTimeRangeFilter,
@@ -393,7 +467,11 @@
     normalizeTimeRangeFilter,
     formatTimeRangeFilter,
     timeRangeSpan,
-    TIME_RANGE_ORDER,
+    refreshTimeRanges,
+    getTimeRangeOrder,
+    get TIME_RANGE_ORDER() {
+      return TIME_RANGE_ORDER;
+    },
     getYearOrder,
     setYearOrder,
     yearToY,
@@ -402,6 +480,8 @@
     congressOrdinal,
     dateLabel,
     leaderDateLabel,
+    termIdentity,
+    personKey,
     leaderYearsServedLabel,
     leaderDaysServedLabel,
     serviceFiguresLabel,

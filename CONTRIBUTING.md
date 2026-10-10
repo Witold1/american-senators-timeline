@@ -12,11 +12,11 @@ Visualization and web improvements are welcome. Data corrections and regeneratio
    python scripts/import_senators.py
    ```
 
-   Or edit a file under `data/processed/seats/` (or `data/auxiliary/meta.json`) for a targeted fix.
-3. Note material changes in `data/CHANGELOG.md`.
+   Or edit a file under `data/american-senators/processed/seats/` (or `data/american-senators/auxiliary/meta.json`) for a targeted fix.
+3. Note material changes in `data/american-senators/CHANGELOG.md`.
 4. Open a pull request with a short explanation and sources where possible.
 
-Schema and field notes: [`data/README.md`](data/README.md).
+Schema and field notes: [`data/README.md`](data/README.md), [`data/american-senators/README.md`](data/american-senators/README.md).
 
 ### Local check
 

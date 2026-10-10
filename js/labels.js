@@ -69,11 +69,11 @@
   }
 
   function refreshBarLabels() {
-    document.querySelectorAll(".bar[data-name] .bar-label-text").forEach((el) => {
-      const bar = el.closest(".bar");
-      const name = bar?.dataset.name;
+    document.querySelectorAll(".bar-label-text").forEach((el) => {
+      const host = el.closest("[data-name]");
+      const name = host?.dataset.name;
       if (name) el.textContent = formatLeaderLabel(name);
-      applyBarLabelColors(el, bar?.dataset.color || "");
+      applyBarLabelColors(el, host?.dataset.color || "");
     });
   }
 

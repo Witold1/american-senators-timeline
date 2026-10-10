@@ -2,10 +2,11 @@
 """
 Import U.S. Senate seat timelines from unitedstates/congress-legislators.
 
-Reads legislators-current.yaml and legislators-historical.yaml from data/raw/,
-buckets federal Senate terms by (state, class), merges contiguous service by
-the same person, applies Senate Manual date repair, and writes the chart files
-to data/processed/. Timeline bounds stay in data/auxiliary/meta.json.
+Reads legislators-current.yaml and legislators-historical.yaml from
+data/american-senators/raw/, buckets federal Senate terms by (state, class),
+merges contiguous service by the same person, applies Senate Manual date repair,
+and writes the chart files to data/american-senators/processed/. Timeline bounds
+stay in data/american-senators/auxiliary/meta.json.
 """
 
 from __future__ import annotations
@@ -24,7 +25,7 @@ except ImportError:
     raise SystemExit(1)
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data"
+DATA = ROOT / "data" / "american-senators"
 RAW = DATA / "raw"
 AUXILIARY = DATA / "auxiliary"
 PROCESSED = DATA / "processed"
@@ -262,7 +263,7 @@ GAP_TOLERANCE = timedelta(days=31)
 
 
 def fetch_yaml(url: str, dest: Path):
-    """Use the YAML already saved in data/raw. Download only if that file is missing."""
+    """Use the YAML already saved in data/american-senators/raw. Download only if missing."""
     if dest.exists() and dest.stat().st_size > 0:
         print(f"Using saved {dest.name}")
         return yaml.safe_load(dest.read_bytes())
@@ -458,6 +459,14 @@ def main() -> int:
         {
             "TIMELINE_START": TIMELINE_START,
             "TIMELINE_END": TIMELINE_END,
+            "exclusive": True,
+            "showCongress": True,
+            "entityLabel": "State",
+            "roleLabel": "Senator",
+            "title": "American Senators",
+            "subtitle": (
+                "Every person who has held a seat in the United States Senate since 1789."
+            ),
         },
     )
 

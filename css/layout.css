@@ -18,7 +18,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Header. Shorter than the chart, at the earlier title measure. */
+/* Header. Same max width as the chart. */
 .header {
   position: sticky;
   top: 0;
@@ -35,7 +35,9 @@ body {
 
 .title-block {
   min-width: 0;
-  max-width: 40em;
+  max-width: 56em;
+  margin-inline: auto;
+  text-align: center;
 }
 
 .title-block h1 {
@@ -50,14 +52,14 @@ body {
 }
 
 .subtitle {
-  margin: 0.35rem 0 0;
+  margin: 0.35rem auto 0;
   font-family: var(--font);
   font-size: var(--type-lead-size);
   font-weight: 400;
   line-height: 1.45;
   letter-spacing: var(--type-body-tracking);
   color: var(--text-secondary);
-  max-width: 36em;
+  max-width: 52em;
 }
 
 .settings-control {
@@ -80,37 +82,53 @@ body {
 /* Theme bar sits above the sticky header */
 .theme-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  gap: 1.25rem;
   max-width: var(--page-max);
   margin: 0 auto;
   padding: 0.55rem 1rem 0.2rem;
 }
 
-.theme-switcher {
+.dataset-switcher {
   display: inline-flex;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.4rem;
   margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
 }
 
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 0 auto;
+  padding: 0.16rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+}
+
+.dataset-switcher[hidden] {
+  display: none;
+}
+
 .theme-btn {
+  appearance: none;
   position: relative;
   margin: 0;
-  padding: 0.2rem 0.45rem;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
   color: var(--text);
   font: inherit;
   font-size: 1rem;
   font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: normal;
+  text-transform: none;
   line-height: 1.2;
   cursor: pointer;
 }
@@ -118,6 +136,7 @@ body {
 .theme-btn:hover,
 .theme-btn:focus-visible {
   outline: none;
+  border-color: var(--border-light);
   color: var(--text);
 }
 
@@ -125,8 +144,28 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-.theme-btn.is-active {
-  font-style: normal;
+.theme-btn.is-active,
+.theme-btn[aria-pressed="true"] {
+  background: var(--surface-2);
+  font-weight: 600;
+}
+
+.theme-switcher .theme-btn {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.16rem 0.62rem;
+}
+
+.theme-switcher .theme-btn:hover:not(.is-active),
+.theme-switcher .theme-btn:focus-visible:not(.is-active) {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+.theme-switcher .theme-btn.is-active,
+.theme-switcher .theme-btn[aria-pressed="true"] {
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
   font-weight: 600;
 }
 
@@ -262,11 +301,16 @@ body {
   user-select: none;
 }
 
+.toggle[hidden],
+html:not([data-congress-settings="true"]) label:has(#show-congresses) {
+  display: none !important;
+}
+
 /* Footer */
 .footer {
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: 0.85rem 0 2rem;
+  padding: 0.85rem 1rem 2rem;
   font-family: var(--font);
   font-size: var(--type-lead-size);
   font-weight: 400;
@@ -277,6 +321,10 @@ body {
 
 .footer p {
   margin: 0;
+}
+
+.footer .footer-source {
+  margin-top: 1.25rem;
 }
 
 .footer a {
@@ -345,9 +393,12 @@ body {
   }
 
   .theme-btn {
-    padding: 0.15rem 0.32rem;
+    padding: 0.22rem 0.56rem;
     font-size: 1rem;
-    letter-spacing: 0.1em;
+  }
+
+  .theme-switcher .theme-btn {
+    padding: 0.12rem 0.48rem;
   }
 
   .export-btn {

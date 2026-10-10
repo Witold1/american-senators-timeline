@@ -1,0 +1,79 @@
+{
+  "id": "armenia",
+  "name": "Armenia",
+  "region": "transcaucasus",
+  "flag": "🇦🇲",
+  "sovereignty": {
+    "year": 1990, "month": 8, "day": 23,
+    "act": {
+      "title": "Declaration of Independence of Armenia"
+    }
+  },
+  "independence": {
+    "year": 1991, "month": 9, "day": 21,
+    "act": {
+      "title": "Referendum on independence †"
+    },
+    "notes": [
+      "Independence confirmed by referendum (99.5% yes)"
+    ]
+  },
+  "sovietLeaders": [
+    {
+      "name": "Karen Demirchyan", "role": "First Secretary",
+      "start": 1974, "startMonth": 11, "startDay": 27,
+      "end": 1988, "endMonth": 5, "endDay": 21
+    },
+    {
+      "name": "Suren Harutyunyan", "role": "First Secretary",
+      "start": 1988, "startMonth": 5, "startDay": 21,
+      "end": 1990, "endMonth": 4, "endDay": 5
+    },
+    {
+      "name": "Vladimir Movsisyan", "role": "First Secretary",
+      "start": 1990, "startMonth": 4, "startDay": 5,
+      "end": 1990, "endMonth": 8, "endDay": 4
+    },
+    {
+      "name": "Levon Ter-Petrosyan", "role": "Chairman, Supreme Council",
+      "start": 1990, "startMonth": 8, "startDay": 4,
+      "end": 1991, "endMonth": 9, "endDay": 21
+    }
+  ],
+  "rulers": [
+    {
+      "name": "Levon Ter-Petrosyan", "role": "Chairman / President",
+      "start": 1991, "startMonth": 9, "startDay": 21,
+      "end": 1998, "endMonth": 2, "endDay": 3
+    },
+    {
+      "name": "Robert Kocharyan",
+      "start": 1998, "startMonth": 2, "startDay": 4,
+      "end": 2008, "endMonth": 4, "endDay": 9
+    },
+    {
+      "name": "Serzh Sargsyan",
+      "start": 2008, "startMonth": 4, "startDay": 9,
+      "end": 2018, "endMonth": 4, "endDay": 23
+    },
+    {
+      "name": "Nikol Pashinyan", "role": "Prime Minister (executive)",
+      "start": 2018, "startMonth": 5, "startDay": 8,
+      "end": 2026, "endMonth": 12, "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "First Nagorno-Karabakh War",
+      "start": 1988, "end": 1994, "type": "war"
+    },
+    {
+      "name": "Velvet Revolution",
+      "start": 2018, "end": 2018, "type": "revolution"
+    },
+    {
+      "name": "Second Karabakh War",
+      "start": 2020, "end": 2020, "type": "war"
+    }
+  ]
+}

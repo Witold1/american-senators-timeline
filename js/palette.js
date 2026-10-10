@@ -131,30 +131,60 @@
     return entry;
   }
 
+  function fieldPalette(value) {
+    const text = String(value || "").trim().toLowerCase();
+    if (!text) return rulerPalette(0);
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = (hash * 33 + text.charCodeAt(i)) >>> 0;
+    }
+    return rulerPalette(hash);
+  }
+
+  function leaderFieldValue(leader, seat, field) {
+    const fromLeader = leader?.[field];
+    if (fromLeader != null && fromLeader !== "") return fromLeader;
+    const fromFields = seat?.fields?.[field];
+    if (fromFields != null && fromFields !== "") return fromFields;
+    const fromSeat = seat?.[field];
+    if (fromSeat != null && fromSeat !== "") return fromSeat;
+    return "";
+  }
+
   /**
    * @param {object[]} leaders
-   * @param {"party" | "person"} [colorMode]
+   * @param {string} [colorMode] party, person, or another field id
+   * @param {object} [seat]
    */
-  function buildLeaderPaletteMap(leaders, colorMode = "party") {
+  function buildLeaderPaletteMap(leaders, colorMode = "party", seat) {
     const map = new Map();
     let nextIndex = 0;
     const byPerson = colorMode === "person";
+    const byParty = !colorMode || colorMode === "party";
 
     for (const leader of leaders) {
       const key = normalizeLeaderName(leader.name);
       if (map.has(key)) continue;
-      if (!byPerson && leader.party) {
-        map.set(key, partyPalette(leader.party));
-      } else {
+      if (byPerson) {
         map.set(key, rulerPalette(nextIndex));
         nextIndex += 1;
+      } else if (byParty && leader.party) {
+        map.set(key, partyPalette(leader.party));
+      } else if (byParty) {
+        map.set(key, rulerPalette(nextIndex));
+        nextIndex += 1;
+      } else {
+        map.set(key, fieldPalette(leaderFieldValue(leader, seat, colorMode)));
       }
     }
     return map;
   }
 
   function parseHexColor(hex) {
-    const value = hex.replace("#", "");
+    const value = String(hex || "")
+      .trim()
+      .replace("#", "");
+    if (!/^[0-9a-fA-F]{6}$/.test(value)) return null;
     return {
       r: parseInt(value.slice(0, 2), 16),
       g: parseInt(value.slice(2, 4), 16),
@@ -162,19 +192,38 @@
     };
   }
 
-  /** Contrast-aware label colors — ink on bar, no scrim pill. */
+  function srgbChannel(value) {
+    const channel = value / 255;
+    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+  }
+
+  function relativeLuminance(hex) {
+    const rgb = parseHexColor(hex);
+    if (!rgb) return null;
+    return 0.2126 * srgbChannel(rgb.r) + 0.7152 * srgbChannel(rgb.g) + 0.0722 * srgbChannel(rgb.b);
+  }
+
+  function contrastRatio(lighter, darker) {
+    const hi = Math.max(lighter, darker);
+    const lo = Math.min(lighter, darker);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+
+  /** Ink or ivory, whichever reads on this bar. No scrim pill. */
   function barLabelTheme(hex) {
-    const { r, g, b } = parseHexColor(hex);
-    const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
     const vars = themeVars();
-    if (luminance > 0.58) {
-      return {
-        fg: vars.labelScrimLightFg,
-        bg: "transparent",
-      };
+    const lum = relativeLuminance(hex);
+    const ink = vars.labelScrimLightFg;
+    const ivory = vars.labelScrimDarkFg;
+    if (lum == null) {
+      return { fg: ivory, bg: "transparent" };
     }
+    const inkLum = relativeLuminance(ink);
+    const ivoryLum = relativeLuminance(ivory);
+    const inkContrast = inkLum == null ? 0 : contrastRatio(lum, inkLum);
+    const ivoryContrast = ivoryLum == null ? 0 : contrastRatio(lum, ivoryLum);
     return {
-      fg: vars.labelScrimDarkFg,
+      fg: inkContrast >= ivoryContrast ? ink : ivory,
       bg: "transparent",
     };
   }

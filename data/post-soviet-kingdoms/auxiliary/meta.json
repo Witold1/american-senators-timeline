@@ -1,0 +1,49 @@
+{
+  "TIMELINE_START": 1975,
+  "TIMELINE_END": 2026,
+  "USSR_DISSOLVED": { "year": 1991, "month": 12, "day": 26 },
+  "exclusive": false,
+  "showCongress": false,
+  "entityLabel": "Country",
+  "roleLabel": "Head of state",
+  "title": "Rulers of Post-Soviet Domains",
+  "subtitle": "How political leadership changed - or didn't - across the 15 post-Soviet states after the collapse of the Soviet Union, from 1985 to 2026.",
+  "author": "witold's data consulting at <a href=\"https://witold1.github.io/\">witold1.github.io</a>",
+  "sources": "English Wikipedia office lists; <a href=\"http://rulers.org/sovrep.html\">rulers.org Soviet republics</a> (cross-check). See <a href=\"https://github.com/Witold1/american-senators-timeline/blob/main/data/post-soviet-kingdoms/SOURCES.md\">data/post-soviet-kingdoms/SOURCES.md</a>. Accessed: 2026-07.",
+  "view": {
+    "filters": [{ "id": "region", "label": "Region", "multi": true }],
+    "sorts": [
+      { "id": "name", "label": "Country name" },
+      { "id": "sovereignty", "label": "Sovereignty" },
+      { "id": "independence", "label": "Independence" }
+    ],
+    "colorBy": [
+      {
+        "id": "person",
+        "label": "Individual ruler",
+        "title": "Color each ruler distinctly within a country"
+      }
+    ],
+    "searchPlaceholder": "country, ruler, region, or role",
+    "settings": {
+      "showAdmissionYear": true,
+      "showRegionFilter": true,
+      "showCongress": false,
+      "showPartyDetail": false,
+      "showPartyLegend": false,
+      "showUssrDissolution": true,
+      "admissionYearLabel": "Show independence year",
+      "admissionYearTitle": "Show the year each country declared independence next to its name",
+      "regionFilterLabel": "Show region filter",
+      "regionFilterTitle": "Add the region filter (Baltic, Slavic, …) to the chart bar",
+      "barLabelsLabel": "Show ruler names",
+      "barLabelsTitle": "Print each ruler's name along their bar",
+      "termBarsTitle": "Draw the colored bar for each ruler's time in office; names stay visible without it",
+      "ussrDissolutionLabel": "Show USSR dissolution",
+      "ussrDissolutionTitle": "Mark 26 Dec 1991, when the USSR formally ceased to exist (Declaration No. 142-N)",
+      "legendPersonLabel": "Rulers",
+      "legendPersonText": "Distinct colors per individual ruler",
+      "dateVerb": "Independence"
+    }
+  }
+}

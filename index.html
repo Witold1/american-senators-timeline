@@ -37,19 +37,27 @@
         document.documentElement.dataset.themePref = "system";
         document.documentElement.style.colorScheme = fallback;
       }
+      var datasetHash = (location.hash || "").replace(/^#/, "") || "american-senators";
+      var sovietStates = datasetHash === "soviet-states";
+      document.documentElement.dataset.orientationLocked = "false";
+      document.documentElement.dataset.congressSettings = sovietStates ? "false" : "true";
       try {
-        var orient = localStorage.getItem("timeline-orientation");
-        document.documentElement.dataset.orientation =
-          orient === "horizontal" ? "horizontal" : "vertical";
+        var orient = localStorage.getItem("timeline-orientation:" + datasetHash);
+        if (orient !== "horizontal" && orient !== "vertical") {
+          orient = sovietStates ? "horizontal" : "vertical";
+        }
+        document.documentElement.dataset.orientation = orient;
       } catch (e) {
-        document.documentElement.dataset.orientation = "vertical";
+        document.documentElement.dataset.orientation = sovietStates ? "horizontal" : "vertical";
       }
       try {
-        var yearOrder = localStorage.getItem("timeline-year-order");
-        document.documentElement.dataset.yearOrder =
-          yearOrder === "ascending" ? "ascending" : "descending";
+        var yearOrder = localStorage.getItem("timeline-year-order:" + datasetHash);
+        if (yearOrder !== "ascending" && yearOrder !== "descending") {
+          yearOrder = sovietStates ? "ascending" : "descending";
+        }
+        document.documentElement.dataset.yearOrder = yearOrder;
       } catch (e) {
-        document.documentElement.dataset.yearOrder = "descending";
+        document.documentElement.dataset.yearOrder = sovietStates ? "ascending" : "descending";
       }
       try {
         var colorMode = localStorage.getItem("timeline-color-mode");
@@ -62,8 +70,7 @@
         var palette =
           localStorage.getItem("timeline-palette") ||
           localStorage.getItem("timeline-party-palette");
-        document.documentElement.dataset.palette =
-          palette === "vivid" || palette === "soft" ? palette : "muted";
+        document.documentElement.dataset.palette = palette === "vivid" ? "vivid" : "muted";
       } catch (e) {
         document.documentElement.dataset.palette = "muted";
       }
@@ -73,15 +80,16 @@
     src="https://witold1.github.io/witold1-blog-telemetry/v1/telemetry.min.js"
     defer
   ></script>
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/chrome.css" />
-  <link rel="stylesheet" href="css/chart.css" />
-  <link rel="stylesheet" href="css/chart-horizontal.css" />
-  <link rel="stylesheet" href="css/overlay.css" />
+  <link rel="stylesheet" href="css/themes.css?v=step16" />
+  <link rel="stylesheet" href="css/layout.css?v=step15" />
+  <link rel="stylesheet" href="css/chrome.css?v=step36" />
+  <link rel="stylesheet" href="css/chart.css?v=step20" />
+  <link rel="stylesheet" href="css/chart-horizontal.css?v=step25" />
+  <link rel="stylesheet" href="css/overlay.css?v=step12" />
 </head>
 <body>
   <div class="theme-bar">
+    <button type="button" class="theme-btn" id="upload-open" aria-pressed="false">Upload your data</button>
     <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Color theme">
       <button type="button" class="theme-btn" data-theme-pref="system" aria-pressed="false">System</button>
       <button type="button" class="theme-btn" data-theme-pref="dark" aria-pressed="false">Dark</button>
@@ -114,6 +122,7 @@
             <button type="button" class="chip-btn" data-time-range="2000" aria-pressed="false">2000s</button>
           </div>
         </div>
+        <div id="custom-filters" hidden></div>
         <div class="chip-switch region-filter" id="region-filter">
           <span class="chip-switch-label" id="region-label">Region</span>
           <div class="chip-switch-group" role="group" aria-labelledby="region-label">
@@ -231,16 +240,16 @@
                 <span title="Show the year each state was admitted to the Union next to its name">Show admission year</span>
               </label>
               <label class="toggle">
-                <input type="checkbox" id="show-regions" checked />
-                <span title="Add the census region filter (Northeast, Midwest, South, West) to the chart bar">Show region filter</span>
-              </label>
-              <label class="toggle">
                 <input type="checkbox" id="show-congresses" checked />
                 <span title="Number and shade every other Congress across the time axis, from the 1st Congress (1789) to the present">Show Congress numbers</span>
               </label>
               <label class="toggle">
                 <input type="checkbox" id="show-party-detail" />
                 <span title="Give Whig, Federalist, Democratic-Republican, Independent, and others their own colors instead of grouping them as Other">Color historic parties</span>
+              </label>
+              <label class="toggle" hidden>
+                <input type="checkbox" id="show-ussr-dissolution" checked />
+                <span title="Mark 26 Dec 1991, when the USSR formally ceased to exist">Show USSR dissolution</span>
               </label>
               <span class="settings-heading" id="palette-label">Palette</span>
               <div
@@ -256,13 +265,6 @@
                   aria-pressed="true"
                   title="Muted editorial chart colors"
                 >Muted</button>
-                <button
-                  type="button"
-                  class="chip-btn"
-                  data-palette="soft"
-                  aria-pressed="false"
-                  title="Pastel-leaning parties and senator colors"
-                >Soft</button>
                 <button
                   type="button"
                   class="chip-btn"
@@ -291,10 +293,10 @@
       <div class="legend-item"><span class="swatch party-other"></span> Other</div>
     </div>
     <div class="legend-group legend-group-person">
-      <span class="legend-heading">Senators</span>
+      <span class="legend-heading" id="legend-person-heading">Senators</span>
       <div class="legend-item">
         <span class="palette-demo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
-        Distinct colors per individual senators
+        <span id="legend-person-text">Distinct colors per individual senators</span>
       </div>
     </div>
   </section>
@@ -313,8 +315,9 @@
   </main>
 
   <footer class="footer">
-    <p>Author: witold's data consulting at <a href="https://witold1.github.io/">witold1.github.io</a></p>
-    <p>Sources: <a href="https://github.com/unitedstates/congress-legislators">unitedstates/congress-legislators</a>, <a href="https://www.govinfo.gov/app/collection/SMAN/">Senate Manuals</a>, <a href="https://bioguide.congress.gov/">Biographical Directory of the U.S. Congress</a>. Requested: September 2026. AI assistant helped compile and verify the data.</p>
+    <p id="footer-author">Author: witold's data consulting at <a href="https://witold1.github.io/">witold1.github.io</a></p>
+    <p id="footer-sources">Sources: <a href="https://github.com/unitedstates/congress-legislators">unitedstates/congress-legislators</a>, <a href="https://www.govinfo.gov/app/collection/SMAN/">Senate Manuals</a>, <a href="https://bioguide.congress.gov/">Biographical Directory of the U.S. Congress</a>. Requested: September 2026. AI assistant helped compile and verify the data.</p>
+    <p class="footer-source">Source code: <a href="https://github.com/Witold1/american-senators-timeline">American Senators timeline</a></p>
   </footer>
   </div>
 
@@ -375,18 +378,224 @@
     </div>
   </div>
 
-  <script src="js/load.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/export.js"></script>
-  <script src="js/palette.js"></script>
-  <script src="js/geometry.js"></script>
-  <script src="js/labels.js"></script>
-  <script src="js/interaction.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/controls.js"></script>
-  <script src="js/filter-controls.js"></script>
-  <script src="js/render.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/debug.js"></script>
+  <dialog id="upload-dialog" class="upload-dialog" aria-labelledby="upload-title">
+    <form id="upload-form" method="dialog">
+      <div class="upload-form-body">
+        <h2 id="upload-title">Upload your data</h2>
+
+        <section class="upload-section upload-section-collapsible" aria-labelledby="upload-presets-title">
+          <div class="upload-section-head">
+            <h3 id="upload-presets-title">Pick a preset</h3>
+            <button
+              type="button"
+              class="upload-section-toggle"
+              aria-expanded="true"
+              aria-controls="upload-presets-body"
+              data-section-name="pick a preset"
+              aria-label="Hide pick a preset"
+            >
+              <svg class="upload-section-chevron" viewBox="0 0 24 12" width="22" height="11" aria-hidden="true" focusable="false">
+                <path d="M3 3l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="upload-section-body" id="upload-presets-body">
+            <div class="upload-preset-row">
+              <div
+                class="dataset-switcher"
+                id="dataset-switcher"
+                role="group"
+                aria-label="Built-in datasets"
+                hidden
+              ></div>
+              <button type="button" class="chip-btn" id="upload-sample" aria-pressed="false">Example dataset</button>
+            </div>
+            <div class="upload-source-or" aria-hidden="true">or</div>
+            <p class="upload-lead">Choose your data file (JSON list of rows, or records with a <code>rulers</code> list).</p>
+            <div class="upload-file-row">
+              <label for="upload-file" class="chip-btn upload-file-btn">Choose file</label>
+              <span id="upload-file-name">No file selected</span>
+              <input id="upload-file" type="file" accept="application/json,.json" hidden />
+            </div>
+          </div>
+        </section>
+
+        <p id="upload-error" class="upload-error" hidden></p>
+
+        <section class="upload-section upload-section-collapsible" id="upload-mapping-section" aria-labelledby="upload-mapping-title" hidden>
+          <div class="upload-section-head">
+            <h3 id="upload-mapping-title">Column mapping</h3>
+            <button
+              type="button"
+              class="upload-section-toggle"
+              aria-expanded="true"
+              aria-controls="upload-mapping-body"
+              data-section-name="column mapping"
+              aria-label="Hide column mapping"
+            >
+              <svg class="upload-section-chevron" viewBox="0 0 24 12" width="22" height="11" aria-hidden="true" focusable="false">
+                <path d="M3 3l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="upload-section-body" id="upload-mapping-body">
+            <div id="upload-map"></div>
+          </div>
+        </section>
+
+        <section class="upload-section upload-section-collapsible" id="upload-meta-section" aria-labelledby="upload-meta-heading" hidden>
+          <div class="upload-section-head">
+            <h3 id="upload-meta-heading">Chart metadata</h3>
+            <button
+              type="button"
+              class="upload-section-toggle"
+              aria-expanded="false"
+              aria-controls="upload-meta-body"
+              data-section-name="chart metadata"
+              aria-label="Show chart metadata"
+            >
+              <svg class="upload-section-chevron" viewBox="0 0 24 12" width="22" height="11" aria-hidden="true" focusable="false">
+                <path d="M3 3l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="upload-section-body" id="upload-meta-body">
+            <div class="upload-meta-grid">
+              <label>
+                <span>Title</span>
+                <input id="upload-meta-title" type="text" name="upload-meta-title" placeholder="Chart title" autocomplete="off" />
+              </label>
+              <label>
+                <span>Subtitle</span>
+                <input id="upload-meta-subtitle" type="text" name="upload-meta-subtitle" placeholder="Short supporting line" autocomplete="off" />
+              </label>
+              <label>
+                <span>Sources</span>
+                <textarea id="upload-meta-sources" name="upload-meta-sources" rows="3" placeholder='Sources… <a href="https://…">label</a>' autocomplete="off"></textarea>
+              </label>
+              <label>
+                <span>Author</span>
+                <textarea id="upload-meta-author" name="upload-meta-author" rows="2" placeholder='Author… <a href="https://…">label</a>' autocomplete="off"></textarea>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="upload-section upload-section-collapsible" id="upload-chrome-section" aria-labelledby="upload-chrome-heading" hidden>
+          <div class="upload-section-head">
+            <h3 id="upload-chrome-heading">Chart controls</h3>
+            <button
+              type="button"
+              class="upload-section-toggle"
+              aria-expanded="false"
+              aria-controls="upload-chrome-body"
+              data-section-name="chart controls"
+              aria-label="Show chart controls"
+            >
+              <svg class="upload-section-chevron" viewBox="0 0 24 12" width="22" height="11" aria-hidden="true" focusable="false">
+                <path d="M3 3l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="upload-section-body" id="upload-chrome-body">
+            <p class="upload-lead">Controls shown on the chart for this dataset. Presets fill these; edit before Apply.</p>
+            <div class="upload-chrome-grid">
+              <label>
+                <span>Row label</span>
+                <input id="upload-chrome-entity" type="text" placeholder="State / Country / Row" autocomplete="off" />
+              </label>
+              <label>
+                <span>Bar role label</span>
+                <input id="upload-chrome-role" type="text" placeholder="Senator / Head of state" autocomplete="off" />
+              </label>
+              <label class="upload-chrome-span">
+                <span>Search placeholder</span>
+                <input id="upload-chrome-search" type="text" placeholder="state, senator, …" autocomplete="off" />
+              </label>
+              <label>
+                <span>Year chip verb</span>
+                <input id="upload-chrome-date-verb" type="text" placeholder="Admitted / Independence" autocomplete="off" />
+              </label>
+              <label>
+                <span>Year chip settings label</span>
+                <input id="upload-chrome-year-label" type="text" placeholder="Show admission year" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="upload-chrome-block">
+              <span class="upload-chrome-block-title">Color by</span>
+              <p class="upload-lead">Checked in Column mapping.</p>
+              <div id="upload-chrome-color-list" class="upload-chrome-pills"></div>
+            </div>
+
+            <div class="upload-chrome-block">
+              <span class="upload-chrome-block-title">Filters</span>
+              <p class="upload-lead">Checked in Column mapping.</p>
+              <div id="upload-chrome-filter-list" class="upload-chrome-pills"></div>
+            </div>
+
+            <div class="upload-chrome-block">
+              <span class="upload-chrome-block-title">Sorts</span>
+              <p class="upload-lead">Checked in Column mapping. Row name is always included.</p>
+              <div id="upload-chrome-sort-list" class="upload-chrome-pills"></div>
+            </div>
+
+            <div class="upload-chrome-block">
+              <span class="upload-chrome-block-title">Display settings</span>
+              <div class="upload-chrome-checks">
+                <label class="upload-chrome-check">
+                  <input type="checkbox" id="upload-chrome-show-year" checked />
+                  <span>Year chip next to row name</span>
+                </label>
+                <label class="upload-chrome-check">
+                  <input type="checkbox" id="upload-chrome-show-region" checked />
+                  <span>Region filter</span>
+                </label>
+                <label class="upload-chrome-check">
+                  <input type="checkbox" id="upload-chrome-show-congress" />
+                  <span>Congress numbers</span>
+                </label>
+                <label class="upload-chrome-check">
+                  <input type="checkbox" id="upload-chrome-show-party-detail" />
+                  <span>Historic party colors</span>
+                </label>
+                <label class="upload-chrome-check">
+                  <input type="checkbox" id="upload-chrome-show-ussr" />
+                  <span>USSR dissolution marker</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="upload-chrome-copy-row">
+              <button type="button" class="chip-btn" id="upload-chrome-copy-view">Copy view JSON</button>
+              <span id="upload-chrome-copy-status" class="upload-lead" hidden>Copied — paste into meta.json → view</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="upload-actions">
+        <button type="submit" class="chip-btn" value="cancel">Cancel</button>
+        <button type="submit" class="chip-btn is-active" id="upload-apply" value="apply" disabled>Apply dataset</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/lanes.js?v=step10"></script>
+  <script src="js/load.js?v=step30"></script>
+  <script src="js/theme.js?v=step10"></script>
+  <script src="js/export.js?v=step10"></script>
+  <script src="js/palette.js?v=step12"></script>
+  <script src="js/geometry.js?v=step23"></script>
+  <script src="js/labels.js?v=step17"></script>
+  <script src="js/interaction.js?v=step10"></script>
+  <script src="js/filters.js?v=step18"></script>
+  <script src="js/filter-controls.js?v=step19"></script>
+  <script src="js/view-chrome.js?v=step5"></script>
+  <script src="js/controls.js?v=step13"></script>
+  <script src="js/render.js?v=step26"></script>
+  <script src="js/upload.js?v=step31"></script>
+  <script src="js/app.js?v=step10"></script>
+  <script src="js/debug.js?v=step11"></script>
 </body>
 </html>

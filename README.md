@@ -33,7 +33,7 @@ Settings panel:
 
 - **Show term bars** / **Show senator names** / **Last names only** / **Name colors match bars**
 - **Show admission year** / **Show region filter** / **Show Congress numbers** / **Color historic parties**
-- **Palette**: Muted / Soft / Vivid
+- **Palette**: Muted / Vivid
 
 Each toggle has a tooltip describing what it changes.
 
@@ -49,11 +49,11 @@ There are several other reasons a historical senator's timeline can have gaps or
 
 Dataset layers under `data/`:
 
-- `raw/` - congress-legislators YAML, saved as downloaded
-- `auxiliary/` - Senate Manual service table and timeline bounds
-- `processed/` - chart files the page fetches: `seats-all.json` and `seats/{id}.json` (order from `seats/index.json`)
+- `catalog.json` - available datasets and default id
+- `american-senators/` - Senate chart pack (`raw/`, `auxiliary/`, `processed/`)
+- `post-soviet-kingdoms/` - country files from rulers-of-post-soviet-kingdoms (`countries/`, auto-lanes)
 
-Per-seat fields: `state`, `class`, `region`, and `rulers` (senator spans). Schema notes live in [`data/README.md`](data/README.md).
+Switch datasets with `#american-senators` / `#soviet-states` (or the top-bar selector). Schema notes: [`data/README.md`](data/README.md) and [`data/american-senators/README.md`](data/american-senators/README.md).
 
 Seat JSON is generated from [unitedstates/congress-legislators](https://github.com/unitedstates/congress-legislators). Overlapping spans are checked against the [Senate Manual, 104th Congress](https://www.govinfo.gov/content/pkg/SMAN-104/html/SMAN-104-pg961.htm):
 
@@ -64,7 +64,7 @@ python scripts/import_senators.py
 
 ## Run locally
 
-Preferred: run a local server, then open the URL it prints. The page loads seats from `data/processed/` and timeline bounds from `data/auxiliary/meta.json`.
+Preferred: run a local server, then open the URL it prints. The page loads `data/catalog.json`, then the selected dataset’s `auxiliary/meta.json` and `processed/seats-all.json`.
 
 ```powershell
 .\serve.ps1
@@ -89,7 +89,8 @@ css/
   chart-horizontal.css Horizontal orientation overrides
   overlay.css          Tooltip + debug panel
 js/
-  load.js              Fetches JSON at runtime
+  load.js              Catalog + dataset fetch
+  lanes.js             Auto lane assignment for concurrent rulers
   theme.js             Theme switcher
   export.js            PNG and SVG export (lazy-loads html-to-image)
   palette.js           Party / person bar colors
@@ -103,9 +104,9 @@ js/
   app.js               Boot glue (init + resize/theme hooks)
   debug.js             Environment info (bug reports)
 data/
-  raw/             Upstream YAML
-  auxiliary/       Manual table, meta.json
-  processed/       seats-all, seats/
+  catalog.json         Dataset registry
+  american-senators/   Senate raw / auxiliary / processed
+  post-soviet-kingdoms/ Scaffold (non-exclusive lanes)
 ```
 
 ## License & credit

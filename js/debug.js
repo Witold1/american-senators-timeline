@@ -109,7 +109,10 @@
       { key: "shortNames", value: visibleFlag("short-bar-labels", true) },
       { key: "dynamicNameColors", value: visibleFlag("dynamic-bar-label-colors", true) },
       { key: "admissionYear", value: visibleFlag("show-admission-year", false) },
-      { key: "regions", value: visibleFlag("show-regions", true) },
+      {
+        key: "regions",
+        value: document.documentElement.classList.contains("regions-enabled") ? "yes" : "no",
+      },
       { key: "congresses", value: visibleFlag("show-congresses", true) },
       { key: "historicalParties", value: visibleFlag("show-party-detail", false) },
     ];

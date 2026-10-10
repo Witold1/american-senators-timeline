@@ -101,16 +101,6 @@
       "admission-year-hidden",
       { defaultVisible: false }
     );
-    initDisplayToggle(
-      "show-regions",
-      "timeline-regions-visible",
-      "regions-enabled",
-      {
-        defaultVisible: true,
-        mode: "enable",
-        onChange: () => window.TimelineFilterControls?.onRegionsVisibilityChange?.(),
-      }
-    );
     // Congress bands used to default off, and that off state was saved on first load.
     // Drop that saved off once so the new default (on) applies. A later toggle still sticks.
     try {
@@ -145,6 +135,18 @@
         mode: "enable",
         onChange: () => {
           window.TimelinePalette?.invalidate?.();
+          if (typeof window.renderTimeline === "function") window.renderTimeline();
+        },
+      }
+    );
+    initDisplayToggle(
+      "show-ussr-dissolution",
+      "timeline-ussr-dissolution-visible",
+      "ussr-marker-enabled",
+      {
+        defaultVisible: true,
+        mode: "enable",
+        onChange: () => {
           if (typeof window.renderTimeline === "function") window.renderTimeline();
         },
       }
