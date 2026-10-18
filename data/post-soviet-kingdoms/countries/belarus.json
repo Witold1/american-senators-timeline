@@ -1,0 +1,130 @@
+{
+  "id": "belarus",
+  "name": "Belarus",
+  "context": {
+    "region": "slavic",
+    "flag": "🇧🇾",
+    "sovereignty": {
+      "year": 1990,
+      "month": 7,
+      "day": 27,
+      "act": {
+        "title": "Declaration of State Sovereignty of the Belarusian SSR"
+      }
+    },
+    "independence": {
+      "year": 1991,
+      "month": 8,
+      "day": 25,
+      "act": {
+        "title": "Declaration of State Independence of the Republic of Belarus †"
+      }
+    }
+  },
+  "rulers": [
+    {
+      "name": "Pyotr Masherov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1965,
+      "startMonth": 3,
+      "startDay": 30,
+      "end": 1980,
+      "endMonth": 10,
+      "endDay": 4
+    },
+    {
+      "name": "Tikhon Kiselyov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1980,
+      "startMonth": 10,
+      "startDay": 16,
+      "end": 1983,
+      "endMonth": 1,
+      "endDay": 11
+    },
+    {
+      "name": "Nikolay Slyunkov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1983,
+      "startMonth": 1,
+      "startDay": 13,
+      "end": 1987,
+      "endMonth": 2,
+      "endDay": 6
+    },
+    {
+      "name": "Yefrem Sokolov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1987,
+      "startMonth": 2,
+      "startDay": 6,
+      "end": 1990,
+      "endMonth": 11,
+      "endDay": 30
+    },
+    {
+      "name": "Anatoly Malofeyev",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1990,
+      "startMonth": 11,
+      "startDay": 30,
+      "end": 1991,
+      "endMonth": 8,
+      "endDay": 25
+    },
+    {
+      "name": "Stanislau Shushkevich",
+      "era": "soviet",
+      "role": "Chairman, Supreme Soviet",
+      "start": 1991,
+      "startMonth": 9,
+      "startDay": 18,
+      "end": 1991,
+      "endMonth": 12,
+      "endDay": 31
+    },
+    {
+      "name": "Stanislau Shushkevich",
+      "role": "Chairman, Supreme Soviet",
+      "start": 1991,
+      "startMonth": 9,
+      "startDay": 18,
+      "end": 1994,
+      "endMonth": 1,
+      "endDay": 26
+    },
+    {
+      "name": "Myechyslaw Hryb",
+      "role": "Chairman, Supreme Soviet",
+      "start": 1994,
+      "startMonth": 1,
+      "startDay": 28,
+      "end": 1994,
+      "endMonth": 7,
+      "endDay": 20
+    },
+    {
+      "name": "Alexander Lukashenko",
+      "role": "President",
+      "start": 1994,
+      "startMonth": 7,
+      "startDay": 20,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "2020–2021 protests",
+      "start": 2020,
+      "end": 2021,
+      "type": "protest"
+    }
+  ]
+}

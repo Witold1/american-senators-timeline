@@ -1,0 +1,503 @@
+/* Upload dialog: file choice, column mapping, and display settings. */
+
+.upload-dialog {
+  width: min(64rem, calc(100vw - 3rem));
+  max-width: calc(100vw - 3rem);
+  max-height: min(54rem, calc(100vh - 3rem));
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.upload-dialog::backdrop {
+  background: color-mix(in srgb, #000 45%, transparent);
+}
+
+#upload-form {
+  display: flex;
+  flex-direction: column;
+  max-height: min(54rem, calc(100vh - 3rem));
+  min-height: 0;
+}
+
+.upload-form-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 1.1rem 1.2rem 0.75rem;
+}
+
+.upload-dialog h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.25rem;
+}
+
+.upload-section {
+  margin: 0 0 1rem;
+  padding-bottom: 0.95rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.upload-section:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.upload-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.upload-section-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-right: 1.6rem;
+}
+
+.upload-section-head h3 {
+  margin: 0;
+}
+
+.upload-section-toggle {
+  appearance: none;
+  position: absolute;
+  inset: -0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0 0.1rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.upload-section-toggle:hover,
+.upload-section-toggle:focus-visible {
+  color: var(--text);
+}
+
+.upload-section-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 6px;
+}
+
+.upload-section-chevron {
+  display: block;
+  transform: rotate(180deg);
+  transition: transform 0.15s ease;
+}
+
+.upload-section-toggle[aria-expanded="true"] .upload-section-chevron {
+  transform: none;
+}
+
+.upload-section-collapsible:not(:has(.upload-section-toggle[aria-expanded="true"])) .upload-section-head {
+  margin-bottom: 0;
+}
+
+.upload-section-collapsible:not(:has(.upload-section-toggle[aria-expanded="true"])) .upload-section-body {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upload-section-chevron {
+    transition: none;
+  }
+}
+
+.upload-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.upload-section .dataset-switcher:not([hidden]) {
+  display: contents;
+}
+
+/* Pill chips for presets + Choose file (Kazakh-style). */
+.upload-dialog .upload-preset-row .chip-btn,
+.upload-dialog .upload-file-btn {
+  appearance: none;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 400;
+  letter-spacing: normal;
+  box-shadow: none;
+}
+
+.upload-dialog .upload-preset-row .chip-btn:hover,
+.upload-dialog .upload-file-btn:hover {
+  color: var(--text);
+  border-color: var(--border-light);
+  background: color-mix(in srgb, var(--text) 6%, var(--surface));
+}
+
+.upload-dialog .upload-preset-row .chip-btn:focus-visible,
+.upload-dialog .upload-file-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.upload-dialog .upload-preset-row .chip-btn.is-active,
+.upload-dialog .upload-preset-row .chip-btn[aria-pressed="true"] {
+  background: var(--surface-2);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.upload-source-or {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0.75rem 0 0.55rem;
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+
+.upload-source-or::before,
+.upload-source-or::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border);
+}
+
+.upload-lead {
+  margin: 0 0 0.55rem;
+  color: var(--text-muted);
+}
+
+.upload-shape-section {
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.upload-shape-section .upload-section-body {
+  margin-top: 0.75rem;
+}
+
+.upload-file-row .upload-shape-toggle {
+  position: static;
+  inset: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.1rem 0.15rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.upload-shapes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.7rem;
+  margin: 0 0 0.7rem;
+}
+
+.upload-shape {
+  margin: 0;
+  min-width: 0;
+  padding: 0.55rem 0.65rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.upload-shape figcaption {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.upload-shape pre {
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.upload-shape pre code {
+  font: inherit;
+}
+
+.upload-shape p {
+  margin: 0.45rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.upload-shape code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.upload-map-note {
+  margin: 0 0 0.55rem;
+  color: var(--text-muted);
+}
+
+.upload-file-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.upload-file-btn {
+  cursor: pointer;
+}
+
+#upload-file-name {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.upload-error {
+  margin: 0 0 0.7rem;
+  color: #b42318;
+}
+
+.upload-map {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.upload-map th,
+.upload-map td {
+  text-align: left;
+  padding: 0.28rem 0.4rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.upload-map th {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.upload-lead code,
+.upload-raw {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.86rem;
+}
+
+.upload-map td.upload-field,
+.upload-map tr.upload-map-group th {
+  white-space: normal;
+}
+
+.upload-map-group th {
+  padding-top: 0.9rem;
+  border-bottom: 0;
+  font-weight: 400;
+}
+
+.upload-map-group-title {
+  display: block;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.upload-example {
+  color: var(--text-muted);
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.upload-meta-grid,
+.upload-chrome-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.upload-chrome-grid {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin-bottom: 0.75rem;
+}
+
+.upload-meta-grid label,
+.upload-chrome-grid label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.upload-chrome-span {
+  grid-column: 1 / -1;
+}
+
+.upload-meta-grid input,
+.upload-meta-grid textarea,
+.upload-chrome-grid input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+
+.upload-chrome-block {
+  margin: 0 0 0.75rem;
+}
+
+.upload-chrome-block-title {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.upload-chrome-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+}
+
+.upload-chrome-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.upload-chrome-check[hidden] {
+  display: none !important;
+}
+
+.upload-chrome-check input {
+  margin: 0;
+}
+
+.upload-chrome-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-height: 1.6rem;
+}
+
+.upload-chrome-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+
+.upload-chrome-pills:empty::before {
+  content: "None yet";
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.upload-chrome-copy-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.25rem;
+}
+
+.upload-dialog .upload-chrome-copy-row .chip-btn {
+  appearance: none;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.upload-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.7rem 1.2rem calc(0.75rem + env(safe-area-inset-bottom, 0));
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -10px 24px color-mix(in srgb, #000 8%, transparent);
+}
+
+.upload-dialog .upload-actions .chip-btn {
+  appearance: none;
+  padding: 0.32rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 400;
+  letter-spacing: normal;
+  box-shadow: none;
+}
+
+.upload-dialog .upload-actions .chip-btn:hover:not(:disabled) {
+  border-color: var(--border-light);
+  background: color-mix(in srgb, var(--text) 6%, var(--surface));
+}
+
+.upload-dialog .upload-actions .chip-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.upload-dialog .upload-actions .chip-btn.is-active:not(:disabled) {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.upload-dialog .upload-actions .chip-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

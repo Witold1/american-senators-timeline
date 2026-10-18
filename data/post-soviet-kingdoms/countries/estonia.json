@@ -1,0 +1,138 @@
+{
+  "id": "estonia",
+  "name": "Estonia",
+  "context": {
+    "region": "baltic",
+    "flag": "🇪🇪",
+    "sovereignty": {
+      "year": 1988,
+      "month": 11,
+      "day": 16,
+      "act": {
+        "title": "Declaration on the Sovereignty of the Estonian SSR"
+      }
+    },
+    "independence": {
+      "year": 1991,
+      "month": 8,
+      "day": 20,
+      "act": {
+        "title": "Decision on the Restoration of the Independence of Estonia *"
+      }
+    }
+  },
+  "rulers": [
+    {
+      "name": "Johannes Käbin",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1950,
+      "startMonth": 3,
+      "startDay": 26,
+      "end": 1978,
+      "endMonth": 7,
+      "endDay": 26
+    },
+    {
+      "name": "Karl Vaino",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1978,
+      "startMonth": 7,
+      "startDay": 26,
+      "end": 1988,
+      "endMonth": 6,
+      "endDay": 16
+    },
+    {
+      "name": "Vaino Väljas",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1988,
+      "startMonth": 6,
+      "startDay": 16,
+      "end": 1990,
+      "endMonth": 3,
+      "endDay": 25
+    },
+    {
+      "name": "Arnold Rüütel",
+      "era": "soviet",
+      "role": "Chairman, Supreme Soviet",
+      "start": 1990,
+      "startMonth": 3,
+      "startDay": 29,
+      "end": 1991,
+      "endMonth": 8,
+      "endDay": 20
+    },
+    {
+      "name": "Arnold Rüütel",
+      "role": "Chairman, Supreme Council",
+      "start": 1991,
+      "startMonth": 8,
+      "startDay": 20,
+      "end": 1992,
+      "endMonth": 10,
+      "endDay": 6
+    },
+    {
+      "name": "Lennart Meri",
+      "role": "President",
+      "start": 1992,
+      "startMonth": 10,
+      "startDay": 6,
+      "end": 2001,
+      "endMonth": 10,
+      "endDay": 8
+    },
+    {
+      "name": "Arnold Rüütel",
+      "role": "President",
+      "start": 2001,
+      "startMonth": 10,
+      "startDay": 8,
+      "end": 2006,
+      "endMonth": 10,
+      "endDay": 9
+    },
+    {
+      "name": "Toomas Hendrik Ilves",
+      "role": "President",
+      "start": 2006,
+      "startMonth": 10,
+      "startDay": 9,
+      "end": 2016,
+      "endMonth": 10,
+      "endDay": 10
+    },
+    {
+      "name": "Kersti Kaljulaid",
+      "role": "President",
+      "start": 2016,
+      "startMonth": 10,
+      "startDay": 10,
+      "end": 2021,
+      "endMonth": 10,
+      "endDay": 11
+    },
+    {
+      "name": "Alar Karis",
+      "role": "President",
+      "start": 2021,
+      "startMonth": 10,
+      "startDay": 11,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Singing Revolution",
+      "start": 1987,
+      "end": 1991,
+      "type": "revolution"
+    }
+  ]
+}

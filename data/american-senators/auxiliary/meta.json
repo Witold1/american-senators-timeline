@@ -1,0 +1,47 @@
+{
+  "TIMELINE_START": 1789,
+  "TIMELINE_END": 2026,
+  "exclusive": true,
+  "showCongress": true,
+  "polityLabel": "State",
+  "roleLabel": "Senator",
+  "title": "American Senators",
+  "subtitle": "Every person who has held a seat in the United States Senate since 1789.",
+  "author": "witold's data consulting at <a href=\"https://witold1.github.io/\">witold1.github.io</a>",
+  "sources": "<a href=\"https://github.com/unitedstates/congress-legislators\">unitedstates/congress-legislators</a>, <a href=\"https://www.govinfo.gov/app/collection/SMAN/\">Senate Manuals</a>, <a href=\"https://bioguide.congress.gov/\">Biographical Directory of the U.S. Congress</a>. Requested: September 2026. AI assistant helped compile and verify the data.",
+  "view": {
+    "filters": [{ "id": "region", "label": "Region", "multi": true }],
+    "sorts": [
+      { "id": "name", "label": "State name" },
+      { "id": "admitted", "label": "Admission date" }
+    ],
+    "colorBy": [
+      {
+        "id": "party",
+        "label": "Political party",
+        "title": "Color bars by political party"
+      },
+      {
+        "id": "person",
+        "label": "Individual senator",
+        "title": "Color each senator distinctly within a seat"
+      }
+    ],
+    "searchPlaceholder": "state, senator, seat, party, or region",
+    "settings": {
+      "showAdmissionYear": true,
+      "showRegionFilter": true,
+      "showCongress": true,
+      "showPartyDetail": true,
+      "showPartyLegend": true,
+      "showUssrDissolution": false,
+      "admissionYearLabel": "Show admission year",
+      "admissionYearTitle": "Show the year each state was admitted to the Union next to its name",
+      "regionFilterLabel": "Show region filter",
+      "regionFilterTitle": "Add the census region filter to the chart bar",
+      "barLabelsLabel": "Show senator names",
+      "barLabelsTitle": "Print each senator's name along their bar",
+      "termBarsTitle": "Draw the colored bar for each senator's time in the seat; names stay visible without it"
+    }
+  }
+}

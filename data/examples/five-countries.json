@@ -1,0 +1,1048 @@
+[
+  {
+    "id": "aurelia",
+    "name": "Aurelia",
+    "context": {
+      "region": "West"
+    },
+    "rulers": [
+      {
+        "name": "Bruno Moreau",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2009,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Quinn Morin",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2024,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Anya Silva",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2022,
+        "startMonth": 5,
+        "startDay": 29,
+        "end": 2023,
+        "endMonth": 12,
+        "endDay": 25
+      }
+    ]
+  },
+  {
+    "id": "brind",
+    "name": "Brind",
+    "context": {
+      "region": "North"
+    },
+    "rulers": [
+      {
+        "name": "Rosa Haddad",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2009,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Lars Weiss",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 5,
+        "startDay": 5,
+        "end": 2000,
+        "endMonth": 12,
+        "endDay": 8
+      },
+      {
+        "name": "Ruben Rossi",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1996,
+        "startMonth": 2,
+        "startDay": 28,
+        "end": 2000,
+        "endMonth": 7,
+        "endDay": 11
+      },
+      {
+        "name": "Nadia Horvat",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2024,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Thea Petrov",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 8,
+        "startDay": 18,
+        "end": 2012,
+        "endMonth": 7,
+        "endDay": 8
+      },
+      {
+        "name": "Felix Lind",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2013,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2013,
+        "endMonth": 12,
+        "endDay": 16
+      },
+      {
+        "name": "Uma Horvat",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2020,
+        "startMonth": 3,
+        "startDay": 31,
+        "end": 2020,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Iris Fernandez",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2021,
+        "startMonth": 11,
+        "startDay": 23,
+        "end": 2022,
+        "endMonth": 3,
+        "endDay": 12
+      }
+    ]
+  },
+  {
+    "id": "calden",
+    "name": "Calden",
+    "context": {
+      "region": "East"
+    },
+    "rulers": [
+      {
+        "name": "Anya Almeida",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2004,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Lars Bergstrom",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 11,
+        "startDay": 28,
+        "end": 1996,
+        "endMonth": 11,
+        "endDay": 10
+      },
+      {
+        "name": "Ada Lind",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2002,
+        "startMonth": 8,
+        "startDay": 16,
+        "end": 2002,
+        "endMonth": 12,
+        "endDay": 28
+      },
+      {
+        "name": "Yara Almeida",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2005,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2015,
+        "endMonth": 1,
+        "endDay": 1
+      },
+      {
+        "name": "Hassan Moreau",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2005,
+        "startMonth": 2,
+        "startDay": 11,
+        "end": 2005,
+        "endMonth": 10,
+        "endDay": 8
+      },
+      {
+        "name": "Iris Lind",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2008,
+        "startMonth": 6,
+        "startDay": 7,
+        "end": 2015,
+        "endMonth": 8,
+        "endDay": 3
+      },
+      {
+        "name": "Hugo Haddad",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2009,
+        "startMonth": 11,
+        "startDay": 10,
+        "end": 2010,
+        "endMonth": 7,
+        "endDay": 2
+      },
+      {
+        "name": "Lars Morin",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2009,
+        "startMonth": 11,
+        "startDay": 26,
+        "end": 2012,
+        "endMonth": 7,
+        "endDay": 4
+      },
+      {
+        "name": "Quinn Vogel",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2011,
+        "startMonth": 8,
+        "startDay": 4,
+        "end": 2017,
+        "endMonth": 4,
+        "endDay": 9
+      },
+      {
+        "name": "Iris Laurent",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2015,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2024,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Boris Laurent",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2016,
+        "startMonth": 4,
+        "startDay": 10,
+        "end": 2019,
+        "endMonth": 11,
+        "endDay": 10
+      },
+      {
+        "name": "Clara Popov",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2016,
+        "startMonth": 6,
+        "startDay": 24,
+        "end": 2020,
+        "endMonth": 12,
+        "endDay": 14
+      },
+      {
+        "name": "Soren Nagy",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2017,
+        "startMonth": 9,
+        "startDay": 8,
+        "end": 2020,
+        "endMonth": 7,
+        "endDay": 20
+      },
+      {
+        "name": "Jovan Keller",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2023,
+        "startMonth": 1,
+        "startDay": 21,
+        "end": 2024,
+        "endMonth": 11,
+        "endDay": 19
+      },
+      {
+        "name": "Bruno Popov",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2023,
+        "startMonth": 11,
+        "startDay": 5,
+        "end": 2024,
+        "endMonth": 5,
+        "endDay": 26
+      }
+    ]
+  },
+  {
+    "id": "dorven",
+    "name": "Dorven",
+    "context": {
+      "region": "South"
+    },
+    "rulers": [
+      {
+        "name": "Uma Silva",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2000,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Omar Vale",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 2,
+        "startDay": 12,
+        "end": 2000,
+        "endMonth": 1,
+        "endDay": 16
+      },
+      {
+        "name": "Greta Marin",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 2,
+        "startDay": 22,
+        "end": 1997,
+        "endMonth": 3,
+        "endDay": 29
+      },
+      {
+        "name": "Eva Moreau",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 8,
+        "startDay": 16,
+        "end": 2002,
+        "endMonth": 12,
+        "endDay": 11
+      },
+      {
+        "name": "Lars Keller",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1997,
+        "startMonth": 11,
+        "startDay": 16,
+        "end": 1998,
+        "endMonth": 5,
+        "endDay": 12
+      },
+      {
+        "name": "Ruben Haddad",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1999,
+        "startMonth": 7,
+        "startDay": 12,
+        "end": 2001,
+        "endMonth": 7,
+        "endDay": 18
+      },
+      {
+        "name": "Willa Novak",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2000,
+        "startMonth": 4,
+        "startDay": 22,
+        "end": 2001,
+        "endMonth": 7,
+        "endDay": 26
+      },
+      {
+        "name": "Jonas Berg",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2001,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 2007,
+        "endMonth": 1,
+        "endDay": 1
+      },
+      {
+        "name": "Ada Okafor",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2001,
+        "startMonth": 6,
+        "startDay": 4,
+        "end": 2002,
+        "endMonth": 7,
+        "endDay": 28
+      },
+      {
+        "name": "Petra Vogel",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2003,
+        "startMonth": 7,
+        "startDay": 18,
+        "end": 2005,
+        "endMonth": 2,
+        "endDay": 27
+      },
+      {
+        "name": "Ruben Kowalski",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2004,
+        "startMonth": 12,
+        "startDay": 25,
+        "end": 2007,
+        "endMonth": 6,
+        "endDay": 4
+      },
+      {
+        "name": "Thea Marin",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2007,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2013,
+        "endMonth": 1,
+        "endDay": 1
+      },
+      {
+        "name": "Elena Costa",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2008,
+        "startMonth": 2,
+        "startDay": 15,
+        "end": 2011,
+        "endMonth": 1,
+        "endDay": 6
+      },
+      {
+        "name": "Greta Sato",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2011,
+        "startMonth": 9,
+        "startDay": 21,
+        "end": 2012,
+        "endMonth": 6,
+        "endDay": 14
+      },
+      {
+        "name": "Eva Sato",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2012,
+        "startMonth": 7,
+        "startDay": 6,
+        "end": 2013,
+        "endMonth": 1,
+        "endDay": 14
+      },
+      {
+        "name": "Mira Laurent",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2012,
+        "startMonth": 9,
+        "startDay": 22,
+        "end": 2013,
+        "endMonth": 10,
+        "endDay": 15
+      },
+      {
+        "name": "Soren Vale",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2013,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2019,
+        "endMonth": 1,
+        "endDay": 1
+      },
+      {
+        "name": "Hugo Rossi",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2013,
+        "startMonth": 4,
+        "startDay": 12,
+        "end": 2017,
+        "endMonth": 5,
+        "endDay": 16
+      },
+      {
+        "name": "Eva Marin",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2016,
+        "startMonth": 5,
+        "startDay": 18,
+        "end": 2016,
+        "endMonth": 9,
+        "endDay": 15
+      },
+      {
+        "name": "Bruno Khoury",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2016,
+        "startMonth": 5,
+        "startDay": 28,
+        "end": 2019,
+        "endMonth": 4,
+        "endDay": 22
+      },
+      {
+        "name": "Leo Vale",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2018,
+        "startMonth": 3,
+        "startDay": 23,
+        "end": 2018,
+        "endMonth": 7,
+        "endDay": 10
+      },
+      {
+        "name": "Boris Fernandez",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2019,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2024,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Ruben Vale",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2020,
+        "startMonth": 5,
+        "startDay": 27,
+        "end": 2021,
+        "endMonth": 1,
+        "endDay": 26
+      },
+      {
+        "name": "Katya Okoye",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2020,
+        "startMonth": 11,
+        "startDay": 20,
+        "end": 2022,
+        "endMonth": 1,
+        "endDay": 26
+      },
+      {
+        "name": "Clara Khoury",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2022,
+        "startMonth": 12,
+        "startDay": 27,
+        "end": 2023,
+        "endMonth": 9,
+        "endDay": 1
+      }
+    ]
+  },
+  {
+    "id": "elmark",
+    "name": "Elmark",
+    "context": {
+      "region": "Islands"
+    },
+    "rulers": [
+      {
+        "name": "Leo Lind",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 1,
+        "startDay": 1,
+        "end": 1998,
+        "endMonth": 10,
+        "endDay": 1
+      },
+      {
+        "name": "Leo Vogel",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1995,
+        "startMonth": 12,
+        "startDay": 8,
+        "end": 1996,
+        "endMonth": 2,
+        "endDay": 19
+      },
+      {
+        "name": "Dmitri Keller",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 1996,
+        "startMonth": 3,
+        "startDay": 1,
+        "end": 1997,
+        "endMonth": 10,
+        "endDay": 31
+      },
+      {
+        "name": "Soren Vogel",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1996,
+        "startMonth": 12,
+        "startDay": 29,
+        "end": 2000,
+        "endMonth": 6,
+        "endDay": 9
+      },
+      {
+        "name": "Leo Morin",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 1997,
+        "startMonth": 4,
+        "startDay": 3,
+        "end": 1998,
+        "endMonth": 7,
+        "endDay": 14
+      },
+      {
+        "name": "Petra Andersen",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1998,
+        "startMonth": 3,
+        "startDay": 4,
+        "end": 2000,
+        "endMonth": 6,
+        "endDay": 24
+      },
+      {
+        "name": "Felix Vale",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 1998,
+        "startMonth": 10,
+        "startDay": 2,
+        "end": 2002,
+        "endMonth": 7,
+        "endDay": 2
+      },
+      {
+        "name": "Yara Novak",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2000,
+        "startMonth": 2,
+        "startDay": 1,
+        "end": 2000,
+        "endMonth": 4,
+        "endDay": 27
+      },
+      {
+        "name": "Felix Novak",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2000,
+        "startMonth": 9,
+        "startDay": 24,
+        "end": 2002,
+        "endMonth": 9,
+        "endDay": 7
+      },
+      {
+        "name": "Hassan Petrov",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2000,
+        "startMonth": 12,
+        "startDay": 1,
+        "end": 2007,
+        "endMonth": 5,
+        "endDay": 6
+      },
+      {
+        "name": "Lars Silva",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2001,
+        "startMonth": 6,
+        "startDay": 22,
+        "end": 2002,
+        "endMonth": 6,
+        "endDay": 29
+      },
+      {
+        "name": "Thea Kowalski",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2002,
+        "startMonth": 2,
+        "startDay": 27,
+        "end": 2003,
+        "endMonth": 12,
+        "endDay": 19
+      },
+      {
+        "name": "Dmitri Okoye",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2002,
+        "startMonth": 7,
+        "startDay": 3,
+        "end": 2006,
+        "endMonth": 4,
+        "endDay": 2
+      },
+      {
+        "name": "Hugo Marin",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2002,
+        "startMonth": 12,
+        "startDay": 31,
+        "end": 2005,
+        "endMonth": 3,
+        "endDay": 17
+      },
+      {
+        "name": "Yara Lind",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2003,
+        "startMonth": 3,
+        "startDay": 1,
+        "end": 2005,
+        "endMonth": 8,
+        "endDay": 25
+      },
+      {
+        "name": "Greta Nagy",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2005,
+        "startMonth": 1,
+        "startDay": 9,
+        "end": 2007,
+        "endMonth": 12,
+        "endDay": 4
+      },
+      {
+        "name": "Anya Bergstrom",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2005,
+        "startMonth": 6,
+        "startDay": 23,
+        "end": 2010,
+        "endMonth": 7,
+        "endDay": 31
+      },
+      {
+        "name": "Elena Okoye",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2006,
+        "startMonth": 2,
+        "startDay": 23,
+        "end": 2008,
+        "endMonth": 9,
+        "endDay": 3
+      },
+      {
+        "name": "Katya Andersen",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2006,
+        "startMonth": 4,
+        "startDay": 3,
+        "end": 2010,
+        "endMonth": 1,
+        "endDay": 1
+      },
+      {
+        "name": "Clara Laurent",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2008,
+        "startMonth": 11,
+        "startDay": 2,
+        "end": 2011,
+        "endMonth": 3,
+        "endDay": 18
+      },
+      {
+        "name": "Olga Kowalski",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2009,
+        "startMonth": 7,
+        "startDay": 31,
+        "end": 2013,
+        "endMonth": 3,
+        "endDay": 22
+      },
+      {
+        "name": "Dmitri Okafor",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2009,
+        "startMonth": 10,
+        "startDay": 8,
+        "end": 2009,
+        "endMonth": 12,
+        "endDay": 24
+      },
+      {
+        "name": "Dorian Haddad",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 1,
+        "startDay": 2,
+        "end": 2013,
+        "endMonth": 10,
+        "endDay": 2
+      },
+      {
+        "name": "Elena Nagy",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 7,
+        "startDay": 22,
+        "end": 2010,
+        "endMonth": 11,
+        "endDay": 21
+      },
+      {
+        "name": "Quinn Okoye",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2010,
+        "startMonth": 12,
+        "startDay": 30,
+        "end": 2012,
+        "endMonth": 10,
+        "endDay": 13
+      },
+      {
+        "name": "Willa Popov",
+        "party": "Cedar",
+        "role": "Head of state",
+        "start": 2011,
+        "startMonth": 7,
+        "startDay": 31,
+        "end": 2011,
+        "endMonth": 12,
+        "endDay": 1
+      },
+      {
+        "name": "Pavel Lind",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2012,
+        "startMonth": 8,
+        "startDay": 6,
+        "end": 2014,
+        "endMonth": 4,
+        "endDay": 28
+      },
+      {
+        "name": "Uma Moreau",
+        "party": "Lark",
+        "role": "Head of state",
+        "start": 2012,
+        "startMonth": 9,
+        "startDay": 3,
+        "end": 2012,
+        "endMonth": 12,
+        "endDay": 9
+      },
+      {
+        "name": "Jovan Morin",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2013,
+        "startMonth": 10,
+        "startDay": 3,
+        "end": 2017,
+        "endMonth": 7,
+        "endDay": 3
+      },
+      {
+        "name": "Olga Berg",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2013,
+        "startMonth": 10,
+        "startDay": 20,
+        "end": 2014,
+        "endMonth": 6,
+        "endDay": 8
+      },
+      {
+        "name": "Jonas Moreau",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2016,
+        "startMonth": 10,
+        "startDay": 31,
+        "end": 2018,
+        "endMonth": 12,
+        "endDay": 4
+      },
+      {
+        "name": "Gita Novak",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2017,
+        "startMonth": 7,
+        "startDay": 4,
+        "end": 2021,
+        "endMonth": 4,
+        "endDay": 2
+      },
+      {
+        "name": "Ada Khoury",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2017,
+        "startMonth": 10,
+        "startDay": 6,
+        "end": 2018,
+        "endMonth": 10,
+        "endDay": 21
+      },
+      {
+        "name": "Hassan Sato",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2020,
+        "startMonth": 6,
+        "startDay": 22,
+        "end": 2023,
+        "endMonth": 3,
+        "endDay": 21
+      },
+      {
+        "name": "Uma Rossi",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2020,
+        "startMonth": 8,
+        "startDay": 11,
+        "end": 2021,
+        "endMonth": 1,
+        "endDay": 29
+      },
+      {
+        "name": "Greta Vale",
+        "party": "Independent",
+        "role": "Head of state",
+        "start": 2021,
+        "startMonth": 4,
+        "startDay": 3,
+        "end": 2024,
+        "endMonth": 12,
+        "endDay": 31
+      },
+      {
+        "name": "Dmitri Vale",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2021,
+        "startMonth": 12,
+        "startDay": 24,
+        "end": 2022,
+        "endMonth": 4,
+        "endDay": 24
+      },
+      {
+        "name": "Celia Marin",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2022,
+        "startMonth": 9,
+        "startDay": 23,
+        "end": 2023,
+        "endMonth": 2,
+        "endDay": 19
+      },
+      {
+        "name": "Nils Horvat",
+        "party": "Harbor",
+        "role": "Head of state",
+        "start": 2022,
+        "startMonth": 10,
+        "startDay": 15,
+        "end": 2023,
+        "endMonth": 5,
+        "endDay": 28
+      },
+      {
+        "name": "Willa Okafor",
+        "party": "Northwind",
+        "role": "Head of state",
+        "start": 2023,
+        "startMonth": 8,
+        "startDay": 16,
+        "end": 2023,
+        "endMonth": 11,
+        "endDay": 11
+      }
+    ]
+  }
+]

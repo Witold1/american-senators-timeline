@@ -1,0 +1,23 @@
+{
+  "default": "american-senators",
+  "datasets": [
+    {
+      "id": "american-senators",
+      "hash": "american-senators",
+      "label": "U.S. Senators",
+      "path": "data/american-senators",
+      "format": "seats",
+      "title": "American Senators Timeline"
+    },
+    {
+      "id": "post-soviet-kingdoms",
+      "hash": "soviet-states",
+      "label": "Post-Soviet states",
+      "path": "data/post-soviet-kingdoms",
+      "format": "countries",
+      "title": "Rulers of Post-Soviet Domains Timeline",
+      "orientation": "horizontal",
+      "yearOrder": "ascending"
+    }
+  ]
+}

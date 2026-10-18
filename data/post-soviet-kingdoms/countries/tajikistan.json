@@ -1,0 +1,127 @@
+{
+  "id": "tajikistan",
+  "name": "Tajikistan",
+  "context": {
+    "region": "central-asia",
+    "flag": "🇹🇯",
+    "sovereignty": {
+      "year": 1990,
+      "month": 8,
+      "day": 24,
+      "act": {
+        "title": "Declaration of Sovereignty of the Tajik SSR"
+      }
+    },
+    "independence": {
+      "year": 1991,
+      "month": 9,
+      "day": 9,
+      "act": {
+        "title": "Declaration of State Independence of the Republic of Tajikistan"
+      }
+    }
+  },
+  "rulers": [
+    {
+      "name": "Jabbor Rasulov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1961,
+      "startMonth": 4,
+      "startDay": 12,
+      "end": 1982,
+      "endMonth": 4,
+      "endDay": 4
+    },
+    {
+      "name": "Rahmon Nabiyev",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1982,
+      "startMonth": 4,
+      "startDay": 20,
+      "end": 1985,
+      "endMonth": 12,
+      "endDay": 14
+    },
+    {
+      "name": "Qahhor Mahkamov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1985,
+      "startMonth": 12,
+      "startDay": 14,
+      "end": 1991,
+      "endMonth": 8,
+      "endDay": 31
+    },
+    {
+      "name": "Qadriddin Aslonov",
+      "role": "Acting President",
+      "start": 1991,
+      "startMonth": 8,
+      "startDay": 31,
+      "end": 1991,
+      "endMonth": 9,
+      "endDay": 23
+    },
+    {
+      "name": "Rahmon Nabiyev",
+      "role": "President",
+      "start": 1991,
+      "startMonth": 9,
+      "startDay": 23,
+      "end": 1991,
+      "endMonth": 10,
+      "endDay": 6
+    },
+    {
+      "name": "Akbarsho Iskandrov",
+      "role": "Acting President",
+      "start": 1991,
+      "startMonth": 10,
+      "startDay": 6,
+      "end": 1991,
+      "endMonth": 12,
+      "endDay": 2
+    },
+    {
+      "name": "Rahmon Nabiyev",
+      "role": "President",
+      "start": 1991,
+      "startMonth": 12,
+      "startDay": 2,
+      "end": 1992,
+      "endMonth": 9,
+      "endDay": 7
+    },
+    {
+      "name": "Akbarsho Iskandrov",
+      "role": "Acting President",
+      "start": 1992,
+      "startMonth": 9,
+      "startDay": 7,
+      "end": 1992,
+      "endMonth": 11,
+      "endDay": 19
+    },
+    {
+      "name": "Emomali Rahmon",
+      "role": "Supreme Assembly chair / President",
+      "start": 1992,
+      "startMonth": 11,
+      "startDay": 19,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Tajik Civil War",
+      "start": 1992,
+      "end": 1997,
+      "type": "war"
+    }
+  ]
+}

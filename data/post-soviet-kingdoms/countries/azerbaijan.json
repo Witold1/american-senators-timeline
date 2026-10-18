@@ -1,0 +1,157 @@
+{
+  "id": "azerbaijan",
+  "name": "Azerbaijan",
+  "context": {
+    "region": "transcaucasus",
+    "flag": "🇦🇿",
+    "sovereignty": {
+      "year": 1989,
+      "month": 9,
+      "day": 23,
+      "act": {
+        "title": "Declaration on the Sovereignty of the Azerbaijan SSR"
+      }
+    },
+    "independence": {
+      "year": 1991,
+      "month": 8,
+      "day": 30,
+      "act": {
+        "title": "Declaration on the Restoration of the State Independence of the Republic of Azerbaijan"
+      },
+      "notes": [
+        "Constitutional Act on State Independence adopted 18 Oct 1991"
+      ]
+    }
+  },
+  "rulers": [
+    {
+      "name": "Heydar Aliyev",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1969,
+      "startMonth": 7,
+      "startDay": 14,
+      "end": 1982,
+      "endMonth": 12,
+      "endDay": 3
+    },
+    {
+      "name": "Kamran Baghirov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1982,
+      "startMonth": 12,
+      "startDay": 3,
+      "end": 1988,
+      "endMonth": 5,
+      "endDay": 21
+    },
+    {
+      "name": "Abdurrahman Vezirov",
+      "era": "soviet",
+      "role": "First Secretary",
+      "start": 1988,
+      "startMonth": 5,
+      "startDay": 21,
+      "end": 1990,
+      "endMonth": 1,
+      "endDay": 20
+    },
+    {
+      "name": "Ayaz Mutallibov",
+      "era": "soviet",
+      "role": "First Secretary / President",
+      "start": 1990,
+      "startMonth": 1,
+      "startDay": 24,
+      "end": 1991,
+      "endMonth": 8,
+      "endDay": 30
+    },
+    {
+      "name": "Ayaz Mutallibov",
+      "role": "President",
+      "start": 1991,
+      "startMonth": 8,
+      "startDay": 30,
+      "end": 1992,
+      "endMonth": 3,
+      "endDay": 6
+    },
+    {
+      "name": "Yaqub Mammadov",
+      "role": "Acting President",
+      "start": 1992,
+      "startMonth": 3,
+      "startDay": 6,
+      "end": 1992,
+      "endMonth": 5,
+      "endDay": 14
+    },
+    {
+      "name": "Ayaz Mutallibov",
+      "role": "President (restored)",
+      "start": 1992,
+      "startMonth": 5,
+      "startDay": 14,
+      "end": 1992,
+      "endMonth": 5,
+      "endDay": 18
+    },
+    {
+      "name": "Isa Gambar",
+      "role": "Acting President",
+      "start": 1992,
+      "startMonth": 5,
+      "startDay": 18,
+      "end": 1992,
+      "endMonth": 6,
+      "endDay": 16
+    },
+    {
+      "name": "Abulfaz Elchibey",
+      "role": "President",
+      "start": 1992,
+      "startMonth": 6,
+      "startDay": 16,
+      "end": 1993,
+      "endMonth": 6,
+      "endDay": 24
+    },
+    {
+      "name": "Heydar Aliyev",
+      "role": "President",
+      "start": 1993,
+      "startMonth": 6,
+      "startDay": 24,
+      "end": 2003,
+      "endMonth": 10,
+      "endDay": 31
+    },
+    {
+      "name": "Ilham Aliyev",
+      "role": "President",
+      "start": 2003,
+      "startMonth": 10,
+      "startDay": 31,
+      "end": 2026,
+      "endMonth": 12,
+      "endDay": 31
+    }
+  ],
+  "unrest": [
+    {
+      "name": "Nagorno-Karabakh conflict",
+      "start": 1988,
+      "end": 1994,
+      "type": "war"
+    },
+    {
+      "name": "Second Karabakh War",
+      "start": 2020,
+      "end": 2020,
+      "type": "war"
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+/* Shared layout & typography tokens */
+:root {
+  --accent: #f4f6f8;
+
+  --font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font);
+  --font-chart: var(--font);
+  --mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  --year-h: 24px;
+  --seat-w: 24px;
+  /* Year marks in each seat and on the year axis. A short centered dash. */
+  --year-tick: 8px;
+  --label-h: 156px;
+  --year-label-w: 64px;
+  /* Title bar and chart share one page measure. */
+  --title-max: 2400px;
+  --page-max: 2400px;
+  --state-gap: 4px;
+  --seat-gap: 2px;
+  --radius: 0;
+  --bar-radius: 4px;
+
+  --ruler-inset: 0;
+  --ruler-width: 100%;
+
+  /* Horizontal orientation tokens (used when data-orientation="horizontal") */
+  --year-w: 20px;
+  --seat-h: 24px;
+  --label-w: 164px;
+  --axis-h: 52px;
+  --ruler-top: 0;
+  --ruler-bar-h: 100%;
+
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+
+  /* Page chrome typography (title, subtitle, legend, footer).
+     Reading and control text stays at least 1rem. */
+  --type-title-size: 2.375rem;
+  --type-lead-size: 1rem;
+  --type-label-size: 1rem;
+  --type-title-tracking: -0.015em;
+  --type-body-tracking: 0.01em;
+  --type-label-tracking: 0.08em;
+}
+
+/* Dark — ink field, luminous bars, ink type on the bars. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --accent: #f4f6f8;
+
+  --bg: #07080c;
+  --chart-bg: #171d2b;
+  --chart-bg-alt: #1e2636;
+  --surface: #171d2b;
+  --surface-2: #283246;
+  --border: #5e6b82;
+  --border-light: #74829a;
+  --text: #f4f6f8;
+  --text-secondary: #c5cad3;
+  --text-muted: var(--text);
+
+  --year-line: rgba(244, 246, 248, 0.1);
+  --year-line-major: rgba(244, 246, 248, 0.36);
+  --year-line-decade: rgba(244, 246, 248, 0.58);
+  --year-line-minor: rgba(244, 246, 248, 0.16);
+
+  --party-democrat: #6081b6;
+  --party-republican: #b4605c;
+  --party-whig: #a88b39;
+  --party-federalist: #9d8ac1;
+  --party-democratic-republican: #479a75;
+  --party-independent: #a6acb5;
+  --party-other: #489a92;
+
+  --row-alt: rgba(244, 246, 248, 0.045);
+  --congress-band: rgba(244, 246, 248, 0.1);
+  --label-shadow: 0 8px 14px -8px rgba(0, 0, 0, 0.7);
+  --year-axis-shadow: 8px 0 14px -8px rgba(0, 0, 0, 0.7);
+  --bar-border: rgba(7, 8, 12, 0.28);
+  --bar-hover-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  --bar-select-stroke: rgba(7, 8, 12, 0.72);
+  --bar-select-hatch: rgba(7, 8, 12, 0.38);
+  --tooltip-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --dissolution: #ff4d42;
+  --dissolution-opacity: 1;
+  --sovereignty: #5eebff;
+  --sovereignty-edge: #061018;
+  --independence: #ffe14a;
+  --independence-edge: #1a1400;
+
+  --input-bg: #10141c;
+
+  --palette-stripe: rgba(7, 8, 12, 0.14);
+  --palette-1: #b4605c;
+  --palette-2: #a88b39;
+  --palette-3: #489a92;
+  --palette-4: #6081b6;
+  --palette-5: #479a75;
+  --palette-6: #ae7493;
+  --palette-7: #9d8ac1;
+  --label-scrim-light-fg: #12141a;
+  --label-scrim-light-bg: transparent;
+  --label-scrim-dark-fg: #f4f6f8;
+  --label-scrim-dark-bg: transparent;
+  --bar-label-fixed-fg: #12141a;
+}
+
+/* Light — cool white sheet on a gray page, deep bars. */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --accent: #12141a;
+
+  --bg: #e4e6eb;
+  --chart-bg: #ffffff;
+  --chart-bg-alt: #f2f3f6;
+  --surface: #ffffff;
+  --surface-2: #e8eaef;
+  --border: #8d94a1;
+  --border-light: #7e8694;
+  --text: #12141a;
+  --text-secondary: #3e4450;
+  --text-muted: var(--text);
+
+  --year-line: rgba(18, 20, 26, 0.1);
+  --year-line-major: rgba(18, 20, 26, 0.34);
+  --year-line-decade: rgba(18, 20, 26, 0.55);
+  --year-line-minor: rgba(18, 20, 26, 0.16);
+
+  --party-democrat: #365883;
+  --party-republican: #9f4139;
+  --party-whig: #6f541f;
+  --party-federalist: #645080;
+  --party-democratic-republican: #326550;
+  --party-independent: #55606b;
+  --party-other: #265957;
+
+  --row-alt: rgba(18, 20, 26, 0.05);
+  --congress-band: rgba(18, 20, 26, 0.09);
+  --label-shadow: 0 8px 14px -8px rgba(18, 20, 26, 0.22);
+  --year-axis-shadow: 8px 0 14px -8px rgba(18, 20, 26, 0.2);
+  --bar-border: rgba(255, 255, 255, 0.28);
+  --bar-hover-shadow: 0 2px 10px rgba(18, 20, 26, 0.18);
+  --bar-select-stroke: rgba(255, 255, 255, 0.88);
+  --bar-select-hatch: rgba(255, 255, 255, 0.42);
+  --tooltip-shadow: 0 8px 28px rgba(18, 20, 26, 0.16);
+  --dissolution: #c81e1e;
+  --dissolution-opacity: 1;
+  --sovereignty: #005a87;
+  --sovereignty-edge: #ffffff;
+  --independence: #8a4e00;
+  --independence-edge: #ffffff;
+
+  --input-bg: #ffffff;
+
+  --palette-stripe: rgba(255, 255, 255, 0.22);
+  --palette-1: #984b46;
+  --palette-2: #7a5720;
+  --palette-3: #306864;
+  --palette-4: #37577e;
+  --palette-5: #367250;
+  --palette-6: #975377;
+  --palette-7: #645080;
+  --label-scrim-light-fg: #12141a;
+  --label-scrim-light-bg: transparent;
+  --label-scrim-dark-fg: #f7f8fa;
+  --label-scrim-dark-bg: transparent;
+  --bar-label-fixed-fg: #f7f8fa;
+}
+
+/* Chart color presets (parties + senator slots). Default above = muted. */
+:root[data-palette="vivid"],
+[data-theme="dark"][data-palette="vivid"] {
+  --party-democrat: #4d9bff;
+  --party-republican: #ff5548;
+  --party-whig: #ffc233;
+  --party-federalist: #c49bff;
+  --party-democratic-republican: #3ee6a2;
+  --party-independent: #d7dee8;
+  --party-other: #ff9a3c;
+
+  --palette-1: #ff5548;
+  --palette-2: #ffc233;
+  --palette-3: #2ee0cf;
+  --palette-4: #4d9bff;
+  --palette-5: #3ee6a2;
+  --palette-6: #ff7eb3;
+  --palette-7: #c49bff;
+}
+
+[data-theme="light"][data-palette="vivid"] {
+  --party-democrat: #0d5ec4;
+  --party-republican: #d01212;
+  --party-whig: #8f5d00;
+  --party-federalist: #6d28d9;
+  --party-democratic-republican: #0f7a48;
+  --party-independent: #3d4d5c;
+  --party-other: #b33a0a;
+
+  --palette-1: #c4231b;
+  --palette-2: #8f5d00;
+  --palette-3: #0e7a72;
+  --palette-4: #0d5ec4;
+  --palette-5: #0f7a48;
+  --palette-6: #b4236a;
+  --palette-7: #6d28d9;
+}
