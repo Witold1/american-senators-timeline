@@ -18,13 +18,39 @@
     return raw == null ? "" : raw;
   }
 
+  /** YYYYMMDD for a year or ISO date, so mixed shapes still compare in calendar order. */
+  function dateSortKey(value) {
+    const m = String(value ?? "").match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
+    if (!m) return null;
+    return Number(m[1]) * 10000 + Number(m[2] || 1) * 100 + Number(m[3] || 1);
+  }
+
   function compareSortValues(a, b) {
+    const aDate = dateSortKey(a);
+    const bDate = dateSortKey(b);
+    if (aDate != null && bDate != null) return aDate - bDate;
     const aNum = typeof a === "number" ? a : Number(a);
     const bNum = typeof b === "number" ? b : Number(b);
     const numeric =
       a !== "" && b !== "" && Number.isFinite(aNum) && Number.isFinite(bNum);
     if (numeric) return aNum - bNum;
     return String(a).localeCompare(String(b));
+  }
+
+  /** Month and year of the date the rows are sorted by, or "" for a name sort. */
+  function sortCaption(group) {
+    const mode = filters().getOrderMode?.() || "name";
+    const { compactDateLabel } = labels();
+    if (mode === "sovereignty") return compactDateLabel(group.sovereigntyDate);
+    if (mode === "independence" || mode === "admitted") {
+      return compactDateLabel(group.independenceDate || group.admitted);
+    }
+    return "";
+  }
+
+  function countryColumnLabel(group) {
+    const caption = sortCaption(group);
+    return caption ? `${group.name} ${caption}` : group.name;
   }
 
   function seatOverlapsDisplay(seat) {
@@ -266,6 +292,13 @@
     const name = document.createElement("span");
     name.className = "country-name";
     name.textContent = group.name;
+    const caption = metrics.orientation === "horizontal" ? sortCaption(group) : "";
+    if (caption) {
+      const cap = document.createElement("span");
+      cap.className = "country-sort-date";
+      cap.textContent = ` ${caption}`;
+      name.appendChild(cap);
+    }
     label.appendChild(name);
 
     const year = admissionYear(dateIso);
@@ -428,6 +461,7 @@
       if (accent) sheet.style.setProperty("--tip-accent", accent);
     }
 
+    window.TimelineMinimap?.refresh?.();
     if (missed) return false;
     window.dispatchEvent(new Event("timeline-debug-refresh"));
     return true;
@@ -458,6 +492,7 @@
 
   window.TimelineChartRows = {
     groupSeatsByState,
+    countryColumnLabel,
     applyCountryColumnWidth,
     metricsKey,
     renderStateGroup,

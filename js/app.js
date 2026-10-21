@@ -140,6 +140,26 @@
     requestAnimationFrame(layoutXScroll);
   }
 
+  /** Bring a calendar date into the chart viewport. Used after a date sort. */
+  function revealTimelineDate(year, month = 1, day = 1) {
+    const metrics = window.getTimelineMetrics?.();
+    const geo = window.TimelineGeometry;
+    if (!metrics || !scrollEl || !geo) return;
+    holdSlideHint();
+    const y = Number(year);
+    const m = Number(month) || 1;
+    const d = Number(day) || 1;
+    if (metrics.orientation === "horizontal" && geo.yearToX) {
+      const x = geo.yearToX(y, m, d, metrics);
+      scrollEl.scrollLeft = Math.max(0, x - scrollEl.clientWidth * 0.28);
+    } else if (geo.yearToY) {
+      const top = geo.yearToY(y, m, d, metrics);
+      const labelH = metrics.labelHeight || 0;
+      scrollEl.scrollTop = Math.max(0, top + labelH - scrollEl.clientHeight * 0.28);
+    }
+    layoutXScroll();
+  }
+
   function initTimelineApp() {
     const data = window.TIMELINE_DATA;
     if (!data?.seats?.length || window.__timelineAppInitialized) return;
@@ -288,6 +308,8 @@
   }
 
   window.TimelineControls?.init();
+
+  window.revealTimelineDate = revealTimelineDate;
 
   window.addEventListener("timeline-data-ready", initTimelineApp);
   if (window.TIMELINE_DATA?.seats?.length) initTimelineApp();

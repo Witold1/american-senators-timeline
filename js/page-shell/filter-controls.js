@@ -261,6 +261,44 @@
     return null;
   }
 
+  function dateFromIso(value) {
+    const m = String(value || "").match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
+    if (!m) return null;
+    return { year: Number(m[1]), month: Number(m[2] || 1), day: Number(m[3] || 1) };
+  }
+
+  function seatSortDate(seat, mode) {
+    if (mode === "sovereignty") return seat.sovereignty || dateFromIso(seat.sovereigntyDate);
+    if (mode === "independence" || mode === "admitted") {
+      return seat.independence || dateFromIso(seat.independenceDate || seat.admitted);
+    }
+    return null;
+  }
+
+  /** After a date sort, scroll so those marks are on screen when the axis includes them. */
+  function revealSortDates(mode) {
+    if (mode !== "sovereignty" && mode !== "independence" && mode !== "admitted") return;
+    const reveal = window.revealTimelineDate;
+    if (typeof reveal !== "function") return;
+    const inside = window.TimelineGeometry?.dateInsideTimeline;
+    const dates = [];
+    for (const seat of window.TIMELINE_DATA?.seats || []) {
+      const date = seatSortDate(seat, mode);
+      if (!date?.year) continue;
+      if (typeof inside === "function" && !inside(date)) continue;
+      dates.push(date);
+    }
+    if (!dates.length) return;
+    dates.sort(
+      (a, b) =>
+        a.year - b.year ||
+        (a.month || 1) - (b.month || 1) ||
+        (a.day || 1) - (b.day || 1)
+    );
+    const mid = dates[Math.floor((dates.length - 1) / 2)];
+    requestAnimationFrame(() => reveal(mid.year, mid.month || 1, mid.day || 1));
+  }
+
   function initSortControls() {
     const stateRoot = document.getElementById("state-sort");
     const yearBtn = document.getElementById("year-sort");
@@ -297,6 +335,7 @@
         writeStored(ORDER_DIR_STORAGE_KEY, nextDir);
         filters().setOrder?.(key, nextDir);
         syncStateSort(stateRoot, key, nextDir);
+        revealSortDates(key);
       });
     }
 

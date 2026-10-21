@@ -88,15 +88,24 @@
     return m ? m[1] : "";
   }
 
+  const MONTHS = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ];
+
   function admissionDateLabel(admitted) {
     const m = String(admitted || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!m) return admissionYear(admitted);
-    const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-    const mon = months[Number(m[2]) - 1] || m[2];
+    const mon = MONTHS[Number(m[2]) - 1] || m[2];
     return `${mon} ${Number(m[3])}, ${m[1]}`;
+  }
+
+  /** Month and year, for the caption beside a row sorted by a date. */
+  function compactDateLabel(admitted) {
+    const m = String(admitted || "").match(/^(\d{4})(?:-(\d{2}))?/);
+    if (!m) return "";
+    const mon = m[2] ? MONTHS[Number(m[2]) - 1] : "";
+    return mon ? `${mon} ${m[1]}` : m[1];
   }
 
   function escapeHtml(value) {
@@ -114,6 +123,7 @@
     seatStateName,
     admissionYear,
     admissionDateLabel,
+    compactDateLabel,
     escapeHtml,
   };
 })();

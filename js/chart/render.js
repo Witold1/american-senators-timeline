@@ -6,6 +6,7 @@
   const { applyYearGridOffsets, renderAxisRow, renderYearAxisColumn } = window.TimelineChartAxis;
   const {
     groupSeatsByState,
+    countryColumnLabel,
     applyCountryColumnWidth,
     metricsKey,
     renderStateGroup,
@@ -30,7 +31,7 @@
     document.documentElement.classList.toggle("independence-in-range", independenceInRange);
     filters().resetSeatIndexes?.();
     const groups = groupSeatsByState(list);
-    applyCountryColumnWidth(groups.map((group) => group.name));
+    applyCountryColumnWidth(groups.map((group) => countryColumnLabel(group)));
     const metrics = getMetrics();
     metrics.trackLaneCount = Math.max(
       1,

@@ -176,6 +176,14 @@ html[data-orientation="horizontal"] .country-name {
   max-width: 100%;
 }
 
+html[data-orientation="horizontal"] .country-sort-date {
+  font-weight: 500;
+  font-size: 0.75em;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--text-muted);
+}
+
 html[data-orientation="horizontal"] .country-label:has(.country-admitted) .country-name {
   left: auto;
   top: auto;

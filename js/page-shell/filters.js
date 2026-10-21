@@ -321,6 +321,7 @@
     });
 
     if (!q) clearBarFocusClasses();
+    window.TimelineMinimap?.refresh?.();
   }
 
   function scheduleFilters() {
